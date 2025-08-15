@@ -1,42 +1,655 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Who is John Chrysostom?</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; line-height: 1.6; }
-        h1, h2 { color: #333; }
-        p { max-width: 800px; }
-        .bio { margin-bottom: 40px; }
-        .homily-text { font-style: italic; margin-bottom: 20px; }
-    </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Room Imaginator — Stage Your Bedroom</title>
+<meta name="description" content="Visualize a bedroom with your chosen items. Drag, resize, rotate, and export a snapshot." />
+
+<style>
+  :root{
+    --bg:#0f1115;
+    --panel:#151922;
+    --muted:#7f8696;
+    --text:#e9ecf1;
+    --brand:#ff4655;
+
+    /* Room palette (overridden by presets) */
+    --wall:#f4f5f7;
+    --floor:#e8e1d7;
+    --bedding:#ffffff;
+    --accent:#c5d0df;
+    --shadow:rgba(0,0,0,.25);
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    font:14px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial;
+    background:linear-gradient(180deg,#0e1117 0%, #0b0d12 100%);
+    color:var(--text);
+  }
+  header{
+    position:sticky; top:0; z-index:1000;
+    display:flex; gap:.75rem; align-items:center; padding:.75rem 1rem;
+    background:linear-gradient(180deg, rgba(15,17,21,.95) 0%, rgba(15,17,21,.75) 100%);
+    border-bottom:1px solid #222734;
+    backdrop-filter: blur(8px);
+  }
+  header .title{
+    font-weight:700; letter-spacing:.2px; margin-right: .5rem;
+  }
+  header .hint{color:var(--muted)}
+  .grow{flex:1}
+
+  button, .btn{
+    appearance:none; border:none; cursor:pointer;
+    background:#23293a; color:var(--text);
+    padding:.55rem .8rem; border-radius:.6rem;
+    font-weight:600; letter-spacing:.2px;
+    transition:transform .05s ease, background .2s ease, box-shadow .2s ease;
+    box-shadow:0 1px 0 rgba(255,255,255,.04) inset, 0 1px 10px rgba(0,0,0,.15);
+  }
+  button:hover{background:#283047}
+  button:active{transform:translateY(1px)}
+  .btn-primary{background:var(--brand)}
+  .btn-primary:hover{filter:brightness(1.05)}
+  .btn-ghost{background:transparent; border:1px solid #31384b}
+  .btn-small{padding:.42rem .6rem; font-weight:600}
+
+  input[type="text"], select{
+    background:#1d2331; border:1px solid #31384b; color:var(--text);
+    padding:.5rem .6rem; border-radius:.5rem; outline:none;
+  }
+  input[type="range"]{width:100%}
+  label{display:block; font-weight:600; margin:.4rem 0 .25rem}
+  .row{display:flex; gap:.6rem; align-items:center}
+  .sep{height:1px; background:#212638; margin:.75rem 0}
+
+  main{
+    display:grid; grid-template-columns: 1fr 340px; gap:1rem;
+    padding:1rem; max-width:1400px; margin:0 auto;
+  }
+
+  /* ---------- Room ---------- */
+  #roomWrap{
+    aspect-ratio:16 / 9;
+    background:#0a0c12; border:1px solid #202538; border-radius:14px;
+    overflow:hidden; position:relative;
+    box-shadow: 0 18px 40px rgba(0,0,0,.35);
+  }
+  #room{
+    position:absolute; inset:0;
+    background:
+      linear-gradient(to bottom, var(--wall) 0 60%, transparent 60%) no-repeat,
+      linear-gradient(180deg, var(--floor), var(--floor)) no-repeat;
+    background-size:100% 100%;
+  }
+  /* Visual floor texture */
+  #room:after{
+    content:""; position:absolute; inset:60% 0 0 0; pointer-events:none;
+    background:
+      repeating-linear-gradient(90deg, rgba(0,0,0,.05) 0 2px, transparent 2px 6px),
+      linear-gradient(180deg, rgba(0,0,0,.03), rgba(255,255,255,.02));
+    mix-blend-mode:multiply;
+  }
+
+  /* Bed block (simple stylized) */
+  .bed{
+    position:absolute; width:58%; left:21%;
+    height:27%; bottom:8%;
+  }
+  .bed .headboard{
+    position:absolute; left:0; right:0; bottom:60%;
+    height:28%;
+    background:linear-gradient(180deg, color-mix(in srgb, var(--bedding), #000 12%), color-mix(in srgb, var(--bedding), #000 25%));
+    border-radius:10px; box-shadow:0 4px 12px rgba(0,0,0,.25);
+  }
+  .bed .mattress{
+    position:absolute; left:0; right:0; bottom:0; height:62%;
+    background:linear-gradient(180deg, var(--bedding), color-mix(in srgb, var(--bedding), #000 12%));
+    border-radius:12px; box-shadow: 0 10px 30px rgba(0,0,0,.25);
+  }
+  .bed .duvet{
+    position:absolute; left:5%; right:5%; bottom:6%; height:56%;
+    background:radial-gradient(200% 100% at 50% 0%, color-mix(in srgb, var(--bedding), #000 6%) 0 40%, color-mix(in srgb, var(--bedding), #000 20%) 100%);
+    border-radius:18px;
+  }
+  .bed .pillows{
+    position:absolute; left:10%; right:10%; bottom:63%; height:16%;
+    display:flex; gap:2%; align-items:stretch; justify-content:center;
+  }
+  .bed .pillows .p{
+    flex:1; background:linear-gradient(180deg, #fff, #dfe4ea);
+    border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,.2);
+  }
+
+  /* Items layer */
+  #itemsLayer{
+    position:absolute; inset:0; pointer-events:none;
+  }
+  .item{
+    position:absolute; top:50%; left:50%;
+    transform:translate(-50%,-50%) rotate(0deg) scale(1);
+    transform-origin:center center;
+    user-select:none; pointer-events:auto; cursor:grab;
+    will-change:transform, filter;
+    filter: drop-shadow(0 10px 24px var(--shadow));
+  }
+  .item:active{cursor:grabbing}
+  .item img{display:block; max-width:360px; max-height:360px; object-fit:contain;}
+  .item.selected{outline:2px dashed #7aa2ff; outline-offset:4px}
+
+  /* Surfaces (apply tilt) */
+  .item.surface-floor{ transform: translate(-50%,-50%) rotateX(55deg) rotate(var(--deg,0deg)) scale(var(--scale,1)); }
+  .item.surface-bed  { transform: translate(-50%,-50%) rotateX(25deg) rotate(var(--deg,0deg)) scale(var(--scale,1)); }
+  .item.surface-wall  { transform: translate(-50%,-50%) rotate(var(--deg,0deg)) scale(var(--scale,1)); }
+
+  /* Because we animate transforms manually, we’ll set custom props on each item */
+  .item{ --scale: 1; --deg: 0deg; }
+  .item.muted { opacity:.75; filter: drop-shadow(0 6px 18px rgba(0,0,0,.22)) saturate(.95); }
+
+  /* Sidebar (Inspector) */
+  aside{
+    background:var(--panel);
+    border:1px solid #202538; border-radius:14px; padding:1rem;
+    box-shadow: 0 18px 40px rgba(0,0,0,.35);
+    position:sticky; top:84px; height:calc(100vh - 110px); overflow:auto;
+  }
+  .card{
+    background:#0f1420; border:1px solid #1b2131; border-radius:12px; padding:.8rem;
+  }
+  .thumb{
+    width:64px; height:64px; border-radius:10px; background:#0b0e15; border:1px solid #1b2131;
+    display:grid; place-items:center; overflow:hidden;
+  }
+  .thumb img{max-width:100%; max-height:100%}
+
+  .layers .layer{
+    display:flex; align-items:center; gap:.6rem; padding:.4rem .3rem; border-radius:.6rem;
+    border:1px solid transparent; cursor:pointer;
+  }
+  .layers .layer:hover{background:#111726}
+  .layers .layer.active{background:#0f1421; border-color:#27304a}
+  .layer .name{flex:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .layer .chip{font-size:12px; padding:.15rem .45rem; border-radius:.5rem; background:#1c2335; color:#a9b0c5}
+
+  .pill{display:inline-flex; gap:.45rem; align-items:center; padding:.3rem .5rem; border-radius:999px; background:#192033; border:1px solid #283047}
+  .pill .dot{width:10px; height:10px; border-radius:50%}
+  .right{margin-left:auto}
+  .note{color:var(--muted); font-size:12px}
+
+  /* Drop overlay */
+  #dropHint{
+    position:absolute; inset:0; display:none; place-items:center;
+    background:rgba(23,27,38,.7); border:2px dashed #3a4563; color:#c8d0e3; font-size:18px;
+  }
+  #dropHint.show{display:grid}
+  .kbd{
+    font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    background:#0f1420; border:1px solid #2a3043; border-bottom-width:2px;
+    padding:.12rem .4rem; border-radius:.3rem; font-size:12px;
+  }
+
+  @media (max-width: 1100px){
+    main{grid-template-columns:1fr}
+    aside{position:static; height:auto}
+  }
+</style>
 </head>
 <body>
-    <header>
-        <h1>Who is John Chrysostom?</h1>
-    </header>
-    
-    <section class="bio">
-        <p>John Chrysostom was a famous Christian leader born around 347 AD in Antioch, which is now in Turkey. His dad was a soldier who died when John was young, so his mom raised him. He studied a lot and became really good at speaking. People called him "Golden-Mouthed" because his speeches and sermons were amazing!</p>
-        <p>He became a monk, then a priest, and later the Archbishop of Constantinople. He loved helping poor people and teaching about Jesus. He preached against rich people being greedy and was super honest, which got him in trouble and exiled. He died in 407 AD, but his words still inspire people today. He's a saint in many churches and known for his Easter sermon called the Paschal Homily.</p>
-    </section>
-    
-    <section>
-        <h2>Listen to the Paschal Homily</h2>
-        <p>This is a famous Easter sermon by John Chrysostom. You can read it below and listen to it being read aloud.</p>
-        
-        <h3>Audio:</h3>
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/olmruEebDu8" title="The Paschal Homily of St. John Chrysostom" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-        
-        <h3>Text of the Homily:</h3>
-        <div class="homily-text">
-            <p>If any man be devout and love God, let him enjoy this fair and radiant triumphal feast. If any man be a wise servant, let him rejoicing enter into the joy of his Lord. If any have labored long in fasting, let him now receive his recompense. If any have wrought from the first hour, let him today receive his just reward. If any have come at the third hour, let him with thankfulness keep the feast. If any have arrived at the sixth hour, let him have no misgivings; because he shall in nowise be deprived thereof. If any have delayed until the ninth hour, let him draw near, fearing nothing. If any have tarried even until the eleventh hour, let him, also, be not alarmed at his tardiness; for the Lord, who is jealous of his honor, will accept the last even as the first; He gives rest unto him who comes at the eleventh hour, even as unto him who has wrought from the first hour.</p>
-            <p>And He shows mercy upon the last, and cares for the first; and to the one He gives, and upon the other He bestows gifts. And He both accepts the deeds, and welcomes the intention, and honors the acts and praises the offering. Wherefore, enter you all into the joy of your Lord; and receive your reward, both the first, and likewise the second. You rich and poor together, hold high festival. You sober and you heedless, honor the day. Rejoice today, both you who have fasted and you who have disregarded the fast. The table is full-laden; feast ye all sumptuously. The calf is fatted; let no one go hungry away.</p>
-            <p>Enjoy ye all the feast of faith: Receive ye all the riches of loving-kindness. let no one bewail his poverty, for the universal kingdom has been revealed. Let no one weep for his iniquities, for pardon has shown forth from the grave. Let no one fear death, for the Savior’s death has set us free. He that was held prisoner of it has annihilated it. By descending into Hell, He made Hell captive. He embittered it when it tasted of His flesh. And Isaiah, foretelling this, did cry: Hell, said he, was embittered, when it encountered Thee in the lower regions.</p>
-            <p>It was embittered, for it was abolished. It was embittered, for it was mocked. It was embittered, for it was slain. It was embittered, for it was overthrown. It was embittered, for it was fettered in chains. It took a body, and met God face to face. It took earth, and encountered Heaven. It took that which was seen, and fell upon the unseen.</p>
-            <p>O Death, where is your sting? O Hell, where is your victory? Christ is risen, and you are overthrown. Christ is risen, and the demons are fallen. Christ is risen, and the angels rejoice. Christ is risen, and life reigns. Christ is risen, and not one dead remains in the grave. For Christ, being risen from the dead, is become the first fruits of those who have fallen asleep. To Him be glory and dominion unto ages of ages. Amen.</p>
+
+<header>
+  <div class="title">🛏️ Room Imaginator</div>
+  <div class="hint">Drag in your items and stage your dream setup.</div>
+  <div class="grow"></div>
+
+  <input id="fileInput" type="file" accept="image/*" multiple hidden />
+  <button id="uploadBtn" class="btn">Upload</button>
+
+  <input id="urlInput" type="text" placeholder="Paste image URL…" style="width:260px" />
+  <button id="addUrlBtn" class="btn">Add URL</button>
+
+  <select id="presetSelect" title="Room preset">
+    <option value="minimal" selected>Preset: Minimal Light</option>
+    <option value="moody">Preset: Moody Dark</option>
+    <option value="warm">Preset: Warm Wood</option>
+    <option value="blush">Preset: Soft Blush</option>
+    <option value="coastal">Preset: Coastal Breeze</option>
+  </select>
+
+  <button id="saveBtn" class="btn btn-ghost">Save</button>
+  <button id="loadBtn" class="btn btn-ghost">Restore</button>
+  <button id="snapshotBtn" class="btn btn-primary">Snapshot</button>
+</header>
+
+<main>
+  <section id="roomWrap" aria-label="Design canvas">
+    <div id="room">
+      <div class="bed" id="bed">
+        <div class="headboard"></div>
+        <div class="mattress"></div>
+        <div class="duvet"></div>
+        <div class="pillows"><div class="p"></div><div class="p"></div></div>
+      </div>
+      <div id="itemsLayer" aria-live="polite"></div>
+    </div>
+    <div id="dropHint">Drop images here</div>
+  </section>
+
+  <aside>
+    <div class="row" style="justify-content:space-between; margin-bottom:.5rem">
+      <div style="font-weight:700">Inspector</div>
+      <div class="note">Hotkeys: <span class="kbd">Delete</span> remove • <span class="kbd">←↑↓→</span> nudge</div>
+    </div>
+
+    <div class="card" style="margin-bottom:1rem">
+      <div class="row" style="gap:.8rem">
+        <div class="thumb" id="selThumb"><span class="note">none</span></div>
+        <div>
+          <div style="font-weight:700" id="selName">No selection</div>
+          <div class="note">Click an item to edit</div>
         </div>
-    </section>
+        <div class="right">
+          <button id="deleteBtn" class="btn btn-small" title="Delete selected">Delete</button>
+        </div>
+      </div>
+
+      <div class="sep"></div>
+
+      <label for="surfaceSel">Surface</label>
+      <select id="surfaceSel">
+        <option value="wall">Wall (upright)</option>
+        <option value="bed">Bed (gentle tilt)</option>
+        <option value="floor">Floor (strong tilt)</option>
+      </select>
+
+      <label for="scaleRange">Size <span class="right note" id="scaleVal">100%</span></label>
+      <input id="scaleRange" type="range" min="30" max="300" value="100" />
+
+      <label for="rotateRange">Rotation <span class="right note" id="rotVal">0°</span></label>
+      <input id="rotateRange" type="range" min="-180" max="180" value="0" />
+
+      <label for="opacityRange">Opacity <span class="right note" id="opVal">100%</span></label>
+      <input id="opacityRange" type="range" min="30" max="100" value="100" />
+
+      <label for="shadowRange">Shadow strength <span class="right note" id="shVal">100%</span></label>
+      <input id="shadowRange" type="range" min="0" max="120" value="100" />
+
+      <div class="row" style="gap:.5rem; margin-top:.5rem">
+        <button id="forwardBtn" class="btn btn-small">Bring Forward</button>
+        <button id="backBtn" class="btn btn-small">Send Back</button>
+        <label class="pill right"><span class="dot" style="background:#7aa2ff"></span>Selected</label>
+      </div>
+    </div>
+
+    <div class="card layers">
+      <div class="row" style="justify-content:space-between; margin-bottom:.4rem">
+        <div style="font-weight:700">Layers</div>
+        <div class="note">Top = front</div>
+      </div>
+      <div id="layers"></div>
+    </div>
+
+    <div style="margin-top:1rem" class="note">
+      ⚠️ If a pasted image URL doesn’t appear in the snapshot, it’s likely a cross‑origin restriction.
+      Download the image and use <b>Upload</b>.
+    </div>
+  </aside>
+</main>
+
+<!-- Lightweight export helper -->
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js" referrerpolicy="no-referrer"></script>
+
+<script>
+(()=> {
+  const room = document.getElementById('room');
+  const itemsLayer = document.getElementById('itemsLayer');
+  const bedEl = document.getElementById('bed');
+  const dropHint = document.getElementById('dropHint');
+
+  // Controls
+  const fileInput = document.getElementById('fileInput');
+  const uploadBtn = document.getElementById('uploadBtn');
+  const urlInput = document.getElementById('urlInput');
+  const addUrlBtn = document.getElementById('addUrlBtn');
+  const presetSelect = document.getElementById('presetSelect');
+  const saveBtn = document.getElementById('saveBtn');
+  const loadBtn = document.getElementById('loadBtn');
+  const snapshotBtn = document.getElementById('snapshotBtn');
+
+  // Inspector
+  const selThumb = document.getElementById('selThumb');
+  const selName = document.getElementById('selName');
+  const deleteBtn = document.getElementById('deleteBtn');
+  const surfaceSel = document.getElementById('surfaceSel');
+  const scaleRange = document.getElementById('scaleRange');
+  const rotateRange = document.getElementById('rotateRange');
+  const opacityRange = document.getElementById('opacityRange');
+  const shadowRange = document.getElementById('shadowRange');
+  const scaleVal = document.getElementById('scaleVal');
+  const rotVal = document.getElementById('rotVal');
+  const opVal = document.getElementById('opVal');
+  const shVal = document.getElementById('shVal');
+  const forwardBtn = document.getElementById('forwardBtn');
+  const backBtn = document.getElementById('backBtn');
+  const layersEl = document.getElementById('layers');
+
+  const state = {
+    items: [], // {id, src, name, x, y, scale, rot, opacity, shadow, z, surface}
+    selectedId: null,
+    roomPreset: 'minimal'
+  };
+
+  const presets = {
+    minimal: { wall:'#f4f5f7', floor:'#e8e1d7', bedding:'#ffffff', accent:'#c5d0df' },
+    moody:   { wall:'#1b1e27', floor:'#2a2f3d', bedding:'#202430', accent:'#36405a' },
+    warm:    { wall:'#f3efe9', floor:'#d7c2a5', bedding:'#fffaf4', accent:'#d2a679' },
+    blush:   { wall:'#f8ecef', floor:'#eadfd8', bedding:'#ffffff', accent:'#f3c8d1' },
+    coastal: { wall:'#eef6fb', floor:'#d9e6ea', bedding:'#ffffff', accent:'#bcd5e8' },
+  };
+
+  function applyPreset(key){
+    const p = presets[key] || presets.minimal;
+    document.documentElement.style.setProperty('--wall', p.wall);
+    document.documentElement.style.setProperty('--floor', p.floor);
+    document.documentElement.style.setProperty('--bedding', p.bedding);
+    document.documentElement.style.setProperty('--accent', p.accent);
+    state.roomPreset = key;
+  }
+  applyPreset('minimal');
+
+  function uid(){ return Math.random().toString(36).slice(2,9); }
+
+  function addItem(src, name='Item'){
+    const id = uid();
+    const z = state.items.length+1;
+    const rect = room.getBoundingClientRect();
+    const x = rect.width * 0.5;
+    const y = rect.height * 0.58; // roughly bed height
+    const item = { id, src, name, x, y, scale:1, rot:0, opacity:1, shadow:1, z, surface:'wall' };
+    state.items.push(item);
+    mountItem(item);
+    selectItem(id);
+    refreshLayers();
+  }
+
+  function mountItem(item){
+    let el = document.createElement('div');
+    el.className = 'item surface-' + item.surface;
+    el.dataset.id = item.id;
+    el.style.zIndex = String(100 + item.z);
+    el.style.opacity = item.opacity;
+    el.style.setProperty('--scale', item.scale);
+    el.style.setProperty('--deg', item.rot + 'deg');
+    positionEl(el, item.x, item.y);
+
+    const img = document.createElement('img');
+    img.alt = item.name;
+    img.src = item.src;
+    el.appendChild(img);
+
+    // interactions
+    el.addEventListener('pointerdown', onDragStart);
+    el.addEventListener('click', () => selectItem(item.id), {capture:true});
+
+    itemsLayer.appendChild(el);
+  }
+
+  function positionEl(el, x, y){
+    el.style.left = x + 'px';
+    el.style.top = y + 'px';
+  }
+
+  function getItemEl(id){ return itemsLayer.querySelector('.item[data-id="'+id+'"]'); }
+
+  function selectItem(id){
+    state.selectedId = id;
+    // UI: highlight
+    itemsLayer.querySelectorAll('.item').forEach(n => n.classList.toggle('selected', n.dataset.id===id));
+    // Update inspector
+    const item = state.items.find(i=>i.id===id);
+    if(!item){
+      selThumb.innerHTML = '<span class="note">none</span>';
+      selName.textContent = 'No selection';
+      return;
+    }
+    selThumb.innerHTML = '';
+    const timg = document.createElement('img'); timg.src = item.src; selThumb.appendChild(timg);
+    selName.textContent = item.name || 'Item';
+    surfaceSel.value = item.surface;
+    scaleRange.value = Math.round(item.scale*100); scaleVal.textContent = Math.round(item.scale*100) + '%';
+    rotateRange.value = Math.round(item.rot); rotVal.textContent = Math.round(item.rot) + '°';
+    opacityRange.value = Math.round(item.opacity*100); opVal.textContent = Math.round(item.opacity*100)+'%';
+    shadowRange.value = Math.round(item.shadow*100); shVal.textContent = Math.round(item.shadow*100)+'%';
+    // mild visual cue
+    getItemEl(id)?.classList.add('muted');
+    setTimeout(()=>getItemEl(id)?.classList.remove('muted'), 120);
+    refreshLayers();
+  }
+
+  function updateSelected(mut){
+    const id = state.selectedId;
+    const item = state.items.find(i=>i.id===id);
+    if(!item) return;
+    mut(item);
+    const el = getItemEl(id);
+    if(!el) return;
+    el.style.opacity = item.opacity;
+    el.style.zIndex = String(100 + item.z);
+    el.classList.remove('surface-wall','surface-floor','surface-bed');
+    el.classList.add('surface-'+item.surface);
+    el.style.setProperty('--scale', item.scale);
+    el.style.setProperty('--deg', item.rot + 'deg');
+    positionEl(el, item.x, item.y);
+    refreshLayers();
+  }
+
+  function refreshLayers(){
+    layersEl.innerHTML = '';
+    // Highest z appears first in list (front)
+    [...state.items].sort((a,b)=>b.z-a.z).forEach(item=>{
+      const row = document.createElement('div');
+      row.className = 'layer' + (state.selectedId===item.id ? ' active' : '');
+      row.dataset.id = item.id;
+
+      const th = document.createElement('div'); th.className='thumb'; const im = document.createElement('img'); im.src=item.src; th.appendChild(im);
+      const name = document.createElement('div'); name.className='name'; name.textContent = item.name || 'Item';
+      const chip = document.createElement('div'); chip.className='chip'; chip.textContent = item.surface;
+
+      row.appendChild(th); row.appendChild(name); row.appendChild(chip);
+      row.addEventListener('click', ()=>selectItem(item.id));
+      layersEl.appendChild(row);
+    });
+  }
+
+  // Dragging
+  let drag = null;
+  function onDragStart(e){
+    const el = e.currentTarget;
+    const id = el.dataset.id;
+    selectItem(id);
+    const rect = itemsLayer.getBoundingClientRect();
+    const item = state.items.find(i=>i.id===id);
+    drag = {
+      id,
+      startX: e.clientX, startY: e.clientY,
+      origX: item.x, origY: item.y,
+      bounds: rect
+    };
+    el.setPointerCapture(e.pointerId);
+    window.addEventListener('pointermove', onDragMove);
+    window.addEventListener('pointerup', onDragEnd, {once:true});
+  }
+  function onDragMove(e){
+    if(!drag) return;
+    const dx = e.clientX - drag.startX;
+    const dy = e.clientY - drag.startY;
+    updateSelected(item=>{
+      item.x = clamp(drag.origX + dx, 0, drag.bounds.width);
+      item.y = clamp(drag.origY + dy, 0, drag.bounds.height);
+    });
+  }
+  function onDragEnd(e){
+    // Snap surface based on drop zone
+    const id = drag?.id;
+    drag = null;
+    window.removeEventListener('pointermove', onDragMove);
+
+    const item = state.items.find(i=>i.id===id);
+    if(!item) return;
+    const bedRect = bedEl.getBoundingClientRect();
+    const layerRect = itemsLayer.getBoundingClientRect();
+    const absX = layerRect.left + item.x;
+    const absY = layerRect.top + item.y;
+
+    // If intersects bed -> bed; else if lower 40% -> floor; else wall
+    const intersectsBed = absX > bedRect.left && absX < bedRect.right && absY > bedRect.top && absY < bedRect.bottom;
+    const lower = item.y > layerRect.height * 0.62;
+
+    const newSurface = intersectsBed ? 'bed' : (lower ? 'floor' : 'wall');
+    updateSelected(i=>{ i.surface = newSurface; });
+  }
+  function clamp(v, min, max){ return Math.max(min, Math.min(max, v)); }
+
+  // Controls wiring
+  uploadBtn.addEventListener('click', ()=>fileInput.click());
+  fileInput.addEventListener('change', (e)=>{
+    [...e.target.files].forEach(file=>{
+      const reader = new FileReader();
+      reader.onload = ()=> addItem(reader.result, file.name);
+      reader.readAsDataURL(file);
+    });
+    fileInput.value="";
+  });
+
+  addUrlBtn.addEventListener('click', ()=>{
+    const url = urlInput.value.trim();
+    if(!url) return;
+    addItem(url, url.split('/').pop() || 'Item from URL');
+    urlInput.value='';
+  });
+  urlInput.addEventListener('keydown', e=>{ if(e.key==='Enter'){ addUrlBtn.click(); } });
+
+  presetSelect.addEventListener('change', (e)=> applyPreset(e.target.value));
+
+  saveBtn.addEventListener('click', ()=>{
+    const payload = JSON.stringify({ items: state.items, preset: state.roomPreset });
+    localStorage.setItem('room-imaginator-v1', payload);
+    flash('Saved!');
+  });
+
+  loadBtn.addEventListener('click', ()=>{
+    const raw = localStorage.getItem('room-imaginator-v1');
+    if(!raw) { flash('Nothing saved yet.'); return; }
+    const data = JSON.parse(raw);
+    // wipe
+    state.items = []; state.selectedId = null;
+    itemsLayer.innerHTML = '';
+    // restore
+    (data.items||[]).forEach(it=>{ state.items.push({...it}); mountItem(it); });
+    applyPreset(data.preset || 'minimal');
+    refreshLayers();
+    flash('Restored!');
+  });
+
+  snapshotBtn.addEventListener('click', async ()=>{
+    // Temporarily hide UI cues
+    itemsLayer.querySelectorAll('.item').forEach(el=>el.classList.remove('selected'));
+    try{
+      const canvas = await html2canvas(room, {backgroundColor: null, useCORS: true, scale:2});
+      const png = canvas.toDataURL('image/png');
+      const a = document.createElement('a');
+      a.href = png; a.download = 'room-imaginator.png'; a.click();
+      flash('Snapshot downloaded.');
+    } finally {
+      // re-apply selection highlight
+      const id = state.selectedId; if(id) getItemEl(id)?.classList.add('selected');
+    }
+  });
+
+  deleteBtn.addEventListener('click', ()=>{
+    const id = state.selectedId; if(!id) return;
+    const idx = state.items.findIndex(i=>i.id===id);
+    if(idx!==-1) state.items.splice(idx,1);
+    getItemEl(id)?.remove();
+    state.selectedId = null; selectItem(null); refreshLayers();
+  });
+  forwardBtn.addEventListener('click', ()=> updateSelected(i=>{ i.z += 1; }));
+  backBtn.addEventListener('click', ()=> updateSelected(i=>{ i.z = Math.max(1, i.z - 1); }));
+
+  surfaceSel.addEventListener('change', e=> updateSelected(i=>{ i.surface = e.target.value; }));
+  scaleRange.addEventListener('input', e=> {
+    const s = (+e.target.value)/100;
+    scaleVal.textContent = Math.round(s*100)+'%';
+    updateSelected(i=>{ i.scale=s; });
+  });
+  rotateRange.addEventListener('input', e=>{
+    const r = (+e.target.value);
+    rotVal.textContent = Math.round(r)+'°';
+    updateSelected(i=>{ i.rot=r; });
+  });
+  opacityRange.addEventListener('input', e=>{
+    const o = (+e.target.value)/100;
+    opVal.textContent = Math.round(o*100)+'%';
+    updateSelected(i=>{ i.opacity=o; });
+  });
+  shadowRange.addEventListener('input', e=>{
+    const v = (+e.target.value)/100;
+    shVal.textContent = Math.round(v*100)+'%';
+    document.documentElement.style.setProperty('--shadow', `rgba(0,0,0,${0.15 + v*0.35})`);
+  });
+
+  // Keyboard: arrows nudge, delete to remove
+  window.addEventListener('keydown', e=>{
+    const id = state.selectedId; const step = (e.shiftKey?8:2);
+    if(!id) return;
+    const item = state.items.find(i=>i.id===id);
+    if(!item) return;
+
+    if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(e.key)){
+      e.preventDefault();
+      if(e.key==='ArrowLeft') item.x -= step;
+      if(e.key==='ArrowRight') item.x += step;
+      if(e.key==='ArrowUp') item.y -= step;
+      if(e.key==='ArrowDown') item.y += step;
+      updateSelected(()=>{});
+    } else if(e.key==='Delete' || e.key==='Backspace'){
+      deleteBtn.click();
+    }
+  });
+
+  // Drag & drop files
+  ;['dragenter','dragover'].forEach(ev=>{
+    room.addEventListener(ev, e=>{ e.preventDefault(); dropHint.classList.add('show'); });
+  });
+  ;['dragleave','drop'].forEach(ev=>{
+    room.addEventListener(ev, e=>{ e.preventDefault(); dropHint.classList.remove('show'); });
+  });
+  room.addEventListener('drop', e=>{
+    const files = [...e.dataTransfer.files].filter(f=>f.type.startsWith('image/'));
+    files.forEach(f=>{
+      const reader = new FileReader();
+      reader.onload = ()=> addItem(reader.result, f.name);
+      reader.readAsDataURL(f);
+    });
+  });
+
+  function flash(msg){
+    const n = document.createElement('div');
+    n.textContent = msg;
+    n.style.position='fixed'; n.style.bottom='20px'; n.style.left='50%'; n.style.transform='translateX(-50%)';
+    n.style.background='#111726'; n.style.padding='.5rem .8rem'; n.style.border='1px solid #2a3147'; n.style.borderRadius='.6rem';
+    n.style.boxShadow='0 12px 30px rgba(0,0,0,.35)'; n.style.zIndex='9999'; n.style.opacity='0';
+    document.body.appendChild(n);
+    requestAnimationFrame(()=>{ n.style.transition='opacity .15s ease'; n.style.opacity='1'; });
+    setTimeout(()=>{ n.style.opacity='0'; n.addEventListener('transitionend', ()=>n.remove(), {once:true}); }, 1300);
+  }
+
+  // Starter tip: you can preload a demo asset by uncommenting below and replacing the URL with your image
+  // addItem('MY_IMAGE_URL_OR_DATAURI_HERE', 'Sample item');
+})();
+</script>
+
 </body>
 </html>
