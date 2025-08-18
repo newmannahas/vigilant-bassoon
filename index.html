@@ -31,7 +31,7 @@
 
   <style>
     /* Anchor offset so headings aren't hidden under the fixed nav */
-    #vision, #themes, #about, #cta { scroll-margin-top: 96px; }
+    #vision, #themes, #quotes, #about, #cta { scroll-margin-top: 96px; }
 
     /* Reveal-on-scroll */
     .reveal { opacity: 0; transform: translateY(14px); transition: opacity 600ms ease, transform 600ms ease; }
@@ -105,9 +105,7 @@
     .teasers { overflow: hidden; height: 0; }
     .teasers-inner { padding: .35rem 0 .15rem 0; }
     .teasers li { color: #475569; /* slate-600 */ padding-left: 1.2rem; position: relative; }
-    .teasers li::before {
-      content: '–'; position: absolute; left: 0; top: 0; color: #94a3b8; /* slate-400 */
-    }
+    .teasers li::before { content: '–'; position: absolute; left: 0; top: 0; color: #94a3b8; /* slate-400 */ }
 
     /* Respect reduced motion */
     @media (prefers-reduced-motion: reduce) {
@@ -148,6 +146,7 @@
       <ul id="navLinks" class="hidden md:flex items-center gap-8">
         <li><a href="#vision" class="text-slate-700 hover:text-blue-800 transition-colors">Vision</a></li>
         <li><a href="#themes" class="text-slate-700 hover:text-blue-800 transition-colors">Themes</a></li>
+        <li><a href="#quotes" class="text-slate-700 hover:text-blue-800 transition-colors">Quotes</a></li>
         <li><a href="#about"  class="text-slate-700 hover:text-blue-800 transition-colors">About</a></li>
         <li><a href="#cta"    class="px-5 py-2 bg-gradient-to-r from-blue-900 to-blue-700 text-white rounded-full shadow-glow hover:brightness-110 transition">Subscribe</a></li>
       </ul>
@@ -158,6 +157,7 @@
       <div class="flex flex-col p-6 gap-4">
         <a href="#vision" class="text-slate-700 hover:text-blue-800 font-medium">Vision</a>
         <a href="#themes" class="text-slate-700 hover:text-blue-800 font-medium">Themes</a>
+        <a href="#quotes" class="text-slate-700 hover:text-blue-800 font-medium">Quotes</a>
         <a href="#about"  class="text-slate-700 hover:text-blue-800 font-medium">About</a>
         <a href="#cta"    class="text-slate-700 hover:text-blue-800 font-medium">Subscribe</a>
       </div>
@@ -535,6 +535,48 @@
     </div>
   </section>
 
+  <!-- QUOTES (Rotating, autoplay) -->
+  <section id="quotes" class="py-20 px-6 bg-white">
+    <div class="max-w-5xl mx-auto text-center reveal">
+      <figure class="relative">
+        <div class="absolute -top-8 -left-6 text-6xl text-slate-200 select-none" aria-hidden="true">“</div>
+
+        <!-- Live region for screen readers -->
+        <blockquote id="insightText"
+                    class="italic text-xl md:text-2xl text-slate-700 mx-auto transition-opacity duration-300"
+                    aria-live="polite">
+          “There are no separate systems. The world is a continuum.”
+        </blockquote>
+        <figcaption id="insightAuthor"
+                    class="mt-3 text-slate-500 transition-opacity duration-300">
+          — Donella Meadows
+        </figcaption>
+      </figure>
+
+      <!-- Controls -->
+      <div class="mt-6 flex items-center justify-center gap-2" role="group" aria-label="Quote controls">
+        <button id="quotePrev"
+                class="px-3 py-1.5 rounded-full border border-slate-300 text-slate-600 hover:bg-slate-100 transition text-sm"
+                type="button" aria-label="Previous quote">
+          Prev
+        </button>
+        <button id="quotePlayPause"
+                class="px-3 py-1.5 rounded-full border border-slate-300 text-slate-600 hover:bg-slate-100 transition text-sm"
+                type="button" aria-pressed="true" aria-label="Play or pause quote rotation">
+          Pause
+        </button>
+        <button id="quoteNext"
+                class="px-3 py-1.5 rounded-full border border-slate-300 text-slate-600 hover:bg-slate-100 transition text-sm"
+                type="button" aria-label="Next quote">
+          Next
+        </button>
+      </div>
+
+      <!-- Dots -->
+      <div id="quoteDots" class="mt-4 flex justify-center gap-2" aria-label="Quote indicators"></div>
+    </div>
+  </section>
+
   <!-- ABOUT -->
   <section id="about" class="py-24 px-6 bg-gradient-to-b from-slate-50 to-white">
     <div class="max-w-4xl mx-auto">
@@ -712,7 +754,6 @@
         }, { once: true });
       });
     }
-
     document.querySelectorAll('.bullet-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         const expanded = btn.getAttribute('aria-expanded') === 'true';
@@ -721,8 +762,7 @@
         if (expanded) slideUp(panel);
         else slideDown(panel);
       });
-
-      // Keyboard tip hint on focus (helpful on mobile, too)
+      // Tooltip assist on focus
       btn.addEventListener('focus', () => {
         const tip = document.getElementById(btn.getAttribute('aria-describedby'));
         if (tip) tip.classList.add('show');
@@ -732,7 +772,6 @@
         if (tip) tip.classList.remove('show');
       });
     });
-
     // Close any open panel on Escape
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
@@ -743,6 +782,102 @@
         });
       }
     });
+
+    // ===== Rotating Quotes (autoplay loop) =====
+    (function () {
+      const insights = [
+        { t: "There are no separate systems. The world is a continuum.", a: "Donella Meadows" },
+        { t: "Nature is not organized in the same way that universities are.", a: "Russell Ackoff" },
+        { t: "The truth is a snare: you cannot have it, without being caught. You cannot have the truth in such a way that you catch it, but only in such a way that it catches you.", a: "Søren Kierkegaard" },
+        { t: "We know more than we can tell.", a: "Michael Polanyi" }
+      ];
+
+      const iText   = document.getElementById('insightText');
+      if (!iText) return; // quotes section not present
+      const iAuthor = document.getElementById('insightAuthor');
+      const qPrev   = document.getElementById('quotePrev');
+      const qNext   = document.getElementById('quoteNext');
+      const qPP     = document.getElementById('quotePlayPause');
+      const dots    = document.getElementById('quoteDots');
+
+      let idx = 0;
+      let timer = null;
+      const interval = 6000;
+
+      // Force autoplay loop
+      let playing = true;
+
+      function render(i, instant = false) {
+        iText.style.opacity = 0;
+        iAuthor.style.opacity = 0;
+        setTimeout(() => {
+          iText.textContent   = `“${insights[i].t}”`;
+          iAuthor.textContent = `— ${insights[i].a}`;
+          iText.style.opacity = 1;
+          iAuthor.style.opacity = 1;
+        }, instant ? 0 : 160);
+        updateDots();
+      }
+
+      function start() {
+        stop();
+        playing = true;
+        setPP();
+        timer = setInterval(() => {
+          idx = (idx + 1) % insights.length;
+          render(idx);
+        }, interval);
+      }
+
+      function stop() {
+        if (timer) clearInterval(timer);
+        timer = null;
+        playing = false;
+        setPP();
+      }
+
+      function setPP() {
+        qPP.textContent = playing ? 'Pause' : 'Play';
+        qPP.setAttribute('aria-pressed', String(playing));
+      }
+
+      qPrev.addEventListener('click', () => {
+        idx = (idx - 1 + insights.length) % insights.length;
+        render(idx);
+        if (playing) start(); // keep cadence consistent
+      });
+
+      qNext.addEventListener('click', () => {
+        idx = (idx + 1) % insights.length;
+        render(idx);
+        if (playing) start();
+      });
+
+      qPP.addEventListener('click', () => (playing ? stop() : start()));
+
+      // Dots (clickable)
+      insights.forEach((_, i) => {
+        const b = document.createElement('button');
+        b.className = 'w-2.5 h-2.5 rounded-full bg-slate-300 transition transform focus:outline-none focus:ring-2 focus:ring-blue-500';
+        b.setAttribute('aria-label', `Show quote ${i + 1}`);
+        b.addEventListener('click', () => {
+          idx = i; render(idx);
+          if (playing) start();
+        });
+        dots.appendChild(b);
+      });
+
+      function updateDots() {
+        dots.querySelectorAll('button').forEach((b, i) => {
+          if (i === idx) { b.classList.add('bg-blue-600', 'scale-110'); }
+          else { b.classList.remove('bg-blue-600', 'scale-110'); }
+        });
+      }
+
+      // Initialize & autoplay
+      render(idx, true);
+      start();
+    })();
 
     // Footer year
     document.getElementById('year').textContent = new Date().getFullYear();
