@@ -50,7 +50,7 @@
     }
     @keyframes blink { 50% { opacity: 0; } }
 
-    /* Reveal-on-scroll (kept subtle) */
+    /* Reveal-on-scroll (subtle) */
     .reveal { opacity: 0; transform: translateY(14px); transition: opacity 600ms ease, transform 600ms ease; }
     .reveal.show { opacity: 1; transform: translateY(0); }
 
@@ -67,7 +67,7 @@
     .fancy-health   { --b-from:#be123c; --b-to:#db2777; }  /* rose/pink */
     .fancy-practice { --b-from:#059669; --b-to:#0d9488; }  /* emerald/teal */
 
-    /* Quotes orbit chips */
+    /* Decorative orbit chips */
     .orbit { position: absolute; inset: 0; pointer-events: none; }
     .orbit .chip {
       position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
@@ -75,9 +75,9 @@
       box-shadow: 0 8px 24px rgba(2,6,23,.12);
       padding: .4rem .6rem; border-radius: .7rem; font-size: .8rem; color: #334155;
       display: inline-flex; align-items: center; gap: .35rem; white-space: nowrap;
+      animation: drift var(--t) linear infinite; transform-origin: 0 0;
     }
     .orbit .chip i { opacity: .7; }
-    .orbit .chip { animation: drift var(--t) linear infinite; transform-origin: 0 0; }
 
     /* Quiz card */
     .quiz-card button.choice { border:1px solid rgba(15,23,42,.15); }
@@ -85,7 +85,6 @@
     .quiz-card .correct { background:#ecfdf5; border-color:#10b981 !important; }
     .quiz-card .wrong   { background:#fef2f2; border-color:#ef4444 !important; }
 
-    /* Respect reduced motion */
     @media (prefers-reduced-motion: reduce) {
       .reveal { opacity: 1 !important; transform: none !important; }
       .orbit .chip { animation: none !important; }
@@ -95,9 +94,7 @@
 <body class="min-h-screen bg-gradient-to-b from-slate-50 to-white text-slate-800 font-sans">
 
   <!-- Force start at the top unless there's an anchor -->
-  <script>
-    window.addEventListener('load', () => { if (!location.hash) window.scrollTo(0,0); });
-  </script>
+  <script>window.addEventListener('load',()=>{ if(!location.hash) window.scrollTo(0,0); });</script>
 
   <!-- Skip link -->
   <a href="#why" class="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 bg-blue-700 text-white px-3 py-2 rounded">
@@ -126,7 +123,7 @@
       <ul id="navLinks" class="hidden md:flex items-center gap-8">
         <li><a href="#why"     class="text-slate-700 hover:text-blue-800 transition-colors">Why this show</a></li>
         <li><a href="#season1" class="text-slate-700 hover:text-blue-800 transition-colors">Season 1</a></li>
-        <li><a href="#quiz"    class="text-slate-700 hover:text-blue-800 transition-colors">Quotes & Quiz</a></li>
+        <li><a href="#quiz"    class="text-slate-700 hover:text-blue-800 transition-colors">Take the Quiz</a></li>
         <li><a href="#about"   class="text-slate-700 hover:text-blue-800 transition-colors">About</a></li>
         <li><a href="#cta"     class="px-5 py-2 bg-gradient-to-r from-blue-900 to-blue-700 text-white rounded-full shadow-glow hover:brightness-110 transition">Get Early Access</a></li>
       </ul>
@@ -135,7 +132,7 @@
       <div class="flex flex-col p-6 gap-4">
         <a href="#why"     class="text-slate-700 hover:text-blue-800 font-medium">Why this show</a>
         <a href="#season1" class="text-slate-700 hover:text-blue-800 font-medium">Season 1</a>
-        <a href="#quiz"    class="text-slate-700 hover:text-blue-800 font-medium">Quotes & Quiz</a>
+        <a href="#quiz"    class="text-slate-700 hover:text-blue-800 font-medium">Take the Quiz</a>
         <a href="#about"   class="text-slate-700 hover:text-blue-800 font-medium">About</a>
         <a href="#cta"     class="text-slate-700 hover:text-blue-800 font-medium">Get Early Access</a>
       </div>
@@ -159,7 +156,6 @@
       </div>
     </div>
 
-    <!-- soft glows -->
     <div class="pointer-events-none absolute inset-0 -z-10"
          style="background: radial-gradient(1100px 520px at 50% 20%, rgba(255,255,255,.6), rgba(255,255,255,0) 60%),
                         radial-gradient(700px 340px at 85% 80%, rgba(59,130,246,.10), rgba(59,130,246,0) 60%),
@@ -196,7 +192,7 @@
   <section id="season1" class="py-24 px-6">
     <div class="max-w-7xl mx-auto">
       <div class="text-center mb-14">
-        <h2 class="font-serif text-4xl md:text-5xl font-bold mb-1 tracking-tight reveal">Season 1’s Episodes</h2>
+        <h2 class="font-serif text-4xl md:text-5xl font-bold mb-1 tracking-tight reveal">Season 1</h2>
         <p class="text-2xl text-blue-800 font-bold tracking-wide reveal">COMING SOON</p>
       </div>
 
@@ -256,20 +252,17 @@
     </div>
   </section>
 
-  <!-- QUOTES + QUIZ -->
+  <!-- QUIZ -->
   <section id="quiz" class="relative py-24 px-6 bg-white">
     <div class="max-w-5xl mx-auto text-center">
-      <h2 class="font-serif text-4xl md:text-5xl font-bold tracking-tight mb-2">Quotes that Move the Conversation</h2>
-      <p class="text-slate-500 mb-10">Tap the author for each quote. You’ll see your score at the end—no timers, no pressure.</p>
+      <h2 class="font-serif text-4xl md:text-5xl font-bold tracking-tight mb-2">Take this Quiz!</h2>
 
-      <!-- Orbiting chips (visual only) -->
+      <!-- Decorative floating chips -->
       <div class="orbit" aria-hidden="true">
-        <!-- A few decorative quote chips with gentle orbits -->
         <span class="chip" style="--r:220px; --t:32s;"><i>✨</i> “All models are wrong…”</span>
         <span class="chip" style="--r:150px; --t:28s;"><i>📜</i> “The map is not the territory.”</span>
         <span class="chip" style="--r:260px; --t:36s;"><i>🧠</i> “We know more than we can tell.”</span>
         <span class="chip" style="--r:190px; --t:30s;"><i>🏛️</i> “The unexamined life…”</span>
-        <span class="chip" style="--r:300px; --t:40s;"><i>📈</i> “Be fearful when others…”</span>
       </div>
 
       <!-- Quiz card -->
@@ -295,7 +288,7 @@
   <section id="about" class="py-24 px-6 bg-gradient-to-b from-slate-50 to-white">
     <div class="max-w-4xl mx-auto">
       <div class="text-center mb-12">
-        <h2 class="font-serif text-4xl md:text-5xl font-bold mb-4 tracking-tight reveal">About Newman Nahas</h2>
+        <h2 class="font-serif text-4xl md:text-5xl font-bold mb-4 tracking-tight reveal">About your Host</h2>
         <p class="text-lg text-slate-600 reveal">Curious about all the human things.</p>
       </div>
       <div class="mx-auto text-slate-700 space-y-6 leading-relaxed text-lg">
@@ -417,34 +410,57 @@
     const io = new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('show'); io.unobserve(e.target); } }); }, { threshold: 0.12 });
     document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-    // ===== Floating Quotes Quiz (ask each once, then results) =====
+    // ===== Quiz data (each quote asked once; 4 plausible options) =====
     const quizData = [
-      { t: "The whole is more than the sum of its parts. And sooner or later that insight will prove to be the key to the quantum enigma.", a: "Wolfgang Smith" },
-      { t: "Concepts create idols; only wonder comprehends anything. People kill one another over idols. Wonder makes us fall to our knees.", a: "Gregory of Nyssa" },
-      { t: "This world, after all our science and sciences, is still a miracle—wonderful, inscrutable, magical and more, to whosoever will think of it.", a: "Thomas Carlyle" },
-      { t: "Modern science is based on the principle: 'Give us one free miracle and we'll explain the rest.'", a: "Terence McKenna" },
-      { t: "Silence is the sleep that nourishes wisdom.", a: "Francis Bacon" },
-      { t: "All our knowledge begins with the senses, proceeds then to the understanding, and ends with reason. There is nothing higher than reason.", a: "Immanuel Kant" },
-      { t: "The nous is the eye of the soul.", a: "St. John of Damascus" },
-      { t: "For those who have purified their hearts see God... He shows Himself to the purified nous as in a mirror, while all the while He Himself remains invisible.", a: "St. Gregory Palamas" },
-      { t: "The deadlift also serves as a way to train the mind to do things that are hard.", a: "Mark Rippetoe" },
-      { t: "People who succeed in the stock market also accept periodic losses, setbacks, and unexpected occurrences. Calamitous drops do not scare them out of the game.", a: "Peter Lynch" },
-      { t: "Go for a business that any idiot can run—because sooner or later any idiot probably is going to be running it.", a: "Peter Lynch" },
-      { t: "It's far better to buy a wonderful company at a fair price than a fair company at a wonderful price.", a: "Warren Buffett" },
-      { t: "Experience seems to most of us to lead to conclusions, but empiricism has sworn never to draw them.", a: "George Santayana" },
-      { t: "Science is no more than an investigation of a miracle we can never explain, and art is an interpretation of that miracle.", a: "Ray Bradbury" },
-      { t: "Metaphysics is a dark ocean without shores or lighthouse, strewn with many a philosophic wreck.", a: "Immanuel Kant" },
-      { t: "Love is metaphysical gravity.", a: "R. Buckminster Fuller" },
-      { t: "He who has a why to live for can bear almost any how.", a: "Friedrich Nietzsche" },
-      { t: "If you only know your side, you don't know your side.", a: "John Stuart Mill" }
+      { t: "The whole is more than the sum of its parts. And sooner or later that insight will prove to be the key to the quantum enigma.", a: "Wolfgang Smith", g: "quantum" },
+      { t: "Concepts create idols; only wonder comprehends anything. People kill one another over idols. Wonder makes us fall to our knees.", a: "Gregory of Nyssa", g: "patristic" },
+      { t: "This world, after all our science and sciences, is still a miracle—wonderful, inscrutable, magical and more, to whosoever will think of it.", a: "Thomas Carlyle", g: "science_culture" },
+      { t: "Modern science is based on the principle: 'Give us one free miracle and we'll explain the rest.'", a: "Terence McKenna", g: "science_critique" },
+      { t: "Silence is the sleep that nourishes wisdom.", a: "Francis Bacon", g: "baconian" },
+      { t: "All our knowledge begins with the senses, proceeds then to the understanding, and ends with reason. There is nothing higher than reason.", a: "Immanuel Kant", g: "philosophy" },
+      { t: "The nous is the eye of the soul.", a: "St. John of Damascus", g: "patristic" },
+      { t: "For those who have purified their hearts see God... He shows Himself to the purified nous as in a mirror, while all the while He Himself remains invisible.", a: "St. Gregory Palamas", g: "patristic" },
+      { t: "The deadlift also serves as a way to train the mind to do things that are hard.", a: "Mark Rippetoe", g: "fitness" },
+      { t: "People who succeed in the stock market also accept periodic losses, setbacks, and unexpected occurrences. Calamitous drops do not scare them out of the game.", a: "Peter Lynch", g: "markets" },
+      { t: "Go for a business that any idiot can run—because sooner or later any idiot probably is going to be running it.", a: "Peter Lynch", g: "markets" },
+      { t: "It's far better to buy a wonderful company at a fair price than a fair company at a wonderful price.", a: "Warren Buffett", g: "markets" },
+      { t: "Experience seems to most of us to lead to conclusions, but empiricism has sworn never to draw them.", a: "George Santayana", g: "philosophy" },
+      { t: "Science is no more than an investigation of a miracle we can never explain, and art is an interpretation of that miracle.", a: "Ray Bradbury", g: "science_culture" },
+      { t: "Metaphysics is a dark ocean without shores or lighthouse, strewn with many a philosophic wreck.", a: "Immanuel Kant", g: "philosophy" },
+      { t: "Love is metaphysical gravity.", a: "R. Buckminster Fuller", g: "science_culture" },
+      { t: "He who has a why to live for can bear almost any how.", a: "Friedrich Nietzsche", g: "philosophy" },
+      { t: "If you only know your side, you don't know your side.", a: "John Stuart Mill", g: "liberal" }
     ];
-    const allAuthors = [...new Set(quizData.map(q => q.a))];
 
-    // Shuffle utility
+    // Author pools per "ballpark" (used for plausible distractors)
+    const GROUPS = {
+      quantum: ["Wolfgang Smith","David Bohm","Werner Heisenberg","John Polkinghorne"],
+      patristic: ["Gregory of Nyssa","St. John of Damascus","St. Gregory Palamas","St. Augustine","St. Basil the Great","St. Maximus the Confessor"],
+      philosophy: ["Immanuel Kant","Friedrich Nietzsche","Søren Kierkegaard","George Santayana","Michael Polanyi","Alfred Korzybski"],
+      markets: ["Peter Lynch","Warren Buffett","Benjamin Graham","Charlie Munger","John C. Bogle"],
+      fitness: ["Mark Rippetoe","Pavel Tsatsouline","Dan John","Louie Simmons"],
+      science_culture: ["Thomas Carlyle","Ray Bradbury","G.K. Chesterton","Carl Sagan"],
+      science_critique: ["Terence McKenna","Rupert Sheldrake","Thomas Kuhn","Paul Feyerabend"],
+      liberal: ["John Stuart Mill","Alexis de Tocqueville","Isaiah Berlin","John Rawls"],
+      baconian: ["Francis Bacon","René Descartes","Thomas Hobbes","Blaise Pascal"]
+    };
+
+    const FALLBACKS = {
+      quantum: ["science_critique","science_culture","philosophy"],
+      patristic: ["philosophy","baconian"],
+      philosophy: ["baconian","science_culture"],
+      markets: ["philosophy","liberal"],
+      fitness: ["philosophy","markets"],
+      science_culture: ["philosophy","science_critique"],
+      science_critique: ["science_culture","philosophy"],
+      liberal: ["philosophy"],
+      baconian: ["philosophy"]
+    };
+
     function shuffle(arr){ for(let i=arr.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]]; } return arr; }
 
     let order = shuffle([...quizData.keys()]);
-    let idx = 0, correct = 0, answered = [];
+    let idxQ = 0, correct = 0, answered = [];
     const qText = document.getElementById('qText');
     const choicesEl = document.getElementById('choices');
     const feedback = document.getElementById('feedback');
@@ -453,22 +469,31 @@
     const breakdown = document.getElementById('breakdown');
     const playAgain = document.getElementById('playAgain');
 
+    function getPlausibleChoices(correctAuthor, group) {
+      const bag = new Set((GROUPS[group] || []).filter(a => a !== correctAuthor));
+      // If we need more, pull from fallbacks in order:
+      for (const g of (FALLBACKS[group] || [])) {
+        if (bag.size >= 3) break;
+        (GROUPS[g] || []).forEach(a => { if (a !== correctAuthor && bag.size < 3) bag.add(a); });
+      }
+      // Final four = 1 correct + 3 plausible distractors
+      const distractors = shuffle([...bag]).slice(0, 3);
+      return shuffle([correctAuthor, ...distractors]);
+    }
+
     function nextQuestion() {
-      if (idx >= order.length) return showResults();
-      const q = quizData[order[idx]];
+      if (idxQ >= order.length) return showResults();
+      const q = quizData[order[idxQ]];
       qText.textContent = `“${q.t}”`;
       feedback.textContent = '';
-      // build choices: correct + 3 random unique
-      let opts = new Set([q.a]);
-      const pool = shuffle(allAuthors.filter(a => a !== q.a));
-      for (let i=0; i<pool.length && opts.size<4; i++) opts.add(pool[i]);
-      const choices = shuffle([...opts]);
+
+      const choices = getPlausibleChoices(q.a, q.g);
       choicesEl.innerHTML = '';
-      choices.forEach(txt => {
+      choices.forEach(name => {
         const b = document.createElement('button');
         b.className = 'choice w-full text-left px-4 py-2 rounded-lg transition';
-        b.textContent = txt;
-        b.addEventListener('click', () => handleChoice(b, txt === q.a, q));
+        b.textContent = name;
+        b.addEventListener('click', () => handleChoice(b, name === q.a, q));
         choicesEl.appendChild(b);
       });
     }
@@ -477,13 +502,17 @@
       const buttons = Array.from(choicesEl.querySelectorAll('button.choice'));
       buttons.forEach(b => b.disabled = true);
       if (isCorrect) { btn.classList.add('correct'); feedback.textContent = 'Correct.'; correct++; }
-      else { btn.classList.add('wrong'); feedback.textContent = `Answer: ${q.a}.`; }
+      else {
+        btn.classList.add('wrong');
+        const right = buttons.find(b => b.textContent === q.a);
+        if (right) right.classList.add('correct');
+        feedback.textContent = `Answer: ${q.a}.`;
+      }
       answered.push({ quote: q.t, author: q.a, ok: isCorrect });
-      setTimeout(() => { idx++; nextQuestion(); }, 850);
+      setTimeout(() => { idxQ++; nextQuestion(); }, 900);
     }
 
     function showResults() {
-      document.getElementById('quizCard').classList.add('opacity-90');
       results.classList.remove('hidden');
       scoreEl.textContent = `You got ${correct} of ${order.length} right.`;
       breakdown.innerHTML = '';
@@ -495,9 +524,8 @@
       });
     }
     playAgain.addEventListener('click', () => {
-      order = shuffle([...quizData.keys()]); idx = 0; correct = 0; answered = [];
-      results.classList.add('hidden');
-      nextQuestion();
+      order = shuffle([...quizData.keys()]); idxQ = 0; correct = 0; answered = [];
+      results.classList.add('hidden'); nextQuestion();
     });
 
     nextQuestion();
