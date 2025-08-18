@@ -1,655 +1,402 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Room Imaginator — Stage Your Bedroom</title>
-<meta name="description" content="Visualize a bedroom with your chosen items. Drag, resize, rotate, and export a snapshot." />
+import React, { useState, useEffect } from 'react';
+import { ChevronDown, Play, Search, Menu, X, Quote, ArrowRight, Sparkles, Brain, Heart, Compass, BookOpen, Radio, Mail } from 'lucide-react';
 
-<style>
-  :root{
-    --bg:#0f1115;
-    --panel:#151922;
-    --muted:#7f8696;
-    --text:#e9ecf1;
-    --brand:#ff4655;
+const AletheiaWebsite = () => {
+  const [scrollY, setScrollY] = useState(0);
+  const [activeSection, setActiveSection] = useState('vision');
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [currentQuote, setCurrentQuote] = useState(0);
+  const [selectedTheme, setSelectedTheme] = useState('all');
+  const [visibleQuestion, setVisibleQuestion] = useState(0);
+  const [visiblePractical, setVisiblePractical] = useState(0);
 
-    /* Room palette (overridden by presets) */
-    --wall:#f4f5f7;
-    --floor:#e8e1d7;
-    --bedding:#ffffff;
-    --accent:#c5d0df;
-    --shadow:rgba(0,0,0,.25);
-  }
-  *{box-sizing:border-box}
-  html,body{height:100%}
-  body{
-    margin:0;
-    font:14px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial;
-    background:linear-gradient(180deg,#0e1117 0%, #0b0d12 100%);
-    color:var(--text);
-  }
-  header{
-    position:sticky; top:0; z-index:1000;
-    display:flex; gap:.75rem; align-items:center; padding:.75rem 1rem;
-    background:linear-gradient(180deg, rgba(15,17,21,.95) 0%, rgba(15,17,21,.75) 100%);
-    border-bottom:1px solid #222734;
-    backdrop-filter: blur(8px);
-  }
-  header .title{
-    font-weight:700; letter-spacing:.2px; margin-right: .5rem;
-  }
-  header .hint{color:var(--muted)}
-  .grow{flex:1}
-
-  button, .btn{
-    appearance:none; border:none; cursor:pointer;
-    background:#23293a; color:var(--text);
-    padding:.55rem .8rem; border-radius:.6rem;
-    font-weight:600; letter-spacing:.2px;
-    transition:transform .05s ease, background .2s ease, box-shadow .2s ease;
-    box-shadow:0 1px 0 rgba(255,255,255,.04) inset, 0 1px 10px rgba(0,0,0,.15);
-  }
-  button:hover{background:#283047}
-  button:active{transform:translateY(1px)}
-  .btn-primary{background:var(--brand)}
-  .btn-primary:hover{filter:brightness(1.05)}
-  .btn-ghost{background:transparent; border:1px solid #31384b}
-  .btn-small{padding:.42rem .6rem; font-weight:600}
-
-  input[type="text"], select{
-    background:#1d2331; border:1px solid #31384b; color:var(--text);
-    padding:.5rem .6rem; border-radius:.5rem; outline:none;
-  }
-  input[type="range"]{width:100%}
-  label{display:block; font-weight:600; margin:.4rem 0 .25rem}
-  .row{display:flex; gap:.6rem; align-items:center}
-  .sep{height:1px; background:#212638; margin:.75rem 0}
-
-  main{
-    display:grid; grid-template-columns: 1fr 340px; gap:1rem;
-    padding:1rem; max-width:1400px; margin:0 auto;
-  }
-
-  /* ---------- Room ---------- */
-  #roomWrap{
-    aspect-ratio:16 / 9;
-    background:#0a0c12; border:1px solid #202538; border-radius:14px;
-    overflow:hidden; position:relative;
-    box-shadow: 0 18px 40px rgba(0,0,0,.35);
-  }
-  #room{
-    position:absolute; inset:0;
-    background:
-      linear-gradient(to bottom, var(--wall) 0 60%, transparent 60%) no-repeat,
-      linear-gradient(180deg, var(--floor), var(--floor)) no-repeat;
-    background-size:100% 100%;
-  }
-  /* Visual floor texture */
-  #room:after{
-    content:""; position:absolute; inset:60% 0 0 0; pointer-events:none;
-    background:
-      repeating-linear-gradient(90deg, rgba(0,0,0,.05) 0 2px, transparent 2px 6px),
-      linear-gradient(180deg, rgba(0,0,0,.03), rgba(255,255,255,.02));
-    mix-blend-mode:multiply;
-  }
-
-  /* Bed block (simple stylized) */
-  .bed{
-    position:absolute; width:58%; left:21%;
-    height:27%; bottom:8%;
-  }
-  .bed .headboard{
-    position:absolute; left:0; right:0; bottom:60%;
-    height:28%;
-    background:linear-gradient(180deg, color-mix(in srgb, var(--bedding), #000 12%), color-mix(in srgb, var(--bedding), #000 25%));
-    border-radius:10px; box-shadow:0 4px 12px rgba(0,0,0,.25);
-  }
-  .bed .mattress{
-    position:absolute; left:0; right:0; bottom:0; height:62%;
-    background:linear-gradient(180deg, var(--bedding), color-mix(in srgb, var(--bedding), #000 12%));
-    border-radius:12px; box-shadow: 0 10px 30px rgba(0,0,0,.25);
-  }
-  .bed .duvet{
-    position:absolute; left:5%; right:5%; bottom:6%; height:56%;
-    background:radial-gradient(200% 100% at 50% 0%, color-mix(in srgb, var(--bedding), #000 6%) 0 40%, color-mix(in srgb, var(--bedding), #000 20%) 100%);
-    border-radius:18px;
-  }
-  .bed .pillows{
-    position:absolute; left:10%; right:10%; bottom:63%; height:16%;
-    display:flex; gap:2%; align-items:stretch; justify-content:center;
-  }
-  .bed .pillows .p{
-    flex:1; background:linear-gradient(180deg, #fff, #dfe4ea);
-    border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,.2);
-  }
-
-  /* Items layer */
-  #itemsLayer{
-    position:absolute; inset:0; pointer-events:none;
-  }
-  .item{
-    position:absolute; top:50%; left:50%;
-    transform:translate(-50%,-50%) rotate(0deg) scale(1);
-    transform-origin:center center;
-    user-select:none; pointer-events:auto; cursor:grab;
-    will-change:transform, filter;
-    filter: drop-shadow(0 10px 24px var(--shadow));
-  }
-  .item:active{cursor:grabbing}
-  .item img{display:block; max-width:360px; max-height:360px; object-fit:contain;}
-  .item.selected{outline:2px dashed #7aa2ff; outline-offset:4px}
-
-  /* Surfaces (apply tilt) */
-  .item.surface-floor{ transform: translate(-50%,-50%) rotateX(55deg) rotate(var(--deg,0deg)) scale(var(--scale,1)); }
-  .item.surface-bed  { transform: translate(-50%,-50%) rotateX(25deg) rotate(var(--deg,0deg)) scale(var(--scale,1)); }
-  .item.surface-wall  { transform: translate(-50%,-50%) rotate(var(--deg,0deg)) scale(var(--scale,1)); }
-
-  /* Because we animate transforms manually, we’ll set custom props on each item */
-  .item{ --scale: 1; --deg: 0deg; }
-  .item.muted { opacity:.75; filter: drop-shadow(0 6px 18px rgba(0,0,0,.22)) saturate(.95); }
-
-  /* Sidebar (Inspector) */
-  aside{
-    background:var(--panel);
-    border:1px solid #202538; border-radius:14px; padding:1rem;
-    box-shadow: 0 18px 40px rgba(0,0,0,.35);
-    position:sticky; top:84px; height:calc(100vh - 110px); overflow:auto;
-  }
-  .card{
-    background:#0f1420; border:1px solid #1b2131; border-radius:12px; padding:.8rem;
-  }
-  .thumb{
-    width:64px; height:64px; border-radius:10px; background:#0b0e15; border:1px solid #1b2131;
-    display:grid; place-items:center; overflow:hidden;
-  }
-  .thumb img{max-width:100%; max-height:100%}
-
-  .layers .layer{
-    display:flex; align-items:center; gap:.6rem; padding:.4rem .3rem; border-radius:.6rem;
-    border:1px solid transparent; cursor:pointer;
-  }
-  .layers .layer:hover{background:#111726}
-  .layers .layer.active{background:#0f1421; border-color:#27304a}
-  .layer .name{flex:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
-  .layer .chip{font-size:12px; padding:.15rem .45rem; border-radius:.5rem; background:#1c2335; color:#a9b0c5}
-
-  .pill{display:inline-flex; gap:.45rem; align-items:center; padding:.3rem .5rem; border-radius:999px; background:#192033; border:1px solid #283047}
-  .pill .dot{width:10px; height:10px; border-radius:50%}
-  .right{margin-left:auto}
-  .note{color:var(--muted); font-size:12px}
-
-  /* Drop overlay */
-  #dropHint{
-    position:absolute; inset:0; display:none; place-items:center;
-    background:rgba(23,27,38,.7); border:2px dashed #3a4563; color:#c8d0e3; font-size:18px;
-  }
-  #dropHint.show{display:grid}
-  .kbd{
-    font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    background:#0f1420; border:1px solid #2a3043; border-bottom-width:2px;
-    padding:.12rem .4rem; border-radius:.3rem; font-size:12px;
-  }
-
-  @media (max-width: 1100px){
-    main{grid-template-columns:1fr}
-    aside{position:static; height:auto}
-  }
-</style>
-</head>
-<body>
-
-<header>
-  <div class="title">🛏️ Room Imaginator</div>
-  <div class="hint">Drag in your items and stage your dream setup.</div>
-  <div class="grow"></div>
-
-  <input id="fileInput" type="file" accept="image/*" multiple hidden />
-  <button id="uploadBtn" class="btn">Upload</button>
-
-  <input id="urlInput" type="text" placeholder="Paste image URL…" style="width:260px" />
-  <button id="addUrlBtn" class="btn">Add URL</button>
-
-  <select id="presetSelect" title="Room preset">
-    <option value="minimal" selected>Preset: Minimal Light</option>
-    <option value="moody">Preset: Moody Dark</option>
-    <option value="warm">Preset: Warm Wood</option>
-    <option value="blush">Preset: Soft Blush</option>
-    <option value="coastal">Preset: Coastal Breeze</option>
-  </select>
-
-  <button id="saveBtn" class="btn btn-ghost">Save</button>
-  <button id="loadBtn" class="btn btn-ghost">Restore</button>
-  <button id="snapshotBtn" class="btn btn-primary">Snapshot</button>
-</header>
-
-<main>
-  <section id="roomWrap" aria-label="Design canvas">
-    <div id="room">
-      <div class="bed" id="bed">
-        <div class="headboard"></div>
-        <div class="mattress"></div>
-        <div class="duvet"></div>
-        <div class="pillows"><div class="p"></div><div class="p"></div></div>
-      </div>
-      <div id="itemsLayer" aria-live="polite"></div>
-    </div>
-    <div id="dropHint">Drop images here</div>
-  </section>
-
-  <aside>
-    <div class="row" style="justify-content:space-between; margin-bottom:.5rem">
-      <div style="font-weight:700">Inspector</div>
-      <div class="note">Hotkeys: <span class="kbd">Delete</span> remove • <span class="kbd">←↑↓→</span> nudge</div>
-    </div>
-
-    <div class="card" style="margin-bottom:1rem">
-      <div class="row" style="gap:.8rem">
-        <div class="thumb" id="selThumb"><span class="note">none</span></div>
-        <div>
-          <div style="font-weight:700" id="selName">No selection</div>
-          <div class="note">Click an item to edit</div>
-        </div>
-        <div class="right">
-          <button id="deleteBtn" class="btn btn-small" title="Delete selected">Delete</button>
-        </div>
-      </div>
-
-      <div class="sep"></div>
-
-      <label for="surfaceSel">Surface</label>
-      <select id="surfaceSel">
-        <option value="wall">Wall (upright)</option>
-        <option value="bed">Bed (gentle tilt)</option>
-        <option value="floor">Floor (strong tilt)</option>
-      </select>
-
-      <label for="scaleRange">Size <span class="right note" id="scaleVal">100%</span></label>
-      <input id="scaleRange" type="range" min="30" max="300" value="100" />
-
-      <label for="rotateRange">Rotation <span class="right note" id="rotVal">0°</span></label>
-      <input id="rotateRange" type="range" min="-180" max="180" value="0" />
-
-      <label for="opacityRange">Opacity <span class="right note" id="opVal">100%</span></label>
-      <input id="opacityRange" type="range" min="30" max="100" value="100" />
-
-      <label for="shadowRange">Shadow strength <span class="right note" id="shVal">100%</span></label>
-      <input id="shadowRange" type="range" min="0" max="120" value="100" />
-
-      <div class="row" style="gap:.5rem; margin-top:.5rem">
-        <button id="forwardBtn" class="btn btn-small">Bring Forward</button>
-        <button id="backBtn" class="btn btn-small">Send Back</button>
-        <label class="pill right"><span class="dot" style="background:#7aa2ff"></span>Selected</label>
-      </div>
-    </div>
-
-    <div class="card layers">
-      <div class="row" style="justify-content:space-between; margin-bottom:.4rem">
-        <div style="font-weight:700">Layers</div>
-        <div class="note">Top = front</div>
-      </div>
-      <div id="layers"></div>
-    </div>
-
-    <div style="margin-top:1rem" class="note">
-      ⚠️ If a pasted image URL doesn’t appear in the snapshot, it’s likely a cross‑origin restriction.
-      Download the image and use <b>Upload</b>.
-    </div>
-  </aside>
-</main>
-
-<!-- Lightweight export helper -->
-<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js" referrerpolicy="no-referrer"></script>
-
-<script>
-(()=> {
-  const room = document.getElementById('room');
-  const itemsLayer = document.getElementById('itemsLayer');
-  const bedEl = document.getElementById('bed');
-  const dropHint = document.getElementById('dropHint');
-
-  // Controls
-  const fileInput = document.getElementById('fileInput');
-  const uploadBtn = document.getElementById('uploadBtn');
-  const urlInput = document.getElementById('urlInput');
-  const addUrlBtn = document.getElementById('addUrlBtn');
-  const presetSelect = document.getElementById('presetSelect');
-  const saveBtn = document.getElementById('saveBtn');
-  const loadBtn = document.getElementById('loadBtn');
-  const snapshotBtn = document.getElementById('snapshotBtn');
-
-  // Inspector
-  const selThumb = document.getElementById('selThumb');
-  const selName = document.getElementById('selName');
-  const deleteBtn = document.getElementById('deleteBtn');
-  const surfaceSel = document.getElementById('surfaceSel');
-  const scaleRange = document.getElementById('scaleRange');
-  const rotateRange = document.getElementById('rotateRange');
-  const opacityRange = document.getElementById('opacityRange');
-  const shadowRange = document.getElementById('shadowRange');
-  const scaleVal = document.getElementById('scaleVal');
-  const rotVal = document.getElementById('rotVal');
-  const opVal = document.getElementById('opVal');
-  const shVal = document.getElementById('shVal');
-  const forwardBtn = document.getElementById('forwardBtn');
-  const backBtn = document.getElementById('backBtn');
-  const layersEl = document.getElementById('layers');
-
-  const state = {
-    items: [], // {id, src, name, x, y, scale, rot, opacity, shadow, z, surface}
-    selectedId: null,
-    roomPreset: 'minimal'
-  };
-
-  const presets = {
-    minimal: { wall:'#f4f5f7', floor:'#e8e1d7', bedding:'#ffffff', accent:'#c5d0df' },
-    moody:   { wall:'#1b1e27', floor:'#2a2f3d', bedding:'#202430', accent:'#36405a' },
-    warm:    { wall:'#f3efe9', floor:'#d7c2a5', bedding:'#fffaf4', accent:'#d2a679' },
-    blush:   { wall:'#f8ecef', floor:'#eadfd8', bedding:'#ffffff', accent:'#f3c8d1' },
-    coastal: { wall:'#eef6fb', floor:'#d9e6ea', bedding:'#ffffff', accent:'#bcd5e8' },
-  };
-
-  function applyPreset(key){
-    const p = presets[key] || presets.minimal;
-    document.documentElement.style.setProperty('--wall', p.wall);
-    document.documentElement.style.setProperty('--floor', p.floor);
-    document.documentElement.style.setProperty('--bedding', p.bedding);
-    document.documentElement.style.setProperty('--accent', p.accent);
-    state.roomPreset = key;
-  }
-  applyPreset('minimal');
-
-  function uid(){ return Math.random().toString(36).slice(2,9); }
-
-  function addItem(src, name='Item'){
-    const id = uid();
-    const z = state.items.length+1;
-    const rect = room.getBoundingClientRect();
-    const x = rect.width * 0.5;
-    const y = rect.height * 0.58; // roughly bed height
-    const item = { id, src, name, x, y, scale:1, rot:0, opacity:1, shadow:1, z, surface:'wall' };
-    state.items.push(item);
-    mountItem(item);
-    selectItem(id);
-    refreshLayers();
-  }
-
-  function mountItem(item){
-    let el = document.createElement('div');
-    el.className = 'item surface-' + item.surface;
-    el.dataset.id = item.id;
-    el.style.zIndex = String(100 + item.z);
-    el.style.opacity = item.opacity;
-    el.style.setProperty('--scale', item.scale);
-    el.style.setProperty('--deg', item.rot + 'deg');
-    positionEl(el, item.x, item.y);
-
-    const img = document.createElement('img');
-    img.alt = item.name;
-    img.src = item.src;
-    el.appendChild(img);
-
-    // interactions
-    el.addEventListener('pointerdown', onDragStart);
-    el.addEventListener('click', () => selectItem(item.id), {capture:true});
-
-    itemsLayer.appendChild(el);
-  }
-
-  function positionEl(el, x, y){
-    el.style.left = x + 'px';
-    el.style.top = y + 'px';
-  }
-
-  function getItemEl(id){ return itemsLayer.querySelector('.item[data-id="'+id+'"]'); }
-
-  function selectItem(id){
-    state.selectedId = id;
-    // UI: highlight
-    itemsLayer.querySelectorAll('.item').forEach(n => n.classList.toggle('selected', n.dataset.id===id));
-    // Update inspector
-    const item = state.items.find(i=>i.id===id);
-    if(!item){
-      selThumb.innerHTML = '<span class="note">none</span>';
-      selName.textContent = 'No selection';
-      return;
+  // Three principles (streamlined to your exact wording)
+  const principles = [
+    {
+      title: "Interdisciplinary Approach",
+      body: "Reality does not respect the boundaries we draw; neither will this podcast."
+    },
+    {
+      title: "Virtue Epistemology",
+      body: "“The heart has its reasons which reason knows not.” — Blaise Pascal"
+    },
+    {
+      title: "Embracing Dissent",
+      body: "“He who knows only his own side of the case knows little of that.” — J.S. Mill"
     }
-    selThumb.innerHTML = '';
-    const timg = document.createElement('img'); timg.src = item.src; selThumb.appendChild(timg);
-    selName.textContent = item.name || 'Item';
-    surfaceSel.value = item.surface;
-    scaleRange.value = Math.round(item.scale*100); scaleVal.textContent = Math.round(item.scale*100) + '%';
-    rotateRange.value = Math.round(item.rot); rotVal.textContent = Math.round(item.rot) + '°';
-    opacityRange.value = Math.round(item.opacity*100); opVal.textContent = Math.round(item.opacity*100)+'%';
-    shadowRange.value = Math.round(item.shadow*100); shVal.textContent = Math.round(item.shadow*100)+'%';
-    // mild visual cue
-    getItemEl(id)?.classList.add('muted');
-    setTimeout(()=>getItemEl(id)?.classList.remove('muted'), 120);
-    refreshLayers();
-  }
+  ];
 
-  function updateSelected(mut){
-    const id = state.selectedId;
-    const item = state.items.find(i=>i.id===id);
-    if(!item) return;
-    mut(item);
-    const el = getItemEl(id);
-    if(!el) return;
-    el.style.opacity = item.opacity;
-    el.style.zIndex = String(100 + item.z);
-    el.classList.remove('surface-wall','surface-floor','surface-bed');
-    el.classList.add('surface-'+item.surface);
-    el.style.setProperty('--scale', item.scale);
-    el.style.setProperty('--deg', item.rot + 'deg');
-    positionEl(el, item.x, item.y);
-    refreshLayers();
-  }
+  // Fundamental questions (keep existing)
+  const fundamentalQuestions = [
+    { text: "Does God exist?", icon: "✨" },
+    { text: "What is consciousness?", icon: "🧠" },
+    { text: "How do we know what we know?", icon: "🔍" },
+    { text: "What is justice?", icon: "⚖️" },
+    { text: "What is health?", icon: "🌱" }
+  ];
 
-  function refreshLayers(){
-    layersEl.innerHTML = '';
-    // Highest z appears first in list (front)
-    [...state.items].sort((a,b)=>b.z-a.z).forEach(item=>{
-      const row = document.createElement('div');
-      row.className = 'layer' + (state.selectedId===item.id ? ' active' : '');
-      row.dataset.id = item.id;
+  // Practical questions (new rotating list)
+  const practicalQuestions = [
+    "Who is right in the diet wars?",
+    "What is the latest on cardiovascular health?",
+    "How can I maintain my strength?",
+    "How much cardio do I really need?",
+    "How do the financial markets work?",
+    "What is bitcoin?",
+    "How do you plan for retirement?",
+    "How can I be more productive?",
+    "How can I keep my house in order?",
+    "How can I be a better a parent?",
+    "What is love and what keeps relationships healthy?"
+  ];
 
-      const th = document.createElement('div'); th.className='thumb'; const im = document.createElement('img'); im.src=item.src; th.appendChild(im);
-      const name = document.createElement('div'); name.className='name'; name.textContent = item.name || 'Item';
-      const chip = document.createElement('div'); chip.className='chip'; chip.textContent = item.surface;
+  // Rotating quotes (added your new ones)
+  const quotes = [
+    { text: "The unexamined life is not worth living.", author: "Socrates" },
+    { text: "Truth is not what you want it to be; it is what it is.", author: "Unknown" },
+    { text: "In the marketplace of ideas, error sharpens wisdom.", author: "John Stuart Mill" },
+    { text: "Wonder is the beginning of wisdom.", author: "Aristotle" },
+    { text: "There are no separate systems. The world is a continuum.", author: "Donella Meadows" },
+    { text: "Nature is not organized in the same way that universities are.", author: "Russell Ackoff" },
+    { text: "The truth is a snare: you cannot have it, without being caught. You cannot have the truth in such a way that you catch it, but only in such a way that it catches you.", author: "Søren Kierkegaard" },
+    { text: "We know more than we can tell.", author: "Michael Polanyi" }
+  ];
 
-      row.appendChild(th); row.appendChild(name); row.appendChild(chip);
-      row.addEventListener('click', ()=>selectItem(item.id));
-      layersEl.appendChild(row);
-    });
-  }
+  // COMING SOON categories
+  const philosophicalThemes = [
+    { id: 'religion', name: 'God and Religion', icon: Sparkles, color: 'from-amber-700 to-yellow-600' },
+    { id: 'mind-ai', name: 'The Mind and AI', icon: Brain, color: 'from-navy-700 to-blue-700' },
+    { id: 'health', name: 'Health and Wellbeing', icon: Heart, color: 'from-rose-700 to-pink-600' },
+    { id: 'practical', name: 'Practical Wisdom', icon: Compass, color: 'from-emerald-700 to-teal-600' }
+  ];
 
-  // Dragging
-  let drag = null;
-  function onDragStart(e){
-    const el = e.currentTarget;
-    const id = el.dataset.id;
-    selectItem(id);
-    const rect = itemsLayer.getBoundingClientRect();
-    const item = state.items.find(i=>i.id===id);
-    drag = {
-      id,
-      startX: e.clientX, startY: e.clientY,
-      origX: item.x, origY: item.y,
-      bounds: rect
+  // Handle scroll effects
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+
+      // Update active section based on scroll position
+      const sections = ['vision', 'themes', 'about'];
+      const scrollPosition = window.scrollY + 200;
+
+      for (const section of sections) {
+        const element = document.getElementById(section);
+        if (element && scrollPosition >= element.offsetTop) {
+          setActiveSection(section);
+        }
+      }
     };
-    el.setPointerCapture(e.pointerId);
-    window.addEventListener('pointermove', onDragMove);
-    window.addEventListener('pointerup', onDragEnd, {once:true});
-  }
-  function onDragMove(e){
-    if(!drag) return;
-    const dx = e.clientX - drag.startX;
-    const dy = e.clientY - drag.startY;
-    updateSelected(item=>{
-      item.x = clamp(drag.origX + dx, 0, drag.bounds.width);
-      item.y = clamp(drag.origY + dy, 0, drag.bounds.height);
-    });
-  }
-  function onDragEnd(e){
-    // Snap surface based on drop zone
-    const id = drag?.id;
-    drag = null;
-    window.removeEventListener('pointermove', onDragMove);
 
-    const item = state.items.find(i=>i.id===id);
-    if(!item) return;
-    const bedRect = bedEl.getBoundingClientRect();
-    const layerRect = itemsLayer.getBoundingClientRect();
-    const absX = layerRect.left + item.x;
-    const absY = layerRect.top + item.y;
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
-    // If intersects bed -> bed; else if lower 40% -> floor; else wall
-    const intersectsBed = absX > bedRect.left && absX < bedRect.right && absY > bedRect.top && absY < bedRect.bottom;
-    const lower = item.y > layerRect.height * 0.62;
+  // Cycle through fundamental questions
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setVisibleQuestion((prev) => (prev + 1) % fundamentalQuestions.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
 
-    const newSurface = intersectsBed ? 'bed' : (lower ? 'floor' : 'wall');
-    updateSelected(i=>{ i.surface = newSurface; });
-  }
-  function clamp(v, min, max){ return Math.max(min, Math.min(max, v)); }
+  // Cycle through practical questions
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setVisiblePractical((prev) => (prev + 1) % practicalQuestions.length);
+    }, 2800);
+    return () => clearInterval(interval);
+  }, []);
 
-  // Controls wiring
-  uploadBtn.addEventListener('click', ()=>fileInput.click());
-  fileInput.addEventListener('change', (e)=>{
-    [...e.target.files].forEach(file=>{
-      const reader = new FileReader();
-      reader.onload = ()=> addItem(reader.result, file.name);
-      reader.readAsDataURL(file);
-    });
-    fileInput.value="";
-  });
+  // Rotate quotes
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentQuote((prev) => (prev + 1) % quotes.length);
+    }, 8000);
+    return () => clearInterval(interval);
+  }, []);
 
-  addUrlBtn.addEventListener('click', ()=>{
-    const url = urlInput.value.trim();
-    if(!url) return;
-    addItem(url, url.split('/').pop() || 'Item from URL');
-    urlInput.value='';
-  });
-  urlInput.addEventListener('keydown', e=>{ if(e.key==='Enter'){ addUrlBtn.click(); } });
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white text-slate-800">
+      {/* Navigation */}
+      <nav className={`fixed top-0 w-full z-50 transition-all duration-500 ${
+        scrollY > 50 ? 'bg-white/95 backdrop-blur-md shadow-lg py-4' : 'bg-transparent py-6'
+      }`}>
+        <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
+          <div className="flex items-center gap-2">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-900 to-blue-700 flex items-center justify-center" aria-hidden="true">
+              <Radio className="w-5 h-5 text-white" />
+            </div>
+            <span className="font-serif text-xl font-bold">Aletheia</span>
+          </div>
 
-  presetSelect.addEventListener('change', (e)=> applyPreset(e.target.value));
+          <div className="hidden md:flex items-center gap-8">
+            {['Vision', 'Themes', 'About'].map(item => (
+              <a
+                key={item}
+                href={`#${item.toLowerCase()}`}
+                className={`transition-colors duration-300 ${
+                  activeSection === item.toLowerCase()
+                    ? 'text-blue-800 font-medium'
+                    : 'text-slate-600 hover:text-blue-700'
+                }`}
+              >
+                {item}
+              </a>
+            ))}
+            <button className="px-5 py-2 bg-gradient-to-r from-blue-900 to-blue-700 text-white rounded-full hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+              Subscribe
+            </button>
+          </div>
 
-  saveBtn.addEventListener('click', ()=>{
-    const payload = JSON.stringify({ items: state.items, preset: state.roomPreset });
-    localStorage.setItem('room-imaginator-v1', payload);
-    flash('Saved!');
-  });
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="md:hidden p-2"
+            aria-label="Toggle menu"
+          >
+            {menuOpen ? <X /> : <Menu />}
+          </button>
+        </div>
 
-  loadBtn.addEventListener('click', ()=>{
-    const raw = localStorage.getItem('room-imaginator-v1');
-    if(!raw) { flash('Nothing saved yet.'); return; }
-    const data = JSON.parse(raw);
-    // wipe
-    state.items = []; state.selectedId = null;
-    itemsLayer.innerHTML = '';
-    // restore
-    (data.items||[]).forEach(it=>{ state.items.push({...it}); mountItem(it); });
-    applyPreset(data.preset || 'minimal');
-    refreshLayers();
-    flash('Restored!');
-  });
+        {/* Mobile menu */}
+        {menuOpen && (
+          <div className="md:hidden absolute top-full left-0 w-full bg-white shadow-xl">
+            <div className="flex flex-col p-6 gap-4">
+              {['Vision', 'Themes', 'About'].map(item => (
+                <a
+                  key={item}
+                  href={`#${item.toLowerCase()}`}
+                  onClick={() => setMenuOpen(false)}
+                  className="text-slate-700 hover:text-blue-800 font-medium"
+                >
+                  {item}
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
+      </nav>
 
-  snapshotBtn.addEventListener('click', async ()=>{
-    // Temporarily hide UI cues
-    itemsLayer.querySelectorAll('.item').forEach(el=>el.classList.remove('selected'));
-    try{
-      const canvas = await html2canvas(room, {backgroundColor: null, useCORS: true, scale:2});
-      const png = canvas.toDataURL('image/png');
-      const a = document.createElement('a');
-      a.href = png; a.download = 'room-imaginator.png'; a.click();
-      flash('Snapshot downloaded.');
-    } finally {
-      // re-apply selection highlight
-      const id = state.selectedId; if(id) getItemEl(id)?.classList.add('selected');
-    }
-  });
+      {/* Hero Section */}
+      <section id="vision" className="min-h-screen flex items-center justify-center px-6 pt-20">
+        <div className="max-w-5xl mx-auto text-center">
+          {/* Removed "A Marketplace of Ideas" badge */}
 
-  deleteBtn.addEventListener('click', ()=>{
-    const id = state.selectedId; if(!id) return;
-    const idx = state.items.findIndex(i=>i.id===id);
-    if(idx!==-1) state.items.splice(idx,1);
-    getItemEl(id)?.remove();
-    state.selectedId = null; selectItem(null); refreshLayers();
-  });
-  forwardBtn.addEventListener('click', ()=> updateSelected(i=>{ i.z += 1; }));
-  backBtn.addEventListener('click', ()=> updateSelected(i=>{ i.z = Math.max(1, i.z - 1); }));
+          <h1 className="font-serif text-5xl md:text-7xl font-bold mb-8 leading-tight">
+            Aletheia Conversations
+          </h1>
 
-  surfaceSel.addEventListener('change', e=> updateSelected(i=>{ i.surface = e.target.value; }));
-  scaleRange.addEventListener('input', e=> {
-    const s = (+e.target.value)/100;
-    scaleVal.textContent = Math.round(s*100)+'%';
-    updateSelected(i=>{ i.scale=s; });
-  });
-  rotateRange.addEventListener('input', e=>{
-    const r = (+e.target.value);
-    rotVal.textContent = Math.round(r)+'°';
-    updateSelected(i=>{ i.rot=r; });
-  });
-  opacityRange.addEventListener('input', e=>{
-    const o = (+e.target.value)/100;
-    opVal.textContent = Math.round(o*100)+'%';
-    updateSelected(i=>{ i.opacity=o; });
-  });
-  shadowRange.addEventListener('input', e=>{
-    const v = (+e.target.value)/100;
-    shVal.textContent = Math.round(v*100)+'%';
-    document.documentElement.style.setProperty('--shadow', `rgba(0,0,0,${0.15 + v*0.35})`);
-  });
+          {/* Rotating Questions Display */}
+          <div className="mb-12 flex flex-col items-center justify-center">
+            <p className="text-xl md:text-2xl text-slate-600 text-center mb-6">
+              Join Newman Nahas as we explore our most fundamental questions
+            </p>
 
-  // Keyboard: arrows nudge, delete to remove
-  window.addEventListener('keydown', e=>{
-    const id = state.selectedId; const step = (e.shiftKey?8:2);
-    if(!id) return;
-    const item = state.items.find(i=>i.id===id);
-    if(!item) return;
+            {/* Fundamental questions carousel */}
+            <div className="relative h-20 w-full max-w-2xl mx-auto mb-8">
+              {fundamentalQuestions.map((question, index) => (
+                <div
+                  key={index}
+                  className={`absolute inset-0 flex items-center justify-center transition-all duration-1000 ${
+                    visibleQuestion === index
+                      ? 'opacity-100 transform translate-y-0'
+                      : 'opacity-0 transform -translate-y-4'
+                  }`}
+                >
+                  <div className="flex items-center gap-4">
+                    <span className="text-4xl" aria-hidden="true">{question.icon}</span>
+                    <span className="text-2xl md:text-3xl text-slate-700 font-medium">
+                      {question.text}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
 
-    if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(e.key)){
-      e.preventDefault();
-      if(e.key==='ArrowLeft') item.x -= step;
-      if(e.key==='ArrowRight') item.x += step;
-      if(e.key==='ArrowUp') item.y -= step;
-      if(e.key==='ArrowDown') item.y += step;
-      updateSelected(()=>{});
-    } else if(e.key==='Delete' || e.key==='Backspace'){
-      deleteBtn.click();
-    }
-  });
+            {/* Practical questions intro */}
+            <p className="text-lg md:text-xl text-slate-600 text-center mb-4">
+              And also some of our most practical questions, too
+            </p>
 
-  // Drag & drop files
-  ;['dragenter','dragover'].forEach(ev=>{
-    room.addEventListener(ev, e=>{ e.preventDefault(); dropHint.classList.add('show'); });
-  });
-  ;['dragleave','drop'].forEach(ev=>{
-    room.addEventListener(ev, e=>{ e.preventDefault(); dropHint.classList.remove('show'); });
-  });
-  room.addEventListener('drop', e=>{
-    const files = [...e.dataTransfer.files].filter(f=>f.type.startsWith('image/'));
-    files.forEach(f=>{
-      const reader = new FileReader();
-      reader.onload = ()=> addItem(reader.result, f.name);
-      reader.readAsDataURL(f);
-    });
-  });
+            {/* Practical questions carousel */}
+            <div className="relative h-16 w-full max-w-3xl mx-auto">
+              {practicalQuestions.map((q, index) => (
+                <div
+                  key={index}
+                  className={`absolute inset-0 flex items-center justify-center transition-all duration-1000 ${
+                    visiblePractical === index
+                      ? 'opacity-100 transform translate-y-0'
+                      : 'opacity-0 transform translate-y-4'
+                  }`}
+                >
+                  <span className="text-lg md:text-2xl text-slate-700 font-medium">
+                    {q}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
 
-  function flash(msg){
-    const n = document.createElement('div');
-    n.textContent = msg;
-    n.style.position='fixed'; n.style.bottom='20px'; n.style.left='50%'; n.style.transform='translateX(-50%)';
-    n.style.background='#111726'; n.style.padding='.5rem .8rem'; n.style.border='1px solid #2a3147'; n.style.borderRadius='.6rem';
-    n.style.boxShadow='0 12px 30px rgba(0,0,0,.35)'; n.style.zIndex='9999'; n.style.opacity='0';
-    document.body.appendChild(n);
-    requestAnimationFrame(()=>{ n.style.transition='opacity .15s ease'; n.style.opacity='1'; });
-    setTimeout(()=>{ n.style.opacity='0'; n.addEventListener('transitionend', ()=>n.remove(), {once:true}); }, 1300);
-  }
+          {/* Guest Information */}
+          <div className="mb-12 max-w-3xl mx-auto text-center">
+            <p className="text-lg text-slate-600">
+              We will explore these questions together by interviewing some of the most important and interesting thought leaders of our time.
+            </p>
+          </div>
 
-  // Starter tip: you can preload a demo asset by uncommenting below and replacing the URL with your image
-  // addItem('MY_IMAGE_URL_OR_DATAURI_HERE', 'Sample item');
-})();
-</script>
+          {/* Removed Aletheia (Greek) explanatory card */}
 
-</body>
-</html>
+          {/* Three Guiding Principles */}
+          <div className="mb-12 bg-blue-900 rounded-3xl p-12 -mx-6 md:-mx-12">
+            <h2 className="text-xl text-white text-center mb-10">
+              The podcast will be guided by three principles:
+            </h2>
+            <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+              {principles.map((p, idx) => (
+                <div
+                  key={idx}
+                  className="p-6 rounded-xl bg-white/10 backdrop-blur"
+                >
+                  <h3 className="font-bold text-white text-xl mb-3">
+                    {idx + 1}. {p.title}
+                  </h3>
+                  <p className="text-blue-100 text-sm leading-relaxed">
+                    {p.body}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Removed "No agenda. No dogma..." */}
+
+          {/* Rotating quotes */}
+          <div className="mb-12 h-24 flex items-center justify-center">
+            <div className="relative">
+              <Quote className="absolute -left-8 -top-2 w-6 h-6 text-blue-300" aria-hidden="true" />
+              <blockquote className="italic text-lg text-slate-500 transition-opacity duration-1000">
+                “{quotes[currentQuote].text}”
+                <cite className="block mt-2 text-sm not-italic">— {quotes[currentQuote].author}</cite>
+              </blockquote>
+            </div>
+          </div>
+
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <button className="group px-8 py-4 bg-gradient-to-r from-blue-900 to-blue-700 text-white rounded-full hover:shadow-xl transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2">
+              <Play className="w-5 h-5" />
+              Latest Conversation
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </button>
+            <a href="#themes" className="px-8 py-4 border-2 border-slate-300 rounded-full hover:border-blue-800 transition-colors duration-300 inline-flex items-center justify-center">
+              Explore Themes
+            </a>
+          </div>
+        </div>
+
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce" aria-hidden="true">
+          <ChevronDown className="w-6 h-6 text-slate-400" />
+        </div>
+      </section>
+
+      {/* Themes / Coming Soon */}
+      <section id="themes" className="py-24 px-6 bg-gradient-to-br from-slate-50 via-white to-amber-50">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="font-serif text-4xl md:text-5xl font-bold mb-6">
+              Conversations
+            </h2>
+            <p className="text-3xl text-blue-800 font-bold">
+              COMING SOON
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            {philosophicalThemes.map((theme, index) => (
+              <div
+                key={theme.id}
+                className="group relative p-8 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2"
+                style={{ animationDelay: `${index * 100}ms` }}
+              >
+                <div className={`absolute inset-0 bg-gradient-to-br ${theme.color} opacity-0 group-hover:opacity-5 rounded-2xl transition-opacity duration-500`} />
+                <div className="relative z-10">
+                  <div className={`inline-flex p-3 rounded-xl bg-gradient-to-br ${theme.color} mb-4`} aria-hidden="true">
+                    <theme.icon className="w-6 h-6 text-white" />
+                  </div>
+                  <h3 className="font-serif text-2xl font-bold mb-3">{theme.name}</h3>
+                  <p className="text-slate-600 mb-4">
+                    {theme.id === 'mind-ai' && "Where code meets cognition—unraveling the mysteries of mind and machine."}
+                    {theme.id === 'religion' && "Exploring God, faith, meaning, and religious life."}
+                    {theme.id === 'health' && "Evidence-based habits, longevity, fitness, and flourishing."}
+                    {theme.id === 'practical' && "Money, productivity, relationships, and the everyday art of living."}
+                  </p>
+                  <button
+                    onClick={() => setSelectedTheme(theme.id)}
+                    className="text-blue-800 font-medium flex items-center gap-2 group-hover:gap-3 transition-all"
+                  >
+                    Explore Theme
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Removed the entire Conversations list/search section */}
+
+      {/* About Section */}
+      <section id="about" className="py-24 px-6 bg-gradient-to-b from-slate-50 to-white">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="font-serif text-4xl md:text-5xl font-bold mb-6">
+              About Newman Nahas
+            </h2>
+            <p className="text-xl text-slate-600">Interdisciplinary Voyager</p>
+          </div>
+
+          <div className="prose prose-lg mx-auto text-slate-700">
+            <p className="lead text-xl mb-6">
+              I'm Newman Nahas. I studied philosophy and religion at Oxford as a Rhodes Scholar. But throughout my life, I have struggled to sit still within the boundaries of any discipline. Prior to grad school, I ended up taking classes in 13 disciplines.
+            </p>
+
+            <p className="mb-6">
+              Aletheia Conversations is my response to that struggle. It's a space for exploring the big philosophical questions of life and also the mundane and practical questions too.
+            </p>
+          </div>
+
+          <div className="mt-12 flex justify-center">
+            <button className="px-8 py-4 bg-gradient-to-r from-blue-900 to-blue-700 text-white rounded-full hover:shadow-xl transition-all duration-300 transform hover:scale-105 flex items-center gap-2">
+              <Mail className="w-5 h-5" />
+              Contact Newman
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="py-12 px-6 bg-slate-900 text-slate-300">
+        <div className="max-w-7xl mx-auto text-center">
+          <div className="flex items-center justify-center gap-2 mb-6">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-900 to-blue-700 flex items-center justify-center" aria-hidden="true">
+              <Radio className="w-5 h-5 text-white" />
+            </div>
+            <span className="font-serif text-xl font-bold text-white">Aletheia Conversations</span>
+          </div>
+
+          <p className="text-sm mb-8 max-w-2xl mx-auto">
+            © 2024 Aletheia Conversations. Dedicated to the pursuit of truth through compassionate dialogue.
+          </p>
+
+          <div className="flex justify-center gap-6 text-sm">
+            <a href="#" className="hover:text-white transition-colors">Spotify</a>
+            <a href="#" className="hover:text-white transition-colors">Apple Podcasts</a>
+            <a href="#" className="hover:text-white transition-colors">YouTube</a>
+            <a href="#" className="hover:text-white transition-colors">RSS</a>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+export default AletheiaWebsite;
