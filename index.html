@@ -5,35 +5,72 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Aletheia Conversations — Newman Nahas</title>
   <meta name="description" content="Aletheia Conversations: exploring fundamental and practical questions with leading thinkers. Host: Newman Nahas." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+
   <!-- Tailwind CSS via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'ui-sans-serif', 'system-ui', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'Noto Sans', 'Apple Color Emoji', 'Segoe UI Emoji'],
+            serif: ['Playfair Display', 'ui-serif', 'Georgia', 'Cambria', 'Times New Roman', 'Times', 'serif'],
+          },
+          boxShadow: {
+            'glow': '0 10px 30px -5px rgba(30,64,175,.25), 0 6px 12px -6px rgba(30,64,175,.3)'
+          }
+        }
+      }
+    }
+  </script>
+
   <style>
     /* Anchor offset so headings aren't hidden under the fixed nav */
     #vision, #themes, #quotes, #about, #cta { scroll-margin-top: 96px; }
-    /* Simple fade helper for JS-updated text */
-    .fade { transition: opacity 400ms ease; }
-    .visually-hidden { position: absolute; left: -9999px; }
+    /* Smooth fades for text swaps */
+    .fade { transition: opacity 300ms ease; }
+    /* Decorative blobs */
+    .blob {
+      filter: blur(60px);
+      opacity: .25;
+      pointer-events: none;
+    }
+    /* Respect reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      .fade { transition: none; }
+    }
   </style>
 </head>
-<body class="min-h-screen bg-gradient-to-b from-slate-50 to-white text-slate-800">
+<body class="min-h-screen bg-gradient-to-b from-slate-50 to-white text-slate-800 font-sans">
 
-  <!-- Skip link for accessibility -->
-  <a href="#vision" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 bg-blue-700 text-white px-3 py-2 rounded">
+  <!-- Background decoration -->
+  <div class="fixed inset-0 -z-10 overflow-hidden">
+    <div class="blob absolute -top-16 -left-10 w-80 h-80 rounded-full bg-gradient-to-br from-blue-300 to-indigo-200"></div>
+    <div class="blob absolute top-40 -right-10 w-96 h-96 rounded-full bg-gradient-to-br from-rose-200 to-amber-200"></div>
+    <div class="blob absolute bottom-0 left-1/2 -translate-x-1/2 w-[36rem] h-[36rem] rounded-full bg-gradient-to-br from-emerald-200 to-teal-200"></div>
+  </div>
+
+  <!-- Skip link -->
+  <a href="#vision" class="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 bg-blue-700 text-white px-3 py-2 rounded">
     Skip to main content
   </a>
 
   <!-- NAVBAR -->
-  <nav id="siteNav" class="fixed top-0 w-full z-50 bg-transparent py-6 transition-all">
+  <nav id="siteNav" class="fixed top-0 w-full z-50 bg-white/60 backdrop-blur-md py-4 transition-all">
     <div class="max-w-7xl mx-auto px-6 flex items-center justify-between">
       <a href="#vision" class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-900 to-blue-700 flex items-center justify-center" aria-hidden="true">
-          <!-- Simple radio-like glyph -->
+        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-900 to-blue-700 flex items-center justify-center shadow-glow" aria-hidden="true">
           <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor">
             <circle cx="12" cy="12" r="3" stroke-width="2"></circle>
             <path d="M19.5 12A7.5 7.5 0 106.5 12" stroke-width="2"></path>
           </svg>
         </div>
-        <span class="font-serif text-xl font-bold">Aletheia Conversations</span>
+        <span class="font-serif text-2xl font-bold tracking-tight">Aletheia Conversations</span>
       </a>
 
       <button id="menuBtn" class="md:hidden p-2" aria-label="Toggle menu">
@@ -43,11 +80,11 @@
       </button>
 
       <ul id="navLinks" class="hidden md:flex items-center gap-8">
-        <li><a href="#vision" class="text-slate-600 hover:text-blue-700 transition-colors">Vision</a></li>
-        <li><a href="#themes" class="text-slate-600 hover:text-blue-700 transition-colors">Themes</a></li>
-        <li><a href="#quotes" class="text-slate-600 hover:text-blue-700 transition-colors">Quotes</a></li>
-        <li><a href="#about"  class="text-slate-600 hover:text-blue-700 transition-colors">About</a></li>
-        <li><a href="#cta"    class="px-5 py-2 bg-gradient-to-r from-blue-900 to-blue-700 text-white rounded-full hover:shadow-lg transition-all transform hover:scale-105">Subscribe</a></li>
+        <li><a href="#vision" class="text-slate-700 hover:text-blue-800 transition-colors">Vision</a></li>
+        <li><a href="#themes" class="text-slate-700 hover:text-blue-800 transition-colors">Themes</a></li>
+        <li><a href="#quotes" class="text-slate-700 hover:text-blue-800 transition-colors">Quotes</a></li>
+        <li><a href="#about"  class="text-slate-700 hover:text-blue-800 transition-colors">About</a></li>
+        <li><a href="#cta"    class="px-5 py-2 bg-gradient-to-r from-blue-900 to-blue-700 text-white rounded-full shadow-glow hover:brightness-110 transition">Subscribe</a></li>
       </ul>
     </div>
 
@@ -64,23 +101,25 @@
   </nav>
 
   <!-- HERO / VISION -->
-  <header id="vision" class="min-h-[88vh] flex items-center justify-center px-6 pt-28">
+  <header id="vision" class="min-h-[92vh] flex items-center justify-center px-6 pt-24">
     <div class="max-w-5xl mx-auto text-center">
-      <h1 class="font-serif text-5xl md:text-7xl font-bold mb-6 leading-tight">Aletheia Conversations</h1>
-      <p class="text-xl md:text-2xl text-slate-600 mb-10">
-        Join Newman Nahas as we explore our most fundamental questions.
+      <h1 class="font-serif text-5xl md:text-7xl font-bold leading-tight mb-4 tracking-tight">
+        Aletheia <span class="bg-gradient-to-r from-blue-800 to-indigo-600 bg-clip-text text-transparent">Conversations</span>
+      </h1>
+      <p class="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto mb-10">
+        Join <span class="font-semibold">Newman Nahas</span> as we explore our most fundamental questions.
       </p>
 
       <!-- Rotating big questions (animated) -->
       <div class="h-16 flex items-center justify-center mb-8">
-        <span id="bigQuestion" class="text-2xl md:text-3xl text-slate-800 font-semibold fade"></span>
+        <span id="bigQuestion" class="text-2xl md:text-3xl text-slate-900 font-semibold fade"></span>
       </div>
 
       <!-- Practical questions (static list) -->
       <p class="text-lg md:text-xl text-slate-700 mb-3">
         And also some of our most practical questions, too:
       </p>
-      <ul class="max-w-4xl mx-auto text-left list-disc list-inside text-slate-700 space-y-2 mb-10">
+      <ul class="max-w-4xl mx-auto text-left list-disc list-inside text-slate-700 space-y-2 mb-12">
         <li>Who is right in the diet wars?</li>
         <li>What is the latest on cardiovascular health?</li>
         <li>How can I maintain my strength?</li>
@@ -91,66 +130,78 @@
         <li>How can I be more productive?</li>
         <li>How can I keep my house in order?</li>
         <li>How can I be a better parent?</li>
-        <li>What is love and what keeps relationships healthy?</li>
+        <li>What is love, and what keeps relationships healthy?</li>
       </ul>
 
-      <p class="text-lg text-slate-600">
+      <p class="text-lg text-slate-600 max-w-3xl mx-auto">
         We will explore these questions together by interviewing some of the most important and interesting thought leaders of our time.
       </p>
     </div>
   </header>
 
   <!-- GUIDING PRINCIPLES -->
-  <section class="py-20 px-6 bg-blue-900">
-    <div class="max-w-6xl mx-auto">
-      <h2 class="text-center text-white text-2xl font-semibold mb-10">Guiding Principles</h2>
+  <section class="py-20 px-6 bg-gradient-to-br from-blue-900 to-indigo-900 text-white relative overflow-hidden">
+    <div class="absolute inset-0 opacity-10" aria-hidden="true">
+      <!-- soft grid pattern -->
+      <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" stroke-width="1"/>
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#grid)" />
+      </svg>
+    </div>
+
+    <div class="relative max-w-6xl mx-auto">
+      <h2 class="text-center text-2xl font-semibold mb-10 tracking-wide">Guiding Principles</h2>
       <div class="grid md:grid-cols-3 gap-8">
-        <div class="p-6 rounded-xl bg-white/10 backdrop-blur">
-          <h3 class="text-white text-xl font-bold mb-2">1. Interdisciplinary Approach</h3>
-          <p class="text-blue-100">Reality does not respect the boundaries we draw; neither will this podcast.</p>
+        <div class="p-6 rounded-2xl bg-white/10 backdrop-blur">
+          <h3 class="text-xl font-bold mb-2">1. Interdisciplinary Approach</h3>
+          <p class="text-blue-100/90">Reality does not respect the boundaries we draw; neither will this podcast.</p>
         </div>
-        <div class="p-6 rounded-xl bg-white/10 backdrop-blur">
-          <h3 class="text-white text-xl font-bold mb-2">2. Virtue Epistemology</h3>
-          <p class="text-blue-100">“The heart has its reasons which reason knows not.” — Blaise Pascal</p>
+        <div class="p-6 rounded-2xl bg-white/10 backdrop-blur">
+          <h3 class="text-xl font-bold mb-2">2. Virtue Epistemology</h3>
+          <p class="text-blue-100/90">“The heart has its reasons which reason knows not.” — Blaise Pascal</p>
         </div>
-        <div class="p-6 rounded-xl bg-white/10 backdrop-blur">
-          <h3 class="text-white text-xl font-bold mb-2">3. Embracing Dissent</h3>
-          <p class="text-blue-100">“He who knows only his own side of the case knows little of that.” — J.S. Mill</p>
+        <div class="p-6 rounded-2xl bg-white/10 backdrop-blur">
+          <h3 class="text-xl font-bold mb-2">3. Embracing Dissent</h3>
+          <p class="text-blue-100/90">“He who knows only his own side of the case knows little of that.” — J.S. Mill</p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- THEMES (COMING SOON) -->
-  <section id="themes" class="py-24 px-6 bg-gradient-to-br from-slate-50 via-white to-amber-50">
+  <section id="themes" class="py-24 px-6">
     <div class="max-w-7xl mx-auto">
       <div class="text-center mb-14">
-        <h2 class="font-serif text-4xl md:text-5xl font-bold mb-3">Conversations</h2>
+        <h2 class="font-serif text-4xl md:text-5xl font-bold mb-3 tracking-tight">Conversations</h2>
         <p class="text-2xl text-blue-800 font-bold tracking-wide">COMING SOON</p>
       </div>
 
       <div class="grid md:grid-cols-2 gap-8">
         <!-- God & Religion -->
-        <div class="group p-8 bg-white rounded-2xl shadow hover:shadow-lg transition">
-          <div class="inline-flex p-3 rounded-xl bg-gradient-to-br from-amber-700 to-yellow-600 mb-4" aria-hidden="true">✨</div>
+        <div class="group p-8 bg-white/70 rounded-2xl shadow hover:shadow-lg transition">
+          <div class="inline-flex p-3 rounded-xl bg-gradient-to-br from-amber-700 to-yellow-600 mb-4 text-white" aria-hidden="true">✨</div>
           <h3 class="font-serif text-2xl font-bold mb-2">God and Religion</h3>
           <p class="text-slate-600">Exploring God, faith, meaning, and religious life.</p>
         </div>
         <!-- Mind & AI -->
-        <div class="group p-8 bg-white rounded-2xl shadow hover:shadow-lg transition">
-          <div class="inline-flex p-3 rounded-xl bg-gradient-to-br from-indigo-900 to-blue-700 mb-4" aria-hidden="true">🧠</div>
+        <div class="group p-8 bg-white/70 rounded-2xl shadow hover:shadow-lg transition">
+          <div class="inline-flex p-3 rounded-xl bg-gradient-to-br from-indigo-900 to-blue-700 mb-4 text-white" aria-hidden="true">🧠</div>
           <h3 class="font-serif text-2xl font-bold mb-2">The Mind and AI</h3>
           <p class="text-slate-600">Where code meets cognition—unraveling the mysteries of mind and machine.</p>
         </div>
         <!-- Health & Wellbeing -->
-        <div class="group p-8 bg-white rounded-2xl shadow hover:shadow-lg transition">
-          <div class="inline-flex p-3 rounded-xl bg-gradient-to-br from-rose-700 to-pink-600 mb-4" aria-hidden="true">❤️</div>
+        <div class="group p-8 bg-white/70 rounded-2xl shadow hover:shadow-lg transition">
+          <div class="inline-flex p-3 rounded-xl bg-gradient-to-br from-rose-700 to-pink-600 mb-4 text-white" aria-hidden="true">❤️</div>
           <h3 class="font-serif text-2xl font-bold mb-2">Health and Wellbeing</h3>
           <p class="text-slate-600">Evidence-based habits, longevity, fitness, and flourishing.</p>
         </div>
         <!-- Practical Wisdom -->
-        <div class="group p-8 bg-white rounded-2xl shadow hover:shadow-lg transition">
-          <div class="inline-flex p-3 rounded-xl bg-gradient-to-br from-emerald-700 to-teal-600 mb-4" aria-hidden="true">🧭</div>
+        <div class="group p-8 bg-white/70 rounded-2xl shadow hover:shadow-lg transition">
+          <div class="inline-flex p-3 rounded-xl bg-gradient-to-br from-emerald-700 to-teal-600 mb-4 text-white" aria-hidden="true">🧭</div>
           <h3 class="font-serif text-2xl font-bold mb-2">Practical Wisdom</h3>
           <p class="text-slate-600">Money, productivity, relationships, and the everyday art of living.</p>
         </div>
@@ -161,11 +212,15 @@
   <!-- QUOTES -->
   <section id="quotes" class="py-20 px-6 bg-white">
     <div class="max-w-5xl mx-auto text-center">
-      <h2 class="font-serif text-4xl font-bold mb-10">Selected Insights</h2>
-      <blockquote class="relative">
-        <p id="quoteText" class="italic text-xl md:text-2xl text-slate-700 fade">“There are no separate systems. The world is a continuum.”</p>
-        <cite id="quoteAuthor" class="block mt-3 text-slate-500">— Donella Meadows</cite>
-      </blockquote>
+      <h2 class="font-serif text-4xl font-bold mb-10 tracking-tight">Selected Insights</h2>
+
+      <figure class="relative max-w-3xl mx-auto">
+        <div class="absolute -top-8 -left-6 text-6xl text-slate-200 select-none" aria-hidden="true">“</div>
+        <blockquote class="relative">
+          <p id="quoteText" class="italic text-xl md:text-2xl text-slate-700 fade">“There are no separate systems. The world is a continuum.”</p>
+        </blockquote>
+        <figcaption id="quoteAuthor" class="mt-3 text-slate-500">— Donella Meadows</figcaption>
+      </figure>
     </div>
   </section>
 
@@ -173,11 +228,11 @@
   <section id="about" class="py-24 px-6 bg-gradient-to-b from-slate-50 to-white">
     <div class="max-w-4xl mx-auto">
       <div class="text-center mb-12">
-        <h2 class="font-serif text-4xl md:text-5xl font-bold mb-4">About Newman Nahas</h2>
+        <h2 class="font-serif text-4xl md:text-5xl font-bold mb-4 tracking-tight">About Newman Nahas</h2>
         <p class="text-lg text-slate-600">Interdisciplinary Voyager</p>
       </div>
-      <div class="prose prose-lg mx-auto text-slate-700">
-        <p class="text-xl">
+      <div class="mx-auto text-slate-700 space-y-6 leading-relaxed text-lg">
+        <p>
           I'm Newman Nahas. I studied philosophy and religion at Oxford as a Rhodes Scholar.
           But throughout my life, I have struggled to sit still within the boundaries of any discipline.
           Prior to grad school, I ended up taking classes in 13 disciplines.
@@ -190,22 +245,26 @@
   </section>
 
   <!-- CTA -->
-  <section id="cta" class="py-20 px-6 bg-blue-700 text-white text-center">
-    <div class="max-w-3xl mx-auto">
-      <h2 class="text-3xl md:text-4xl font-bold mb-4">Be part of the conversation</h2>
+  <section id="cta" class="py-20 px-6 bg-blue-700 text-white text-center relative overflow-hidden">
+    <div class="absolute inset-0 opacity-20 blur-3xl" aria-hidden="true">
+      <div class="w-80 h-80 bg-white rounded-full absolute -top-10 left-10"></div>
+      <div class="w-96 h-96 bg-white rounded-full absolute -bottom-16 right-16"></div>
+    </div>
+
+    <div class="relative max-w-3xl mx-auto">
+      <h2 class="text-3xl md:text-4xl font-serif font-bold mb-4 tracking-tight">Be part of the conversation</h2>
       <p class="text-lg mb-8">
-        Interested in being on the podcast? Have a topic we should tackle?  
-        Subscribe to hear first when the initial four episodes are released.
+        Interested in being on the podcast? Subscribe to hear first when the initial four episodes are released.
       </p>
       <div class="flex flex-col sm:flex-row justify-center gap-4">
         <!-- Replace mailto with your real address -->
         <a href="mailto:your-email@example.com?subject=Podcast%20Guest%20Inquiry"
-           class="bg-white text-blue-700 font-semibold py-3 px-6 rounded-full shadow hover:shadow-lg hover:bg-slate-100 transition">
+           class="bg-white text-blue-700 font-semibold py-3 px-6 rounded-full shadow-lg hover:shadow-xl hover:brightness-95 transition">
           Contact Me
         </a>
-        <!-- Replace mailto with your newsletter/signup link -->
+        <!-- Replace with your newsletter/signup link -->
         <a href="mailto:your-email@example.com?subject=Subscribe%20to%20Aletheia%20Updates"
-           class="bg-blue-500 text-white font-semibold py-3 px-6 rounded-full shadow hover:shadow-lg hover:bg-blue-600 transition">
+           class="bg-gradient-to-r from-indigo-400 to-indigo-600 text-white font-semibold py-3 px-6 rounded-full shadow-lg hover:shadow-xl hover:brightness-110 transition">
           Subscribe for Launch
         </a>
       </div>
@@ -215,7 +274,7 @@
   <!-- FOOTER -->
   <footer class="py-10 px-6 bg-slate-900 text-slate-300">
     <div class="max-w-7xl mx-auto text-center">
-      <div class="flex items-center justify-center gap-2 mb-4">
+      <div class="flex items-center justify-center gap-2 mb-3">
         <div class="w-9 h-9 rounded-full bg-gradient-to-br from-blue-900 to-blue-700 flex items-center justify-center" aria-hidden="true">
           <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor">
             <circle cx="12" cy="12" r="3" stroke-width="2"></circle>
@@ -230,24 +289,24 @@
 
   <!-- SCRIPTS -->
   <script>
-    // ===== Sticky nav on scroll =====
+    // Sticky nav style tweak on scroll
     const nav = document.getElementById('siteNav');
     window.addEventListener('scroll', () => {
-      if (window.scrollY > 50) {
-        nav.classList.add('bg-white/95','backdrop-blur-md','shadow','py-4');
-        nav.classList.remove('bg-transparent','py-6');
+      if (window.scrollY > 24) {
+        nav.classList.add('shadow', 'py-3');
+        nav.classList.remove('py-4');
       } else {
-        nav.classList.remove('bg-white/95','backdrop-blur-md','shadow','py-4');
-        nav.classList.add('bg-transparent','py-6');
+        nav.classList.remove('shadow', 'py-3');
+        nav.classList.add('py-4');
       }
     });
 
-    // ===== Mobile menu toggle =====
+    // Mobile menu toggle
     const menuBtn = document.getElementById('menuBtn');
     const mobileMenu = document.getElementById('mobileMenu');
     menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
 
-    // ===== Rotating BIG questions (animated) =====
+    // Rotating BIG questions (animated)
     const bigQuestions = [
       "Does God exist?",
       "What is consciousness?",
@@ -260,14 +319,14 @@
     let bq = 0;
     function setBig(text) {
       bigEl.style.opacity = 0;
-      setTimeout(() => { bigEl.textContent = text; bigEl.style.opacity = 1; }, prefersReduced ? 0 : 180);
+      setTimeout(() => { bigEl.textContent = text; bigEl.style.opacity = 1; }, prefersReduced ? 0 : 160);
     }
     setBig(bigQuestions[0]);
     if (!prefersReduced) {
-      setInterval(() => { bq = (bq + 1) % bigQuestions.length; setBig(bigQuestions[bq]); }, 3200);
+      setInterval(() => { bq = (bq + 1) % bigQuestions.length; setBig(bigQuestions[bq]); }, 3000);
     }
 
-    // ===== Rotating quotes (gentle) =====
+    // Rotating quotes (gentle)
     const quotes = [
       { t: "There are no separate systems. The world is a continuum.", a: "Donella Meadows" },
       { t: "Nature is not organized in the same way that universities are.", a: "Russell Ackoff" },
@@ -285,7 +344,7 @@
         qAuth.textContent = "— " + quotes[i].a;
         qText.style.opacity = 1;
         qAuth.style.opacity = 1;
-      }, prefersReduced ? 0 : 180);
+      }, prefersReduced ? 0 : 160);
     }
     if (!prefersReduced) {
       setInterval(() => {
@@ -294,7 +353,7 @@
       }, 6000);
     }
 
-    // ===== Footer year =====
+    // Footer year
     document.getElementById('year').textContent = new Date().getFullYear();
   </script>
 </body>
