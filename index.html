@@ -23,12 +23,6 @@
           },
           boxShadow: {
             'glow': '0 10px 30px -5px rgba(30,64,175,.25), 0 6px 12px -6px rgba(30,64,175,.3)'
-          },
-          keyframes: {
-            loadbar: { '0%': { width: '0%' }, '100%': { width: '100%' } }
-          },
-          animation: {
-            loadbar: 'loadbar 3s linear infinite'
           }
         }
       }
@@ -39,38 +33,35 @@
     /* Anchor offset so headings aren't hidden under the fixed nav */
     #vision, #themes, #about, #cta { scroll-margin-top: 96px; }
 
-    /* Smooth fades for text swaps */
-    .fade { transition: opacity 300ms ease; }
-    /* Subtle reveal-on-scroll */
+    /* Reveal-on-scroll */
     .reveal { opacity: 0; transform: translateY(14px); transition: opacity 600ms ease, transform 600ms ease; }
     .reveal.show { opacity: 1; transform: translateY(0); }
 
-    /* Decorative blobs */
-    .blob { filter: blur(60px); opacity: .25; pointer-events: none; }
-
-    /* Parallax orbs (hero) */
-    .orb {
-      position: absolute; border-radius: 9999px; opacity: 0.25; filter: blur(10px);
-      will-change: transform;
-      transition: transform 200ms ease;
-      pointer-events: none;
+    /* Typewriter caret */
+    .caret::after {
+      content: '';
+      display: inline-block;
+      width: 2px;
+      height: 1em;
+      background: currentColor;
+      margin-left: 4px;
+      transform: translateY(0.15em);
+      animation: blink 1s steps(1, end) infinite;
+      opacity: .7;
     }
+    @keyframes blink { 50% { opacity: 0; } }
 
     /* Respect reduced motion */
     @media (prefers-reduced-motion: reduce) {
-      .fade { transition: none; }
       .reveal { opacity: 1 !important; transform: none !important; }
+      .caret::after { animation: none; }
     }
+
+    /* Make sure canvas stays crisp on resize */
+    html, body { height: 100%; }
   </style>
 </head>
 <body class="min-h-screen bg-gradient-to-b from-slate-50 to-white text-slate-800 font-sans">
-
-  <!-- Background decoration (global) -->
-  <div class="fixed inset-0 -z-10 overflow-hidden">
-    <div class="blob absolute -top-16 -left-10 w-80 h-80 rounded-full bg-gradient-to-br from-blue-300 to-indigo-200"></div>
-    <div class="blob absolute top-40 -right-10 w-96 h-96 rounded-full bg-gradient-to-br from-rose-200 to-amber-200"></div>
-    <div class="blob absolute bottom-0 left-1/2 -translate-x-1/2 w-[36rem] h-[36rem] rounded-full bg-gradient-to-br from-emerald-200 to-teal-200"></div>
-  </div>
 
   <!-- Skip link -->
   <a href="#vision" class="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 bg-blue-700 text-white px-3 py-2 rounded">
@@ -115,48 +106,44 @@
     </div>
   </nav>
 
-  <!-- HERO / VISION -->
-  <header id="vision" class="relative min-h-[90vh] flex items-center justify-center px-6 pt-28 overflow-hidden">
-    <!-- Parallax orbs (hero-only) -->
-    <div id="orbs" class="absolute inset-0 -z-10 pointer-events-none">
-      <div class="orb w-64 h-64 bg-gradient-to-br from-indigo-400 to-blue-500 top-10 left-6"></div>
-      <div class="orb w-56 h-56 bg-gradient-to-br from-rose-400 to-amber-400 bottom-16 right-10"></div>
-      <div class="orb w-72 h-72 bg-gradient-to-br from-emerald-400 to-teal-500 top-1/3 right-1/3"></div>
-    </div>
+  <!-- HERO / VISION (with interactive constellation canvas) -->
+  <header id="vision" class="relative min-h-[92vh] flex items-center justify-center px-6 pt-28 overflow-hidden">
+    <!-- Canvas background -->
+    <canvas id="constellation" class="absolute inset-0 -z-10"></canvas>
 
-    <div class="max-w-5xl mx-auto text-center">
+    <!-- Glass card for text -->
+    <div class="max-w-4xl mx-auto text-center bg-white/55 backdrop-blur-lg rounded-3xl px-6 sm:px-10 py-10 shadow-xl ring-1 ring-white/40">
       <h1 class="font-serif text-5xl md:text-7xl font-bold leading-tight mb-4 tracking-tight reveal">
         Aletheia <span class="bg-gradient-to-r from-blue-800 to-indigo-600 bg-clip-text text-transparent">Conversations</span>
       </h1>
 
       <!-- Consolidated one-liner -->
-      <p class="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto mb-8 reveal">
+      <p class="text-base md:text-lg text-slate-700 max-w-3xl mx-auto mb-6 reveal">
         Join <span class="font-semibold">Newman Nahas</span> as we explore our most fundamental questions by interviewing some of the most interesting and important thought leaders of our time.
       </p>
 
-      <!-- Rotating big questions (animated) -->
-      <div class="w-full max-w-3xl mx-auto mb-3 reveal">
-        <div class="h-16 flex items-center justify-center">
-          <span id="bigQuestion" class="text-2xl md:text-3xl text-slate-900 font-semibold fade"></span>
-        </div>
-        <!-- progress bar synced to rotation -->
-        <div id="qProgress" class="h-1.5 bg-slate-200 rounded overflow-hidden">
-          <div id="qProgressBar" class="h-full bg-gradient-to-r from-blue-600 to-indigo-500"></div>
-        </div>
+      <!-- Typewriter rotation for big questions -->
+      <div class="h-14 flex items-center justify-center mb-6 reveal">
+        <span id="bigQuestion" class="caret text-xl md:text-2xl text-slate-900 font-semibold"></span>
       </div>
 
-      <!-- Animations toggle (only shown if reduced motion is detected) -->
-      <button id="animToggle" class="hidden mt-4 mx-auto text-sm px-3 py-1.5 rounded-full border border-slate-300 text-slate-600 hover:bg-slate-100 transition" type="button" aria-pressed="false">
-        Animations are off — Play anyway
-      </button>
-
-      <!-- Subtle scroll cue -->
-      <div class="mt-8 animate-bounce text-slate-400" aria-hidden="true">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-        </svg>
+      <!-- Controls -->
+      <div class="flex items-center justify-center gap-3">
+        <a href="#themes" class="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-gradient-to-r from-blue-900 to-indigo-700 text-white font-medium shadow-glow hover:brightness-110 transition">
+          Explore Themes
+          <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        </a>
+        <button id="motionToggle" class="text-sm px-4 py-2 rounded-full border border-slate-300 text-slate-600 hover:bg-slate-100 transition hidden" type="button" aria-pressed="false">
+          Animations are off — Play anyway
+        </button>
       </div>
     </div>
+
+    <!-- Soft vignette edges -->
+    <div class="pointer-events-none absolute inset-0 -z-10"
+         style="background: radial-gradient(1200px 600px at 50% 20%, rgba(255,255,255,.6), rgba(255,255,255,0) 60%),
+                        radial-gradient(800px 400px at 90% 80%, rgba(59,130,246,.12), rgba(59,130,246,0) 60%),
+                        radial-gradient(800px 400px at 10% 80%, rgba(236,72,153,.12), rgba(236,72,153,0) 60%);"></div>
   </header>
 
   <!-- GUIDING PRINCIPLES -->
@@ -316,117 +303,208 @@
 
   <!-- SCRIPTS -->
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      // Sticky nav style tweak on scroll
-      const nav = document.getElementById('siteNav');
-      window.addEventListener('scroll', () => {
-        if (window.scrollY > 24) {
-          nav.classList.add('shadow', 'py-3');
-          nav.classList.remove('py-4');
-        } else {
-          nav.classList.remove('shadow', 'py-3');
-          nav.classList.add('py-4');
+    // Sticky nav style tweak on scroll
+    const nav = document.getElementById('siteNav');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 24) {
+        nav.classList.add('shadow', 'py-3');
+        nav.classList.remove('py-4');
+      } else {
+        nav.classList.remove('shadow', 'py-3');
+        nav.classList.add('py-4');
+      }
+    });
+
+    // Mobile menu toggle
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+
+    // ===== Typewriter rotation for big questions =====
+    const questions = [
+      "Does God exist?",
+      "What is consciousness?",
+      "How do we know what we know?",
+      "What is justice?",
+      "What is health?"
+    ];
+    const qEl = document.getElementById('bigQuestion');
+
+    // ===== Motion preference & toggle handling =====
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const motionToggle = document.getElementById('motionToggle');
+    let motionOn = !prefersReduced; // follow system by default
+
+    function showMotionToggleIfNeeded() {
+      if (!motionOn) motionToggle.classList.remove('hidden');
+      else motionToggle.classList.add('hidden');
+      motionToggle.setAttribute('aria-pressed', String(!motionOn ? false : true));
+      motionToggle.textContent = motionOn ? 'Pause animations' : 'Animations are off — Play anyway';
+    }
+
+    motionToggle.addEventListener('click', () => {
+      motionOn = !motionOn;
+      showMotionToggleIfNeeded();
+      if (motionOn) {
+        startTypewriter();
+        startConstellation();
+      } else {
+        stopTypewriter();
+        stopConstellation();
+      }
+    });
+
+    // ===== Typewriter engine =====
+    let ti = 0, charI = 0, deleting = false, typerRef = null;
+    function typeStep() {
+      if (!motionOn) return;
+      const full = questions[ti];
+      const current = qEl.textContent || "";
+      const target = deleting ? full.slice(0, Math.max(0, charI - 1)) : full.slice(0, Math.min(full.length, charI + 1));
+      qEl.textContent = target;
+      charI = deleting ? charI - 1 : charI + 1;
+
+      let delay = deleting ? 28 : 42; // ms, tuned for readability
+      if (!deleting && charI >= full.length) { delay = 1200; deleting = true; }
+      else if (deleting && charI <= 0) { deleting = false; ti = (ti + 1) % questions.length; delay = 350; }
+
+      typerRef = setTimeout(typeStep, delay);
+    }
+    function startTypewriter() { stopTypewriter(); typeStep(); }
+    function stopTypewriter() { if (typerRef) clearTimeout(typerRef); typerRef = null; }
+
+    // Initialize typewriter text
+    qEl.textContent = questions[0];
+    charI = questions[0].length; deleting = true;
+    if (motionOn) startTypewriter(); else showMotionToggleIfNeeded();
+
+    // ===== Constellation Canvas =====
+    const canvas = document.getElementById('constellation');
+    const ctx = canvas.getContext('2d');
+    let dpr = window.devicePixelRatio || 1;
+    let W = 0, H = 0, particles = [], rafRef = null, mouse = { x: 0, y: 0, active: false };
+
+    function resize() {
+      W = canvas.clientWidth;
+      H = canvas.clientHeight;
+      canvas.width = Math.floor(W * dpr);
+      canvas.height = Math.floor(H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    window.addEventListener('resize', resize);
+
+    function initParticles() {
+      const density = Math.min(110, Math.max(60, Math.floor(W * H / 14000))); // scale with viewport
+      particles = Array.from({ length: density }, () => ({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        vx: (Math.random() - 0.5) * 0.25,
+        vy: (Math.random() - 0.5) * 0.25,
+        r: Math.random() * 1.6 + 0.6
+      }));
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+
+      // subtle gradient backdrop
+      const grad = ctx.createLinearGradient(0, 0, W, H);
+      grad.addColorStop(0, 'rgba(59,130,246,0.10)');   // blue-500
+      grad.addColorStop(1, 'rgba(99,102,241,0.10)');   // indigo-500
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, W, H);
+
+      // update & draw particles
+      for (const p of particles) {
+        // mouse influence (gentle attraction)
+        if (mouse.active) {
+          const dx = mouse.x - p.x, dy = mouse.y - p.y;
+          const dist = Math.hypot(dx, dy);
+          if (dist < 160) {
+            const force = (160 - dist) / 160 * 0.03;
+            p.vx += dx * force / dist;
+            p.vy += dy * force / dist;
+          }
+        }
+
+        p.x += p.vx; p.y += p.vy;
+        // soft bounds wrap
+        if (p.x < -20) p.x = W + 20; if (p.x > W + 20) p.x = -20;
+        if (p.y < -20) p.y = H + 20; if (p.y > H + 20) p.y = -20;
+
+        // particle
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(15,23,42,0.45)'; // slate-900-ish
+        ctx.fill();
+      }
+
+      // connections
+      const maxDist = 110;
+      ctx.lineWidth = 1;
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const a = particles[i], b = particles[j];
+          const dx = a.x - b.x, dy = a.y - b.y;
+          const d = dx * dx + dy * dy;
+          if (d < maxDist * maxDist) {
+            const alpha = 1 - Math.sqrt(d) / maxDist;
+            ctx.strokeStyle = `rgba(37,99,235,${0.15 * alpha})`; // blue-600 with fade
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+            ctx.stroke();
+          }
+        }
+      }
+    }
+
+    function tick() {
+      draw();
+      rafRef = requestAnimationFrame(tick);
+    }
+
+    function startConstellation() {
+      stopConstellation();
+      resize();
+      initParticles();
+      tick();
+    }
+    function stopConstellation() {
+      if (rafRef) cancelAnimationFrame(rafRef);
+      rafRef = null;
+      // draw a single static frame for a pleasant still background
+      resize();
+      initParticles();
+      draw();
+    }
+
+    // pointer interaction
+    window.addEventListener('pointermove', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      mouse.x = e.clientX - rect.left;
+      mouse.y = e.clientY - rect.top;
+      mouse.active = true;
+    }, { passive: true });
+    window.addEventListener('pointerleave', () => { mouse.active = false; }, { passive: true });
+
+    // Start/stop based on motion setting
+    if (motionOn) startConstellation(); else stopConstellation();
+    showMotionToggleIfNeeded();
+
+    // Reveal-on-scroll
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.classList.add('show');
+          io.unobserve(e.target);
         }
       });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-      // Mobile menu toggle
-      const menuBtn = document.getElementById('menuBtn');
-      const mobileMenu = document.getElementById('mobileMenu');
-      menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
-
-      // Rotating BIG questions (animated) + progress bar
-      const bigQuestions = [
-        "Does God exist?",
-        "What is consciousness?",
-        "How do we know what we know?",
-        "What is justice?",
-        "What is health?"
-      ];
-
-      const bigEl = document.getElementById('bigQuestion');
-      const progressBar = document.getElementById('qProgressBar');
-      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const animToggle = document.getElementById('animToggle');
-      let allowAnim = !prefersReduced; // default follow system; can be overridden
-      let intervalRef = null;
-      let bq = 0;
-
-      function setBig(text, instant = false) {
-        if (!instant) bigEl.style.opacity = 0;
-        setTimeout(() => { bigEl.textContent = text; bigEl.style.opacity = 1; }, instant ? 0 : 160);
-      }
-
-      function startRotation() {
-        stopRotation();
-        // sync progress bar
-        progressBar.classList.remove('animate-loadbar'); // restart
-        void progressBar.offsetWidth; // reflow to restart animation
-        progressBar.classList.add('animate-loadbar');
-
-        intervalRef = setInterval(() => {
-          bq = (bq + 1) % bigQuestions.length;
-          setBig(bigQuestions[bq]);
-          // restart bar
-          progressBar.classList.remove('animate-loadbar');
-          void progressBar.offsetWidth;
-          progressBar.classList.add('animate-loadbar');
-        }, 3000);
-      }
-
-      function stopRotation() {
-        if (intervalRef) clearInterval(intervalRef);
-        intervalRef = null;
-        progressBar.classList.remove('animate-loadbar');
-        progressBar.style.width = '0%';
-      }
-
-      // Initialize question and rotation based on motion preference
-      setBig(bigQuestions[bq], true);
-      if (allowAnim) startRotation(); else {
-        // show toggle if animations suppressed
-        animToggle.classList.remove('hidden');
-      }
-
-      // Toggle to override reduced-motion
-      animToggle.addEventListener('click', () => {
-        allowAnim = !allowAnim;
-        const pressed = animToggle.getAttribute('aria-pressed') === 'true';
-        animToggle.setAttribute('aria-pressed', String(!pressed));
-        animToggle.textContent = allowAnim ? 'Animations on — Pause' : 'Animations are off — Play anyway';
-        if (allowAnim) startRotation(); else stopRotation();
-      });
-
-      // Reveal-on-scroll
-      const io = new IntersectionObserver((entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) {
-            e.target.classList.add('show');
-            io.unobserve(e.target);
-          }
-        });
-      }, { threshold: 0.12 });
-      document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-
-      // Footer year
-      document.getElementById('year').textContent = new Date().getFullYear();
-
-      // Parallax orbs (hero)
-      const orbs = document.querySelectorAll('#orbs .orb');
-      const parallaxActive = !prefersReduced;
-      function parallax(e) {
-        if (!parallaxActive) return;
-        const { innerWidth: w, innerHeight: h } = window;
-        const x = (e.clientX / w) - 0.5;
-        const y = (e.clientY / h) - 0.5;
-        // different intensities for depth
-        orbs.forEach((el, i) => {
-          const intensity = [10, 16, 22][i] || 12;
-          el.style.transform = `translate3d(${x * intensity}px, ${y * intensity}px, 0)`;
-        });
-      }
-      // Use pointermove (mouse/touch)
-      window.addEventListener('pointermove', parallax, { passive: true });
-    });
+    // Footer year
+    document.getElementById('year').textContent = new Date().getFullYear();
   </script>
 </body>
 </html>
