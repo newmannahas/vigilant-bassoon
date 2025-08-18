@@ -3,8 +3,18 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Aletheia Conversations — Newman Nahas</title>
-  <meta name="description" content="Aletheia Conversations: exploring fundamental and practical questions with leading thinkers. Host: Newman Nahas." />
+  <title>Aletheia Conversations — Big Questions, Real Lives</title>
+  <meta name="description" content="A long‑form interview show where theology, philosophy, science, and practical wisdom meet. Join Newman Nahas for candid, evidence‑minded conversations." />
+
+  <!-- Open Graph / Twitter (optional: update the image path) -->
+  <meta property="og:title" content="Aletheia Conversations — Big Questions, Real Lives" />
+  <meta property="og:description" content="Nuanced interviews on God, mind, health, and practical wisdom—seeking truth with charity and rigor. Get early access to the first four episodes." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="/og-image.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Aletheia Conversations — Big Questions, Real Lives" />
+  <meta name="twitter:description" content="Nuanced interviews on God, mind, health, and practical wisdom—seeking truth with charity and rigor. Get early access to the first four episodes." />
+  <meta name="twitter:image" content="/og-image.jpg" />
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -31,7 +41,7 @@
 
   <style>
     /* Anchor offset so headings aren't hidden under the fixed nav */
-    #vision, #themes, #quotes, #about, #cta { scroll-margin-top: 96px; }
+    #vision, #themes, #season1, #quotes, #about, #faq, #cta { scroll-margin-top: 96px; }
 
     /* Reveal-on-scroll */
     .reveal { opacity: 0; transform: translateY(14px); transition: opacity 600ms ease, transform 600ms ease; }
@@ -146,22 +156,26 @@
       </button>
 
       <ul id="navLinks" class="hidden md:flex items-center gap-8">
-        <li><a href="#vision" class="text-slate-700 hover:text-blue-800 transition-colors">Vision</a></li>
-        <li><a href="#themes" class="text-slate-700 hover:text-blue-800 transition-colors">Themes</a></li>
-        <li><a href="#quotes" class="text-slate-700 hover:text-blue-800 transition-colors">Quotes</a></li>
-        <li><a href="#about"  class="text-slate-700 hover:text-blue-800 transition-colors">About</a></li>
-        <li><a href="#cta"    class="px-5 py-2 bg-gradient-to-r from-blue-900 to-blue-700 text-white rounded-full shadow-glow hover:brightness-110 transition">Subscribe</a></li>
+        <li><a href="#vision"   class="text-slate-700 hover:text-blue-800 transition-colors">Vision</a></li>
+        <li><a href="#themes"   class="text-slate-700 hover:text-blue-800 transition-colors">Themes</a></li>
+        <li><a href="#season1"  class="text-slate-700 hover:text-blue-800 transition-colors">Season 1</a></li>
+        <li><a href="#quotes"   class="text-slate-700 hover:text-blue-800 transition-colors">Quotes</a></li>
+        <li><a href="#about"    class="text-slate-700 hover:text-blue-800 transition-colors">About</a></li>
+        <li><a href="#faq"      class="text-slate-700 hover:text-blue-800 transition-colors">FAQ</a></li>
+        <li><a href="#cta"      class="px-5 py-2 bg-gradient-to-r from-blue-900 to-blue-700 text-white rounded-full shadow-glow hover:brightness-110 transition">Get Early Access</a></li>
       </ul>
     </div>
 
     <!-- Mobile menu -->
     <div id="mobileMenu" class="md:hidden hidden bg-white shadow-xl">
       <div class="flex flex-col p-6 gap-4">
-        <a href="#vision" class="text-slate-700 hover:text-blue-800 font-medium">Vision</a>
-        <a href="#themes" class="text-slate-700 hover:text-blue-800 font-medium">Themes</a>
-        <a href="#quotes" class="text-slate-700 hover:text-blue-800 font-medium">Quotes</a>
-        <a href="#about"  class="text-slate-700 hover:text-blue-800 font-medium">About</a>
-        <a href="#cta"    class="text-slate-700 hover:text-blue-800 font-medium">Subscribe</a>
+        <a href="#vision"  class="text-slate-700 hover:text-blue-800 font-medium">Vision</a>
+        <a href="#themes"  class="text-slate-700 hover:text-blue-800 font-medium">Themes</a>
+        <a href="#season1" class="text-slate-700 hover:text-blue-800 font-medium">Season 1</a>
+        <a href="#quotes"  class="text-slate-700 hover:text-blue-800 font-medium">Quotes</a>
+        <a href="#about"   class="text-slate-700 hover:text-blue-800 font-medium">About</a>
+        <a href="#faq"     class="text-slate-700 hover:text-blue-800 font-medium">FAQ</a>
+        <a href="#cta"     class="text-slate-700 hover:text-blue-800 font-medium">Get Early Access</a>
       </div>
     </div>
   </nav>
@@ -172,11 +186,16 @@
 
     <div class="max-w-4xl mx-auto text-center bg-white/55 backdrop-blur-lg rounded-3xl px-6 sm:px-10 py-10 shadow-xl ring-1 ring-white/40">
       <h1 class="font-serif text-5xl md:text-7xl font-bold leading-tight mb-4 tracking-tight reveal">
-        Aletheia <span class="bg-gradient-to-r from-blue-800 to-indigo-600 bg-clip-text text-transparent">Conversations</span>
+        From <span class="bg-gradient-to-r from-blue-800 to-indigo-600 bg-clip-text text-transparent">First Principles</span> to First Steps
       </h1>
 
-      <p class="text-base md:text-lg text-slate-700 max-w-3xl mx-auto mb-6 reveal">
-        Join <span class="font-semibold">Newman Nahas</span> as we explore our most fundamental questions by interviewing some of the most interesting and important thought leaders of our time.
+      <p class="text-base md:text-lg text-slate-700 max-w-3xl mx-auto mb-3 reveal">
+        Join <span class="font-semibold">Newman Nahas</span> as he talks with leading thinkers to connect timeless ideas to everyday decisions—faith, mind, health, money, and meaning.
+      </p>
+
+      <!-- Benefit line -->
+      <p class="text-sm md:text-base text-slate-600 max-w-2xl mx-auto mb-6 reveal">
+        Long‑form interviews that connect first principles to daily life.
       </p>
 
       <div class="h-14 flex items-center justify-center mb-6 reveal">
@@ -184,9 +203,12 @@
       </div>
 
       <div class="flex items-center justify-center gap-3">
-        <a href="#themes" class="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-gradient-to-r from-blue-900 to-indigo-700 text-white font-medium shadow-glow hover:brightness-110 transition">
-          Explore Themes
+        <a href="#cta" class="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-gradient-to-r from-blue-900 to-indigo-700 text-white font-medium shadow-glow hover:brightness-110 transition">
+          Hear the Launch Episodes First
           <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        </a>
+        <a href="mailto:your-email@example.com?subject=Podcast%20Guest%20Inquiry" class="inline-flex items-center gap-2 px-5 py-3 rounded-full border border-slate-300 text-slate-700 hover:bg-slate-100 transition font-medium">
+          Become a Guest
         </a>
         <button id="motionToggle" class="text-sm px-4 py-2 rounded-full border border-slate-300 text-slate-600 hover:bg-slate-100 transition hidden" type="button" aria-pressed="false">
           Animations are off — Play anyway
@@ -218,26 +240,26 @@
       <div class="grid md:grid-cols-3 gap-8">
         <div class="p-6 rounded-2xl bg-white/10 backdrop-blur reveal">
           <h3 class="text-xl font-bold mb-2">1. Interdisciplinary Approach</h3>
-          <p class="text-blue-100/90">Reality does not respect the boundaries we draw; neither will this podcast.</p>
+          <p class="text-blue-100/90">Reality doesn’t respect silos; neither do we. Expect episodes that cross philosophy, neuroscience, economics, and history.</p>
         </div>
         <div class="p-6 rounded-2xl bg-white/10 backdrop-blur reveal">
-          <h3 class="text-xl font-bold mb-2">2. Virtue Epistemology</h3>
-          <p class="text-blue-100/90">“The heart has its reasons which reason knows not.” — Blaise Pascal</p>
+          <h3 class="text-xl font-bold mb-2">2. The Epistemology of Virtue</h3>
+          <p class="text-blue-100/90">“The heart has its reasons which reason knows not.” — Blaise Pascal. So what: wisdom is not just about logic but about a purified heart and character.</p>
         </div>
         <div class="p-6 rounded-2xl bg-white/10 backdrop-blur reveal">
           <h3 class="text-xl font-bold mb-2">3. Embracing Dissent</h3>
-          <p class="text-blue-100/90">“He who knows only his own side of the case knows little of that.” — J.S. Mill</p>
+          <p class="text-blue-100/90">“He who knows only his own side of the case knows little of that.” — J.S. Mill. So what: guests with real disagreement, steel‑manned. We model how to argue without becoming arguments.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- THEMES (COMING SOON) -->
+  <!-- THEMES -->
   <section id="themes" class="py-24 px-6">
     <div class="max-w-7xl mx-auto">
       <div class="text-center mb-14">
-        <h2 class="font-serif text-4xl md:text-5xl font-bold mb-3 tracking-tight reveal">Conversations</h2>
-        <p class="text-2xl text-blue-800 font-bold tracking-wide reveal">COMING SOON</p>
+        <h2 class="font-serif text-4xl md:text-5xl font-bold mb-3 tracking-tight reveal">Themes</h2>
+        <p class="text-2xl text-blue-800 font-bold tracking-wide reveal">Season 1 is in production—join the list for early access</p>
       </div>
 
       <div class="grid md:grid-cols-2 gap-8">
@@ -245,20 +267,20 @@
         <div class="group p-8 bg-white/80 rounded-2xl shadow hover:shadow-xl transition-transform duration-300 hover:-translate-y-1 reveal">
           <div class="inline-flex p-3 rounded-xl bg-gradient-to-br from-amber-700 to-yellow-600 mb-4 text-white" aria-hidden="true">✨</div>
           <h3 class="font-serif text-2xl font-bold mb-2">God and Religion</h3>
-          <p class="text-slate-600 mb-3">Exploring God, faith, meaning, and religious life.</p>
+          <p class="text-slate-600 mb-3">Exploring God, faith, meaning, and religious life. We probe not just whether God exists, but what follows if He does.</p>
 
           <ul class="fancy-list fancy-god text-slate-800 space-y-2">
             <li class="bullet" id="li-g1">
               <button type="button" class="bullet-btn" aria-expanded="false" aria-controls="teaser-g1" aria-describedby="tip-g1">
-                <span class="bullet-text">How can we know whether God exists and what he is like?</span>
+                <span class="bullet-text">Knowing God</span>
                 <svg class="bullet-chev" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"/></svg>
               </button>
-              <span id="tip-g1" role="tooltip" class="tip">Natural theology, revelation, experience</span>
+              <span id="tip-g1" role="tooltip" class="tip">Reason, revelation, experience</span>
               <div id="teaser-g1" class="teasers" hidden>
                 <div class="teasers-inner">
                   <ul>
                     <li>What counts as evidence—reason, revelation, experience?</li>
-                    <li>What is God like—goodness, simplicity, personhood?</li>
+                    <li>What kind of knowledge of God is possible?</li>
                   </ul>
                 </div>
               </div>
@@ -266,15 +288,15 @@
 
             <li class="bullet" id="li-g2">
               <button type="button" class="bullet-btn" aria-expanded="false" aria-controls="teaser-g2" aria-describedby="tip-g2">
-                <span class="bullet-text">The problem of evil</span>
+                <span class="bullet-text">The Problem of Evil</span>
                 <svg class="bullet-chev" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"/></svg>
               </button>
               <span id="tip-g2" role="tooltip" class="tip">Suffering, freedom, justice</span>
               <div id="teaser-g2" class="teasers" hidden>
                 <div class="teasers-inner">
                   <ul>
-                    <li>Moral vs natural evil—do they need different answers?</li>
-                    <li>Free‑will defense vs soul‑making theodicy?</li>
+                    <li>Free‑will defense, soul‑making, and justice.</li>
+                    <li>Moral vs. natural evil—do they need different answers?</li>
                   </ul>
                 </div>
               </div>
@@ -282,15 +304,15 @@
 
             <li class="bullet" id="li-g3">
               <button type="button" class="bullet-btn" aria-expanded="false" aria-controls="teaser-g3" aria-describedby="tip-g3">
-                <span class="bullet-text">Eastern vs Western Christianity</span>
+                <span class="bullet-text">East &amp; West</span>
                 <svg class="bullet-chev" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"/></svg>
               </button>
-              <span id="tip-g3" role="tooltip" class="tip">Atonement, apophatic/cataphatic, theosis</span>
+              <span id="tip-g3" role="tooltip" class="tip">Apophatic &amp; cataphatic</span>
               <div id="teaser-g3" class="teasers" hidden>
                 <div class="teasers-inner">
                   <ul>
-                    <li>Filioque & councils—why did they matter?</li>
-                    <li>Theosis vs sanctification—two pathways?</li>
+                    <li>Apophatic vs. cataphatic paths—reasoning and awareness.</li>
+                    <li>Theosis and sanctification—where emphases meet and diverge.</li>
                   </ul>
                 </div>
               </div>
@@ -298,14 +320,14 @@
 
             <li class="bullet" id="li-g4">
               <button type="button" class="bullet-btn" aria-expanded="false" aria-controls="teaser-g4" aria-describedby="tip-g4">
-                <span class="bullet-text">Science and Religion</span>
+                <span class="bullet-text">Science &amp; Religion</span>
                 <svg class="bullet-chev" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"/></svg>
               </button>
               <span id="tip-g4" role="tooltip" class="tip">From Galileo to gene editing</span>
               <div id="teaser-g4" class="teasers" hidden>
                 <div class="teasers-inner">
                   <ul>
-                    <li>Conflict or complementarity—what models fit best?</li>
+                    <li>Conflict or synergy?</li>
                     <li>Where are the proper boundaries of each domain?</li>
                   </ul>
                 </div>
@@ -318,7 +340,7 @@
         <div class="group p-8 bg-white/80 rounded-2xl shadow hover:shadow-xl transition-transform duration-300 hover:-translate-y-1 reveal">
           <div class="inline-flex p-3 rounded-xl bg-gradient-to-br from-indigo-900 to-blue-700 mb-4 text-white" aria-hidden="true">🧠</div>
           <h3 class="font-serif text-2xl font-bold mb-2">The Mind and AI</h3>
-          <p class="text-slate-600 mb-3">Where code meets cognition—unraveling the mysteries of mind and machine.</p>
+          <p class="text-slate-600 mb-3">Where code meets cognition. We examine consciousness, agency, and the limits of computation—are we confusing fluent output for lived awareness?</p>
 
           <ul class="fancy-list fancy-ai text-slate-800 space-y-2">
             <li class="bullet" id="li-a1">
@@ -326,12 +348,12 @@
                 <span class="bullet-text">What is consciousness?</span>
                 <svg class="bullet-chev" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"/></svg>
               </button>
-              <span id="tip-a1" role="tooltip" class="tip">Hard problem, qualia, global workspace</span>
+              <span id="tip-a1" role="tooltip" class="tip">Hard problem, qualia, measurement</span>
               <div id="teaser-a1" class="teasers" hidden>
                 <div class="teasers-inner">
                   <ul>
                     <li>Is consciousness fundamental or emergent?</li>
-                    <li>How do we measure it—report vs behavior?</li>
+                    <li>How do we measure it—report vs. behavior?</li>
                   </ul>
                 </div>
               </div>
@@ -346,8 +368,8 @@
               <div id="teaser-a2" class="teasers" hidden>
                 <div class="teasers-inner">
                   <ul>
-                    <li>Passing tests vs genuine understanding</li>
-                    <li>Tool vs agent vs person—where’s the line?</li>
+                    <li>Passing tests vs. genuine understanding</li>
+                    <li>Tool vs. agent vs. person—where’s the line?</li>
                   </ul>
                 </div>
               </div>
@@ -363,7 +385,7 @@
                 <div class="teasers-inner">
                   <ul>
                     <li>Are bodies required for minds?</li>
-                    <li>Symbolic vs neural—hybrids that work?</li>
+                    <li>Symbolic vs. neural—hybrids that work?</li>
                   </ul>
                 </div>
               </div>
@@ -371,10 +393,10 @@
 
             <li class="bullet" id="li-a4">
               <button type="button" class="bullet-btn" aria-expanded="false" aria-controls="teaser-a4" aria-describedby="tip-a4">
-                <span class="bullet-text">Awareness vs Cognition</span>
+                <span class="bullet-text">Awareness vs. Cognition</span>
                 <svg class="bullet-chev" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"/></svg>
               </button>
-              <span id="tip-a4" role="tooltip" class="tip">Phenomenal vs access consciousness</span>
+              <span id="tip-a4" role="tooltip" class="tip">Phenomenal vs. access consciousness</span>
               <div id="teaser-a4" class="teasers" hidden>
                 <div class="teasers-inner">
                   <ul>
@@ -391,7 +413,7 @@
         <div class="group p-8 bg-white/80 rounded-2xl shadow hover:shadow-xl transition-transform duration-300 hover:-translate-y-1 reveal">
           <div class="inline-flex p-3 rounded-xl bg-gradient-to-br from-rose-700 to-pink-600 mb-4 text-white" aria-hidden="true">❤️</div>
           <h3 class="font-serif text-2xl font-bold mb-2">Health and Wellbeing</h3>
-          <p class="text-slate-600 mb-3">Evidence-based habits, longevity, fitness, and flourishing.</p>
+          <p class="text-slate-600 mb-3">Evidence‑based habits, longevity, fitness, and flourishing.</p>
 
           <ul class="fancy-list fancy-health text-slate-800 space-y-2">
             <li class="bullet" id="li-h1">
@@ -403,7 +425,7 @@
               <div id="teaser-h1" class="teasers" hidden>
                 <div class="teasers-inner">
                   <ul>
-                    <li>Evidence quality vs anecdotes—how to weigh them?</li>
+                    <li>Evidence quality vs. anecdotes—how to weigh them?</li>
                     <li>Personalization, adherence, and biomarkers</li>
                   </ul>
                 </div>
@@ -419,7 +441,7 @@
               <div id="teaser-h2" class="teasers" hidden>
                 <div class="teasers-inner">
                   <ul>
-                    <li>Zone 2 vs HIIT—what’s optimal for heart health?</li>
+                    <li>Zone 2 vs. HIIT—what’s optimal for heart health?</li>
                     <li>Lipids, inflammation, and lifestyle levers</li>
                   </ul>
                 </div>
@@ -436,7 +458,7 @@
                 <div class="teasers-inner">
                   <ul>
                     <li>Minimum effective dose across decades</li>
-                    <li>Strength vs hypertrophy—do you need both?</li>
+                    <li>Strength vs. hypertrophy—do you need both?</li>
                   </ul>
                 </div>
               </div>
@@ -451,7 +473,7 @@
               <div id="teaser-h4" class="teasers" hidden>
                 <div class="teasers-inner">
                   <ul>
-                    <li>Medical vs social models—where’s the tension?</li>
+                    <li>Medical vs. social models—where’s the tension?</li>
                     <li>Focus strategies beyond medication</li>
                   </ul>
                 </div>
@@ -464,7 +486,7 @@
         <div class="group p-8 bg-white/80 rounded-2xl shadow hover:shadow-xl transition-transform duration-300 hover:-translate-y-1 reveal">
           <div class="inline-flex p-3 rounded-xl bg-gradient-to-br from-emerald-700 to-teal-600 mb-4 text-white" aria-hidden="true">🧭</div>
           <h3 class="font-serif text-2xl font-bold mb-2">Practical Wisdom</h3>
-          <p class="text-slate-600 mb-3">Money, productivity, relationships, and the everyday art of living.</p>
+          <p class="text-slate-600 mb-3">Money, productivity, relationships, and parenting. We translate first principles into everyday decisions—because philosophy that won’t do the dishes is just theory.</p>
 
           <ul class="fancy-list fancy-practice text-slate-800 space-y-2">
             <li class="bullet" id="li-p1">
@@ -476,7 +498,7 @@
               <div id="teaser-p1" class="teasers" hidden>
                 <div class="teasers-inner">
                   <ul>
-                    <li>Passive vs active—what survives the data?</li>
+                    <li>Passive vs. active—what survives the data?</li>
                     <li>How do incentives shape markets?</li>
                   </ul>
                 </div>
@@ -485,7 +507,7 @@
 
             <li class="bullet" id="li-p2">
               <button type="button" class="bullet-btn" aria-expanded="false" aria-controls="teaser-p2" aria-describedby="tip-p2">
-                <span class="bullet-text">what are the secrets to productivity and life management?</span>
+                <span class="bullet-text">What are the secrets to productivity and life management?</span>
                 <svg class="bullet-chev" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"/></svg>
               </button>
               <span id="tip-p2" role="tooltip" class="tip">Capture, review, deep work</span>
@@ -493,7 +515,7 @@
                 <div class="teasers-inner">
                   <ul>
                     <li>Systems that survive busy seasons</li>
-                    <li>Energy management vs time management</li>
+                    <li>Energy management vs. time management</li>
                   </ul>
                 </div>
               </div>
@@ -517,14 +539,14 @@
 
             <li class="bullet" id="li-p4">
               <button type="button" class="bullet-btn" aria-expanded="false" aria-controls="teaser-p4" aria-describedby="tip-p4">
-                <span class="bullet-text">How to Parent</span>
+                <span class="bullet-text">Parenting that Works</span>
                 <svg class="bullet-chev" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"/></svg>
               </button>
               <span id="tip-p4" role="tooltip" class="tip">Boundaries, warmth, play</span>
               <div id="teaser-p4" class="teasers" hidden>
                 <div class="teasers-inner">
                   <ul>
-                    <li>Authoritative vs permissive—what outcomes?</li>
+                    <li>Authoritative vs. permissive—what outcomes?</li>
                     <li>Household rhythms that actually stick</li>
                   </ul>
                 </div>
@@ -534,6 +556,20 @@
         </div>
 
       </div>
+    </div>
+  </section>
+
+  <!-- SEASON 1 (Working Slate) -->
+  <section id="season1" class="py-16 px-6 bg-slate-50">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="font-serif text-3xl md:text-4xl font-bold tracking-tight mb-4">Season 1 (Working Slate)</h2>
+      <ol class="list-decimal pl-6 space-y-2 text-slate-700 text-lg">
+        <li><strong>Suffering and the Good God</strong> — Evil, freedom, and hope.</li>
+        <li><strong>Awareness Without Report</strong> — Consciousness at the edge cases.</li>
+        <li><strong>ApoB and the Practical Heart</strong> — Cardiovascular health that’s actionable.</li>
+        <li><strong>Systems You Can Keep</strong> — Productivity that survives busy seasons.</li>
+      </ol>
+      <p class="mt-4 text-slate-600">Join the list to help choose Episode 5.</p>
     </div>
   </section>
 
@@ -588,13 +624,44 @@
       </div>
       <div class="mx-auto text-slate-700 space-y-6 leading-relaxed text-lg">
         <p class="reveal">
-          I'm Newman Nahas. I studied philosophy and religion at Oxford as a Rhodes Scholar.
-          But throughout my life, I have struggled to sit still within the boundaries of any discipline.
-          Prior to grad school, I ended up taking classes in 13 disciplines.
+          <strong>Newman Nahas</strong> is the host of <em>Aletheia Conversations</em>, a show that connects first principles to daily life. A Rhodes Scholar who studied philosophy and religion at Oxford, Newman ranges across disciplines to ask better questions—and stick around for the answers.
         </p>
-        <p class="reveal">
-          Aletheia Conversations is my response to that struggle. It's a space for exploring the big philosophical questions of life and also the mundane and practical questions too.
-        </p>
+        <ul class="space-y-2 reveal">
+          <li>• Thoughtful guests from philosophy, neuroscience, economics, psychology, and beyond.</li>
+          <li>• Real disagreements.</li>
+          <li>• Evidence and rigor, reflection and compassion.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="py-24 px-6 bg-white">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-10">
+        <h2 class="font-serif text-4xl md:text-5xl font-bold tracking-tight">FAQ</h2>
+      </div>
+
+      <div class="space-y-8 text-slate-700 leading-relaxed text-lg">
+        <div>
+          <h3 class="font-semibold text-slate-900">Why “Aletheia”?</h3>
+          <p><em>Aletheia</em> (uh‑LAY‑thee‑uh) is Greek for “truth.”</p>
+        </div>
+
+        <div>
+          <h3 class="font-semibold text-slate-900">What’s the show format?</h3>
+          <p>One 60–90 minute conversation per episode, plus occasional short “Field Notes” on a single idea or practice.</p>
+        </div>
+
+        <div>
+          <h3 class="font-semibold text-slate-900">How do you handle disagreement?</h3>
+          <p>We welcome it. We steel‑man each other’s views, ask for the best evidence, and keep it human. Clarity over victory.</p>
+        </div>
+
+        <div>
+          <h3 class="font-semibold text-slate-900">How can I support the show?</h3>
+          <p>Join the list, share an episode when it lands, or introduce us to a guest we should meet.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -609,18 +676,21 @@
     <div class="relative max-w-3xl mx-auto">
       <h2 class="text-3xl md:text-4xl font-serif font-bold mb-4 tracking-tight reveal">Be part of the conversation</h2>
       <p class="text-lg mb-8 reveal">
-        Interested in being on the podcast? Subscribe to hear first when the initial four episodes are released.
+        Season 1 releases soon! Join for early access to the first four episodes, reading lists, and behind‑the‑scenes notes. No spam—unsubscribe anytime.
       </p>
       <div class="flex flex-col sm:flex-row justify-center gap-4 reveal">
-        <!-- Replace mailto with your real address -->
-        <a href="mailto:your-email@example.com?subject=Podcast%20Guest%20Inquiry"
-           class="bg-white text-blue-700 font-semibold py-3 px-6 rounded-full shadow-lg hover:shadow-xl hover:brightness-95 transition">
-          Contact Me
+        <a href="mailto:your-email@example.com?subject=Early%20Access%20Request"
+           class="bg-white text-blue-700 font-semibold py-3 px-6 rounded-full shadow-lg hover:shadow-xl hover:brightness-95 transition"
+           aria-label="Get Early Access — two emails before launch plus show notes">
+          Get Early Access
         </a>
-        <!-- Replace with your newsletter/signup link -->
-        <a href="mailto:your-email@example.com?subject=Subscribe%20to%20Aletheia%20Updates"
+        <a href="mailto:your-email@example.com?subject=Podcast%20Guest%20Nomination"
            class="bg-gradient-to-r from-indigo-400 to-indigo-600 text-white font-semibold py-3 px-6 rounded-full shadow-lg hover:shadow-xl hover:brightness-110 transition">
-          Subscribe for Launch
+          Nominate a Guest
+        </a>
+        <a href="mailto:your-email@example.com?subject=Topic%20Nomination"
+           class="bg-white/90 text-blue-700 font-semibold py-3 px-6 rounded-full shadow-lg hover:shadow-xl hover:brightness-95 transition">
+          Nominate a Topic
         </a>
       </div>
     </div>
@@ -638,7 +708,7 @@
         </div>
         <span class="font-serif text-lg font-bold text-white">Aletheia Conversations</span>
       </div>
-      <p class="text-sm">© <span id="year"></span> Aletheia Conversations. Dedicated to the pursuit of truth through compassionate dialogue.</p>
+      <p class="text-sm">© <span id="year"></span> Aletheia Conversations. Dedicated to the pursuit of truth through compassionate, rigorous dialogue.</p>
     </div>
   </footer>
 
@@ -662,7 +732,11 @@
       "What is consciousness?",
       "How do we know what we know?",
       "What is justice?",
-      "What is health?"
+      "What is health?",
+      "Are we confusing fluent output with lived awareness?",
+      "What keeps love alive on a Tuesday?",
+      "When does evidence become evidence‑biased?",
+      "What’s the minimum effective dose of wisdom?"
     ];
     const qEl = document.getElementById('bigQuestion');
 
@@ -791,7 +865,16 @@
         { t: "There are no separate systems. The world is a continuum.", a: "Donella Meadows" },
         { t: "Nature is not organized in the same way that universities are.", a: "Russell Ackoff" },
         { t: "The truth is a snare: you cannot have it, without being caught. You cannot have the truth in such a way that you catch it, but only in such a way that it catches you.", a: "Søren Kierkegaard" },
-        { t: "We know more than we can tell.", a: "Michael Polanyi" }
+        { t: "We know more than we can tell.", a: "Michael Polanyi" },
+
+        // New classics
+        { t: "All models are wrong, but some are useful.", a: "George Box" },
+        { t: "The map is not the territory.", a: "Alfred Korzybski" },
+        { t: "The unexamined life is not worth living.", a: "Socrates" },
+
+        // House lines
+        { t: "We do disagreement with dignity.", a: "Aletheia Conversations" },
+        { t: "Clarity over victory. Curiosity over certainty.", a: "Aletheia Conversations" }
       ];
 
       const iText   = document.getElementById('insightText');
@@ -805,7 +888,7 @@
       let idx = 0;
       let timer = null;
       const interval = 6000;
-      let playing = true; // force autoplay
+      let playing = true; // autoplay
 
       function render(i, instant = false) {
         iText.style.opacity = 0;
