@@ -3,25 +3,15 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Aletheia Conversations—The Podcast that goes from First Principles to First Steps</title>
-  <meta name="description" content="A long‑form interview show where theology, philosophy, science, and practical wisdom meet. Join Newman Nahas for candid, evidence‑minded conversations." />
-
-  <!-- Open Graph / Twitter -->
-  <meta property="og:title" content="Aletheia Conversations—The Podcast that goes from First Principles to First Steps" />
-  <meta property="og:description" content="Nuanced interviews on God, mind, health, and practical wisdom—seeking truth with charity and rigor. Get early access to the first four episodes." />
-  <meta property="og:type" content="website" />
-  <meta property="og:image" content="/og-image.jpg" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Aletheia Conversations—The Podcast that goes from First Principles to First Steps" />
-  <meta name="twitter:description" content="Nuanced interviews on God, mind, health, and practical wisdom—seeking truth with charity and rigor. Get early access to the first four episodes." />
-  <meta name="twitter:image" content="/og-image.jpg" />
+  <title>Aletheia Conversations:  A Podcast that Goes from First Principles to First Steps</title>
+  <meta name="description" content="Aletheia Conversations — the podcast that goes from first principles to first steps. Host: Newman Nahas." />
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
 
-  <!-- Tailwind CSS via CDN -->
+  <!-- Tailwind via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -33,6 +23,14 @@
           },
           boxShadow: {
             'glow': '0 10px 30px -5px rgba(30,64,175,.25), 0 6px 12px -6px rgba(30,64,175,.3)'
+          },
+          keyframes: {
+            float: { '0%,100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-12px)' } },
+            drift: { '0%': { transform: 'rotate(0deg) translateX(var(--r)) rotate(0deg)' }, '100%': { transform: 'rotate(360deg) translateX(var(--r)) rotate(-360deg)' } }
+          },
+          animation: {
+            float: 'float 5s ease-in-out infinite',
+            drift: 'drift var(--t) linear infinite'
           }
         }
       }
@@ -40,106 +38,83 @@
   </script>
 
   <style>
+    html, body { height: 100%; scroll-behavior: smooth; }
     /* Anchor offset so headings aren't hidden under the fixed nav */
-    #vision, #season1, #quotes, #about, #faq, #cta { scroll-margin-top: 96px; }
+    #why, #season1, #about, #cta, #quiz { scroll-margin-top: 96px; }
 
-    /* Reveal-on-scroll */
-    .reveal { opacity: 0; transform: translateY(14px); transition: opacity 600ms ease, transform 600ms ease; }
-    .reveal.show { opacity: 1; transform: translateY(0); }
-
-    /* Brand small-caps blue */
-    .brand-sc {
-      font-variant: small-caps;
-      letter-spacing: .04em;
-      background: linear-gradient(90deg, #1e3a8a, #2563eb);
-      -webkit-background-clip: text; background-clip: text;
-      color: transparent;
-    }
-
-    /* Typewriter caret */
+    .brand-sc { font-variant-caps: small-caps; letter-spacing: .06em; }
     .caret::after {
-      content: '';
-      display: inline-block;
-      width: 2px; height: 1em; background: currentColor; margin-left: 4px;
-      transform: translateY(0.15em);
+      content: ''; display: inline-block; width: 2px; height: 1em;
+      background: currentColor; margin-left: 4px; transform: translateY(.18em);
       animation: blink 1s steps(1, end) infinite; opacity: .7;
     }
     @keyframes blink { 50% { opacity: 0; } }
 
-    /* Fancy bullets — semantic lists with custom gradient markers */
+    /* Reveal-on-scroll (kept subtle) */
+    .reveal { opacity: 0; transform: translateY(14px); transition: opacity 600ms ease, transform 600ms ease; }
+    .reveal.show { opacity: 1; transform: translateY(0); }
+
+    /* Fancy bullets */
     .fancy-list { list-style: none; margin: 0; padding: 0; }
-    .fancy-list li { position: relative; padding-left: 1.75rem; line-height: 1.6; }
+    .fancy-list li { position: relative; padding-left: 1.55rem; line-height: 1.6; }
     .fancy-list li::before {
-      content: '';
-      position: absolute; left: 0; top: .62em;
-      width: .55rem; height: .55rem; border-radius: 9999px;
-      background: linear-gradient(135deg, var(--bullet-from), var(--bullet-to));
-      box-shadow: 0 0 0 2px rgba(255,255,255,.9), 0 0 18px rgba(99,102,241,.35);
-      transition: transform .2s ease, box-shadow .2s ease;
+      content: ''; position: absolute; left: 0; top: .62em; width: .5rem; height: .5rem; border-radius: 9999px;
+      background: linear-gradient(135deg, var(--b-from), var(--b-to));
+      box-shadow: 0 0 0 2px rgba(255,255,255,.9), 0 0 14px rgba(99,102,241,.3);
     }
-    .fancy-list li:hover::before, .fancy-list li:focus-within::before {
-      transform: scale(1.18);
-      box-shadow: 0 0 0 2px rgba(255,255,255,.95), 0 0 26px rgba(99,102,241,.45);
+    .fancy-god      { --b-from:#f59e0b; --b-to:#d97706; }  /* amber */
+    .fancy-ai       { --b-from:#4338ca; --b-to:#1e3a8a; }  /* indigo/blue */
+    .fancy-health   { --b-from:#be123c; --b-to:#db2777; }  /* rose/pink */
+    .fancy-practice { --b-from:#059669; --b-to:#0d9488; }  /* emerald/teal */
+
+    /* Quotes orbit chips */
+    .orbit { position: absolute; inset: 0; pointer-events: none; }
+    .orbit .chip {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      background: rgba(255,255,255,.8); border: 1px solid rgba(15,23,42,.08);
+      box-shadow: 0 8px 24px rgba(2,6,23,.12);
+      padding: .4rem .6rem; border-radius: .7rem; font-size: .8rem; color: #334155;
+      display: inline-flex; align-items: center; gap: .35rem; white-space: nowrap;
     }
-    .fancy-god      { --bullet-from: #f59e0b; --bullet-to: #d97706; }
-    .fancy-ai       { --bullet-from: #4338ca; --bullet-to: #1e3a8a; }
-    .fancy-health   { --bullet-from: #be123c; --bullet-to: #db2777; }
-    .fancy-practice { --bullet-from: #059669; --bullet-to: #0d9488; }
+    .orbit .chip i { opacity: .7; }
+    .orbit .chip { animation: drift var(--t) linear infinite; transform-origin: 0 0; }
 
-    /* Bullet row button */
-    .bullet-btn { width: 100%; text-align: left; display: flex; align-items: center; justify-content: space-between; gap: .75rem; padding: .25rem 0; color: #1f2937; transition: color .2s ease; }
-    .bullet-btn:hover, .bullet-btn:focus-visible { color: #0f172a; }
-    .bullet-chev { width: 1rem; height: 1rem; opacity: .6; transition: transform .2s ease, opacity .2s ease; }
-    .bullet-btn[aria-expanded="true"] .bullet-chev { transform: rotate(180deg); opacity: .9; }
-
-    /* Tooltip */
-    .tip { position: absolute; left: 1.75rem; top: 100%; margin-top: .35rem; background: rgba(15,23,42,.95); color: white; font-size: .85rem; padding: .35rem .55rem; border-radius: .5rem; box-shadow: 0 8px 24px rgba(2,6,23,.28); opacity: 0; visibility: hidden; transform: translateY(-4px); transition: opacity .15s ease, transform .15s ease; pointer-events: none; z-index: 20; white-space: nowrap; }
-    .tip::after { content: ''; position: absolute; top: -6px; left: 10px; border-width: 6px; border-style: solid; border-color: transparent transparent rgba(15,23,42,.95) transparent; }
-    li:hover > .tip, li:focus-within > .tip, .tip.show { opacity: 1; visibility: visible; transform: translateY(0); }
-
-    /* Teaser panel (micro-accordion) */
-    .teasers { overflow: hidden; height: 0; }
-    .teasers-inner { padding: .35rem 0 .15rem 0; }
-    .teasers li { color: #475569; padding-left: 1.2rem; position: relative; }
-    .teasers li::before { content: '–'; position: absolute; left: 0; top: 0; color: #94a3b8; }
-
-    /* Quote game */
-    .choice {
-      display: inline-flex; align-items: center; gap: .5rem;
-      padding: .6rem .9rem; border-radius: 9999px; border: 1px solid #e2e8f0;
-      background: white; color: #0f172a; font-weight: 600;
-      transition: transform .08s ease, box-shadow .15s ease, border-color .15s ease;
-    }
-    .choice:hover { transform: translateY(-1px); box-shadow: 0 8px 16px -8px rgba(2,6,23,.18); }
-    .choice.correct { background: #ecfeff; border-color: #22d3ee; box-shadow: 0 0 0 3px rgba(34,211,238,.25) inset; }
-    .choice.wrong { background: #fff1f2; border-color: #fb7185; box-shadow: 0 0 0 3px rgba(251,113,133,.25) inset; }
+    /* Quiz card */
+    .quiz-card button.choice { border:1px solid rgba(15,23,42,.15); }
+    .quiz-card button.choice:hover { border-color: rgba(15,23,42,.28); background: rgba(2,6,23,.03); }
+    .quiz-card .correct { background:#ecfdf5; border-color:#10b981 !important; }
+    .quiz-card .wrong   { background:#fef2f2; border-color:#ef4444 !important; }
 
     /* Respect reduced motion */
     @media (prefers-reduced-motion: reduce) {
       .reveal { opacity: 1 !important; transform: none !important; }
-      .caret::after { animation: none; }
-      .teasers { height: auto !important; }
+      .orbit .chip { animation: none !important; }
     }
-
-    html, body { height: 100%; }
   </style>
 </head>
 <body class="min-h-screen bg-gradient-to-b from-slate-50 to-white text-slate-800 font-sans">
 
+  <!-- Force start at the top unless there's an anchor -->
+  <script>
+    window.addEventListener('load', () => { if (!location.hash) window.scrollTo(0,0); });
+  </script>
+
   <!-- Skip link -->
-  <a href="#vision" class="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 bg-blue-700 text-white px-3 py-2 rounded">Skip to main content</a>
+  <a href="#why" class="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 bg-blue-700 text-white px-3 py-2 rounded">
+    Skip to main content
+  </a>
 
   <!-- NAVBAR -->
   <nav id="siteNav" class="fixed top-0 w-full z-50 bg-white/60 backdrop-blur-md py-4 transition-all">
     <div class="max-w-7xl mx-auto px-6 flex items-center justify-between">
-      <a href="#vision" class="flex items-center gap-3">
+      <a href="#top" class="flex items-center gap-3" aria-label="Aletheia Conversations Home">
         <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-900 to-blue-700 flex items-center justify-center shadow-glow" aria-hidden="true">
           <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor">
             <circle cx="12" cy="12" r="3" stroke-width="2"></circle>
             <path d="M19.5 12A7.5 7.5 0 106.5 12" stroke-width="2"></path>
           </svg>
         </div>
-        <span class="font-serif text-2xl font-bold tracking-tight brand-sc">Aletheia Conversations</span>
+        <span class="font-serif text-xl font-bold tracking-tight">Aletheia Conversations</span>
       </a>
 
       <button id="menuBtn" class="md:hidden p-2" aria-label="Toggle menu">
@@ -149,93 +124,69 @@
       </button>
 
       <ul id="navLinks" class="hidden md:flex items-center gap-8">
-        <li><a href="#vision"   class="text-slate-700 hover:text-blue-800 transition-colors">Vision</a></li>
-        <li><a href="#season1"  class="text-slate-700 hover:text-blue-800 transition-colors">Season 1</a></li>
-        <li><a href="#quotes"   class="text-slate-700 hover:text-blue-800 transition-colors">Quotes</a></li>
-        <li><a href="#about"    class="text-slate-700 hover:text-blue-800 transition-colors">About</a></li>
-        <li><a href="#faq"      class="text-slate-700 hover:text-blue-800 transition-colors">FAQ</a></li>
-        <li><a href="#cta"      class="px-5 py-2 bg-gradient-to-r from-blue-900 to-blue-700 text-white rounded-full shadow-glow hover:brightness-110 transition">Get Early Access</a></li>
+        <li><a href="#why"     class="text-slate-700 hover:text-blue-800 transition-colors">Why this show</a></li>
+        <li><a href="#season1" class="text-slate-700 hover:text-blue-800 transition-colors">Season 1</a></li>
+        <li><a href="#quiz"    class="text-slate-700 hover:text-blue-800 transition-colors">Quotes & Quiz</a></li>
+        <li><a href="#about"   class="text-slate-700 hover:text-blue-800 transition-colors">About</a></li>
+        <li><a href="#cta"     class="px-5 py-2 bg-gradient-to-r from-blue-900 to-blue-700 text-white rounded-full shadow-glow hover:brightness-110 transition">Get Early Access</a></li>
       </ul>
     </div>
-
-    <!-- Mobile menu -->
     <div id="mobileMenu" class="md:hidden hidden bg-white shadow-xl">
       <div class="flex flex-col p-6 gap-4">
-        <a href="#vision"  class="text-slate-700 hover:text-blue-800 font-medium">Vision</a>
+        <a href="#why"     class="text-slate-700 hover:text-blue-800 font-medium">Why this show</a>
         <a href="#season1" class="text-slate-700 hover:text-blue-800 font-medium">Season 1</a>
-        <a href="#quotes"  class="text-slate-700 hover:text-blue-800 font-medium">Quotes</a>
+        <a href="#quiz"    class="text-slate-700 hover:text-blue-800 font-medium">Quotes & Quiz</a>
         <a href="#about"   class="text-slate-700 hover:text-blue-800 font-medium">About</a>
-        <a href="#faq"     class="text-slate-700 hover:text-blue-800 font-medium">FAQ</a>
         <a href="#cta"     class="text-slate-700 hover:text-blue-800 font-medium">Get Early Access</a>
       </div>
     </div>
   </nav>
 
-  <!-- HERO / VISION -->
-  <header id="vision" class="relative min-h-[92vh] flex items-center justify-center px-6 pt-28 overflow-hidden">
+  <!-- HERO -->
+  <header id="top" class="relative min-h-[88vh] flex items-center justify-center px-6 pt-28 overflow-hidden">
     <canvas id="constellation" class="absolute inset-0 -z-10"></canvas>
 
     <div class="max-w-5xl mx-auto text-center bg-white/55 backdrop-blur-lg rounded-3xl px-6 sm:px-10 py-10 shadow-xl ring-1 ring-white/40">
-      <h1 class="font-serif text-4xl md:text-6xl font-bold leading-tight mb-4 tracking-tight reveal">
-        <span class="brand-sc">Aletheia Conversations</span>—The Podcast that goes from First Principles to First Steps
+      <h1 class="font-serif text-[2.6rem] md:text-[3.2rem] font-bold leading-[1.15] tracking-tight mb-4 reveal">
+        <span class="brand-sc bg-gradient-to-r from-sky-700 to-blue-900 bg-clip-text text-transparent">Aletheia Conversations</span>
+        <span class="text-slate-700">—</span>
+        <span class="block mt-1">The Podcast that goes from First Principles to First Steps</span>
       </h1>
 
-      <p class="text-base md:text-lg text-slate-700 max-w-3xl mx-auto mb-6 reveal">
-        Join <span class="font-semibold">Newman Nahas</span> as he talks with leading thinkers to connect timeless ideas to everyday decisions—faith, mind, health, money, and meaning.
-      </p>
-
-      <div class="h-14 flex items-center justify-center mb-6 reveal">
-        <span id="bigQuestion" class="caret text-xl md:text-2xl text-slate-900 font-semibold"></span>
-      </div>
-
-      <div class="flex items-center justify-center gap-3">
-        <a href="#cta" class="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-gradient-to-r from-blue-900 to-indigo-700 text-white font-medium shadow-glow hover:brightness-110 transition">
-          Hear the Launch Episodes First
-          <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-        </a>
-        <a href="mailto:your-email@example.com?subject=Podcast%20Guest%20Inquiry" class="inline-flex items-center gap-2 px-5 py-3 rounded-full border border-slate-300 text-slate-700 hover:bg-slate-100 transition font-medium">
-          Become a Guest
-        </a>
-        <button id="motionToggle" class="text-sm px-4 py-2 rounded-full border border-slate-300 text-slate-600 hover:bg-slate-100 transition hidden" type="button" aria-pressed="false">
-          Animations are off — Play anyway
-        </button>
+      <!-- Typewriter (original five; slower) -->
+      <div class="h-12 flex items-center justify-center mb-2 reveal">
+        <span id="bigQuestion" class="caret text-lg md:text-xl text-slate-900 font-semibold"></span>
       </div>
     </div>
 
+    <!-- soft glows -->
     <div class="pointer-events-none absolute inset-0 -z-10"
-         style="background: radial-gradient(1200px 600px at 50% 20%, rgba(255,255,255,.6), rgba(255,255,255,0) 60%),
-                        radial-gradient(800px 400px at 90% 80%, rgba(59,130,246,.12), rgba(59,130,246,0) 60%),
-                        radial-gradient(800px 400px at 10% 80%, rgba(236,72,153,.12), rgba(236,72,153,0) 60%);"></div>
+         style="background: radial-gradient(1100px 520px at 50% 20%, rgba(255,255,255,.6), rgba(255,255,255,0) 60%),
+                        radial-gradient(700px 340px at 85% 80%, rgba(59,130,246,.10), rgba(59,130,246,0) 60%),
+                        radial-gradient(700px 340px at 15% 80%, rgba(236,72,153,.10), rgba(236,72,153,0) 60%);"></div>
   </header>
 
-  <!-- DIFFERENTIATOR (replacing Guiding Principles subtitle) -->
-  <section class="py-24 px-6 bg-gradient-to-br from-blue-900 to-indigo-900 text-white relative overflow-hidden">
-    <div class="absolute inset-0 opacity-10" aria-hidden="true">
-      <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" stroke-width="1"/>
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#grid)" />
-      </svg>
-    </div>
-
+  <!-- WHY THIS SHOW -->
+  <section id="why" class="py-20 px-6 bg-gradient-to-br from-blue-900 to-indigo-900 text-white relative overflow-hidden">
     <div class="relative max-w-6xl mx-auto">
-      <h2 class="text-center font-serif text-4xl md:text-5xl font-bold mb-12 tracking-tight reveal">What makes this podcast different?</h2>
+      <h2 class="text-center font-serif text-4xl md:text-5xl font-extrabold tracking-tight mb-2">What makes this podcast different?</h2>
+      <p class="text-center text-blue-100/90 mb-12 text-base md:text-lg">From first principles to first steps—ideas you can live with.</p>
 
       <div class="grid md:grid-cols-3 gap-8">
-        <div class="p-7 md:p-8 rounded-2xl bg-white/10 backdrop-blur reveal ring-1 ring-white/15 hover:ring-white/25 transition">
-          <h3 class="text-2xl font-bold mb-3">1. Interdisciplinary Approach</h3>
-          <p class="text-blue-100/95 text-lg">Reality doesn’t respect the boundaries of our disciplines; neither will this podcast.</p>
+        <div class="p-7 rounded-2xl bg-white/10 backdrop-blur reveal">
+          <div class="text-2xl mb-2">🧭</div>
+          <h3 class="text-xl md:text-2xl font-bold mb-2">Interdisciplinary approach</h3>
+          <p class="text-blue-100/90">Reality doesn’t respect the boundaries of our disciplines; neither will this podcast.</p>
         </div>
-        <div class="p-7 md:p-8 rounded-2xl bg-white/10 backdrop-blur reveal ring-1 ring-white/15 hover:ring-white/25 transition">
-          <h3 class="text-2xl font-bold mb-3">2. Focus on Virtue</h3>
-          <p class="text-blue-100/95 text-lg">Wisdom is not just about thinking soundly but about living well. Expect conversations that explore the practical alongside the theoretical.</p>
+        <div class="p-7 rounded-2xl bg-white/10 backdrop-blur reveal">
+          <div class="text-2xl mb-2">💠</div>
+          <h3 class="text-xl md:text-2xl font-bold mb-2">Focus on virtue</h3>
+          <p class="text-blue-100/90">Wisdom is not just about thinking soundly but about living well.</p>
         </div>
-        <div class="p-7 md:p-8 rounded-2xl bg-white/10 backdrop-blur reveal ring-1 ring-white/15 hover:ring-white/25 transition">
-          <h3 class="text-2xl font-bold mb-3">3. Embracing Dissent</h3>
-          <p class="text-blue-100/95 text-lg">If you only know your side, you don't know your side.</p>
+        <div class="p-7 rounded-2xl bg-white/10 backdrop-blur reveal">
+          <div class="text-2xl mb-2">🤝</div>
+          <h3 class="text-xl md:text-2xl font-bold mb-2">Embracing dissent</h3>
+          <p class="text-blue-100/90">If you only know your side, you don’t know your side.</p>
         </div>
       </div>
     </div>
@@ -245,7 +196,7 @@
   <section id="season1" class="py-24 px-6">
     <div class="max-w-7xl mx-auto">
       <div class="text-center mb-14">
-        <h2 class="font-serif text-4xl md:text-5xl font-bold mb-3 tracking-tight reveal">Season 1</h2>
+        <h2 class="font-serif text-4xl md:text-5xl font-bold mb-1 tracking-tight reveal">Season 1’s Episodes</h2>
         <p class="text-2xl text-blue-800 font-bold tracking-wide reveal">COMING SOON</p>
       </div>
 
@@ -253,138 +204,39 @@
         <!-- God & Religion -->
         <div class="group p-8 bg-white/80 rounded-2xl shadow hover:shadow-xl transition-transform duration-300 hover:-translate-y-1 reveal">
           <div class="inline-flex p-3 rounded-xl bg-gradient-to-br from-amber-700 to-yellow-600 mb-4 text-white" aria-hidden="true">✨</div>
-          <h3 class="font-serif text-2xl font-bold mb-2">God and Religion</h3>
-          <p class="text-slate-600 mb-3">Exploring God, faith, meaning, and religious life. We probe not just whether God exists, but what follows if He does.</p>
+          <h3 class="font-serif text-2xl font-bold mb-2">God & Religion</h3>
+          <p class="text-slate-600 mb-3">Exploring God, faith, meaning, and religious life.</p>
           <ul class="fancy-list fancy-god text-slate-800 space-y-2">
-            <li class="bullet" id="li-g1">
-              <button type="button" class="bullet-btn" aria-expanded="false" aria-controls="teaser-g1" aria-describedby="tip-g1">
-                <span class="bullet-text">Knowing God</span>
-                <svg class="bullet-chev" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"/></svg>
-              </button>
-              <span id="tip-g1" role="tooltip" class="tip">Reason, revelation, experience</span>
-              <div id="teaser-g1" class="teasers" hidden>
-                <div class="teasers-inner">
-                  <ul>
-                    <li>What counts as evidence—reason, revelation, experience?</li>
-                    <li>What kind of knowledge of God is possible?</li>
-                  </ul>
-                </div>
-              </div>
-            </li>
-            <li class="bullet" id="li-g2">
-              <button type="button" class="bullet-btn" aria-expanded="false" aria-controls="teaser-g2" aria-describedby="tip-g2">
-                <span class="bullet-text">The Problem of Evil</span>
-                <svg class="bullet-chev" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"/></svg>
-              </button>
-              <span id="tip-g2" role="tooltip" class="tip">Suffering, freedom, justice</span>
-              <div id="teaser-g2" class="teasers" hidden>
-                <div class="teasers-inner">
-                  <ul>
-                    <li>Free‑will defense, soul‑making, and justice.</li>
-                    <li>Moral vs. natural evil—do they need different answers?</li>
-                  </ul>
-                </div>
-              </div>
-            </li>
-            <li class="bullet" id="li-g3">
-              <button type="button" class="bullet-btn" aria-expanded="false" aria-controls="teaser-g3" aria-describedby="tip-g3">
-                <span class="bullet-text">East &amp; West</span>
-                <svg class="bullet-chev" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"/></svg>
-              </button>
-              <span id="tip-g3" role="tooltip" class="tip">Apophatic &amp; cataphatic</span>
-              <div id="teaser-g3" class="teasers" hidden>
-                <div class="teasers-inner">
-                  <ul>
-                    <li>Reasoning and awareness on different paths.</li>
-                    <li>Theosis and sanctification—where emphases meet and diverge.</li>
-                  </ul>
-                </div>
-              </div>
-            </li>
-            <li class="bullet" id="li-g4">
-              <button type="button" class="bullet-btn" aria-expanded="false" aria-controls="teaser-g4" aria-describedby="tip-g4">
-                <span class="bullet-text">Science &amp; Religion</span>
-                <svg class="bullet-chev" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"/></svg>
-              </button>
-              <span id="tip-g4" role="tooltip" class="tip">From Galileo to gene editing</span>
-              <div id="teaser-g4" class="teasers" hidden>
-                <div class="teasers-inner">
-                  <ul>
-                    <li>Conflict or synergy?</li>
-                    <li>Where are the proper boundaries of each domain?</li>
-                  </ul>
-                </div>
-              </div>
-            </li>
+            <li><strong>Knowing God:</strong> What counts as evidence—reason, revelation, experience?</li>
+            <li><strong>The Problem of Evil:</strong> Free‑will defense vs. soul‑making?</li>
+            <li><strong>East & West:</strong> Apophatic vs. cataphatic paths.</li>
+            <li><strong>Science & Religion:</strong> Conflict or synergy?</li>
           </ul>
         </div>
 
         <!-- Mind & AI -->
         <div class="group p-8 bg-white/80 rounded-2xl shadow hover:shadow-xl transition-transform duration-300 hover:-translate-y-1 reveal">
           <div class="inline-flex p-3 rounded-xl bg-gradient-to-br from-indigo-900 to-blue-700 mb-4 text-white" aria-hidden="true">🧠</div>
-          <h3 class="font-serif text-2xl font-bold mb-2">The Mind and AI</h3>
-          <p class="text-slate-600 mb-3">Where code meets cognition. We examine consciousness, agency, and the limits of computation—are we confusing fluent output for lived awareness?</p>
+          <h3 class="font-serif text-2xl font-bold mb-2">The Mind & AI</h3>
+          <p class="text-slate-600 mb-3">Where code meets cognition—consciousness, agency, and the limits of computation.</p>
           <ul class="fancy-list fancy-ai text-slate-800 space-y-2">
-            <li class="bullet" id="li-a1">
-              <button type="button" class="bullet-btn" aria-expanded="false" aria-controls="teaser-a1" aria-describedby="tip-a1">
-                <span class="bullet-text">What is consciousness?</span>
-                <svg class="bullet-chev" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"/></svg>
-              </button>
-              <span id="tip-a1" role="tooltip" class="tip">Hard problem, qualia, measurement</span>
-              <div id="teaser-a1" class="teasers" hidden>
-                <div class="teasers-inner">
-                  <ul>
-                    <li>Is consciousness fundamental or emergent?</li>
-                    <li>How do we measure it—report vs. behavior?</li>
-                  </ul>
-                </div>
-              </div>
-            </li>
-            <li class="bullet" id="li-a2">
-              <button type="button" class="bullet-btn" aria-expanded="false" aria-controls="teaser-a2" aria-describedby="tip-a2">
-                <span class="bullet-text">Can machines think?</span>
-                <svg class="bullet-chev" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"/></svg>
-              </button>
-              <span id="tip-a2" role="tooltip" class="tip">Turing tests, Chinese Room, agency</span>
-              <div id="teaser-a2" class="teasers" hidden>
-                <div class="teasers-inner">
-                  <ul>
-                    <li>Passing tests vs. genuine understanding</li>
-                    <li>Tool vs. agent vs. person—where’s the line?</li>
-                  </ul>
-                </div>
-              </div>
-            </li>
-            <li class="bullet" id="li-a3">
-              <button type="button" class="bullet-btn" aria-expanded="false" aria-controls="teaser-a3" aria-describedby="tip-a3">
-                <span class="bullet-text">Where does computation end and cognition begin?</span>
-                <svg class="bullet-chev" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"/></svg>
-              </button>
-              <span id="tip-a3" role="tooltip" class="tip">Embodiment, symbols, predictive processing</span>
-              <div id="teaser-a3" class="teasers" hidden>
-                <div class="teasers-inner">
-                  <ul>
-                    <li>Are bodies required for minds?</li>
-                    <li>Symbolic vs. neural—hybrids that work?</li>
-                  </ul>
-                </div>
-              </div>
-            </li>
-            <li class="bullet" id="li-a4">
-              <button type="button" class="bullet-btn" aria-expanded="false" aria-controls="teaser-a4" aria-describedby="tip-a4">
-                <span class="bullet-text">Awareness vs. Cognition</span>
-                <svg class="bullet-chev" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"/></svg>
-              </button>
-              <span id="tip-a4" role="tooltip" class="tip">Phenomenal vs. access consciousness</span>
-              <div id="teaser-a4" class="teasers" hidden>
-                <div class="teasers-inner">
-                  <ul>
-                    <li>Can awareness exist without report?</li>
-                    <li>Metacognition and self‑models</li>
-                  </ul>
-                </div>
-              </div>
-            </li>
+            <li><strong>What is consciousness?</strong> Hard problem, qualia, measurement.</li>
+            <li><strong>Can machines think?</strong> Turing, Chinese Room, agency.</li>
+            <li><strong>Computation vs. Cognition:</strong> Symbols, embodiment, predictive processing.</li>
+            <li><strong>Awareness vs. Access:</strong> Phenomenal experience & self‑models.</li>
+          </ul>
+        </div>
+
+        <!-- Health & Wellbeing -->
+        <div class="group p-8 bg-white/80 rounded-2xl shadow hover:shadow-xl transition-transform duration-300 hover:-translate-y-1 reveal">
+          <div class="inline-flex p-3 rounded-xl bg-gradient-to-br from-rose-700 to-pink-600 mb-4 text-white" aria-hidden="true">❤️</div>
+          <h3 class="font-serif text-2xl font-bold mb-2">Health & Wellbeing</h3>
+          <p class="text-slate-600 mb-3">Evidence‑based habits for a long, strong life.</p>
+          <ul class="fancy-list fancy-health text-slate-800 space-y-2">
+            <li><strong>Diet Wars, de‑dramatised:</strong> Evidence quality, adherence, personalization.</li>
+            <li><strong>Cardiovascular Health:</strong> ApoB, blood pressure, Zone 2 vs. HIIT.</li>
+            <li><strong>Strength Across Decades:</strong> Protein, progressive overload, recovery.</li>
+            <li><strong>ADHD & Mental Health:</strong> Strategies beyond medication.</li>
           </ul>
         </div>
 
@@ -392,112 +244,50 @@
         <div class="group p-8 bg-white/80 rounded-2xl shadow hover:shadow-xl transition-transform duration-300 hover:-translate-y-1 reveal">
           <div class="inline-flex p-3 rounded-xl bg-gradient-to-br from-emerald-700 to-teal-600 mb-4 text-white" aria-hidden="true">🧭</div>
           <h3 class="font-serif text-2xl font-bold mb-2">Practical Wisdom</h3>
-          <p class="text-slate-600 mb-3">Money, productivity, relationships, and parenting. We translate first principles into everyday decisions—because philosophy that won’t do the dishes is just theory.</p>
+          <p class="text-slate-600 mb-3">Money, productivity, relationships, parenting.</p>
           <ul class="fancy-list fancy-practice text-slate-800 space-y-2">
-            <li class="bullet" id="li-p1">
-              <button type="button" class="bullet-btn" aria-expanded="false" aria-controls="teaser-p1" aria-describedby="tip-p1">
-                <span class="bullet-text">How do the financial markets work?</span>
-                <svg class="bullet-chev" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"/></svg>
-              </button>
-              <span id="tip-p1" role="tooltip" class="tip">Compounding, risk, diversification</span>
-              <div id="teaser-p1" class="teasers" hidden>
-                <div class="teasers-inner">
-                  <ul>
-                    <li>Passive vs. active—what survives the data?</li>
-                    <li>How do incentives shape markets?</li>
-                  </ul>
-                </div>
-              </div>
-            </li>
-            <li class="bullet" id="li-p2">
-              <button type="button" class="bullet-btn" aria-expanded="false" aria-controls="teaser-p2" aria-describedby="tip-p2">
-                <span class="bullet-text">What are the secrets to productivity and life management?</span>
-                <svg class="bullet-chev" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"/></svg>
-              </button>
-              <span id="tip-p2" role="tooltip" class="tip">Capture, review, deep work</span>
-              <div id="teaser-p2" class="teasers" hidden>
-                <div class="teasers-inner">
-                  <ul>
-                    <li>Systems that survive busy seasons</li>
-                    <li>Energy management vs. time management</li>
-                  </ul>
-                </div>
-              </div>
-            </li>
-            <li class="bullet" id="li-p3">
-              <button type="button" class="bullet-btn" aria-expanded="false" aria-controls="teaser-p3" aria-describedby="tip-p3">
-                <span class="bullet-text">What is love, and what keeps relationships healthy?</span>
-                <svg class="bullet-chev" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"/></svg>
-              </button>
-              <span id="tip-p3" role="tooltip" class="tip">Attachment, commitment, repair</span>
-              <div id="teaser-p3" class="teasers" hidden>
-                <div class="teasers-inner">
-                  <ul>
-                    <li>Rituals that deepen bonds</li>
-                    <li>Conflict styles and repair attempts</li>
-                  </ul>
-                </div>
-              </div>
-            </li>
-            <li class="bullet" id="li-p4">
-              <button type="button" class="bullet-btn" aria-expanded="false" aria-controls="teaser-p4" aria-describedby="tip-p4">
-                <span class="bullet-text">Parenting that Works</span>
-                <svg class="bullet-chev" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"/></svg>
-              </button>
-              <span id="tip-p4" role="tooltip" class="tip">Boundaries, warmth, play</span>
-              <div id="teaser-p4" class="teasers" hidden>
-                <div class="teasers-inner">
-                  <ul>
-                    <li>Authoritative vs. permissive—what outcomes?</li>
-                    <li>Household rhythms that actually stick</li>
-                  </ul>
-                </div>
-              </div>
-            </li>
+            <li><strong>How Markets Work:</strong> Compounding, risk, incentives, data.</li>
+            <li><strong>Productivity that lasts:</strong> Capture, review, deep work, energy.</li>
+            <li><strong>Love & Attachment:</strong> Rituals, repair, commitment.</li>
+            <li><strong>Raising Humans:</strong> Warmth, boundaries, rhythms that stick.</li>
           </ul>
         </div>
-
       </div>
     </div>
   </section>
 
-  <!-- QUOTES — Interactive Quote Match -->
-  <section id="quotes" class="py-24 px-6 relative overflow-hidden">
-    <div class="max-w-4xl mx-auto">
-      <div class="text-center mb-8">
-        <h2 class="font-serif text-4xl md:text-5xl font-bold tracking-tight reveal">Quotes</h2>
-        <p class="text-slate-600 reveal">Match the author. See your streak. (Low stakes; high wisdom.)</p>
+  <!-- QUOTES + QUIZ -->
+  <section id="quiz" class="relative py-24 px-6 bg-white">
+    <div class="max-w-5xl mx-auto text-center">
+      <h2 class="font-serif text-4xl md:text-5xl font-bold tracking-tight mb-2">Quotes that Move the Conversation</h2>
+      <p class="text-slate-500 mb-10">Tap the author for each quote. You’ll see your score at the end—no timers, no pressure.</p>
+
+      <!-- Orbiting chips (visual only) -->
+      <div class="orbit" aria-hidden="true">
+        <!-- A few decorative quote chips with gentle orbits -->
+        <span class="chip" style="--r:220px; --t:32s;"><i>✨</i> “All models are wrong…”</span>
+        <span class="chip" style="--r:150px; --t:28s;"><i>📜</i> “The map is not the territory.”</span>
+        <span class="chip" style="--r:260px; --t:36s;"><i>🧠</i> “We know more than we can tell.”</span>
+        <span class="chip" style="--r:190px; --t:30s;"><i>🏛️</i> “The unexamined life…”</span>
+        <span class="chip" style="--r:300px; --t:40s;"><i>📈</i> “Be fearful when others…”</span>
       </div>
 
-      <div class="reveal bg-white/60 backdrop-blur-lg rounded-3xl p-6 md:p-8 shadow-xl ring-1 ring-slate-200/70">
-        <!-- Quote prompt -->
-        <div class="flex items-start gap-3">
-          <span id="quoteIcon" class="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-600 to-blue-600 text-white text-xl shadow-glow select-none" aria-hidden="true">“”</span>
-          <div>
-            <blockquote id="gameQuote" class="italic text-xl md:text-2xl text-slate-800 leading-snug">“Loading wisdom…”</blockquote>
-            <div id="gameAuthorHint" class="mt-1 text-slate-500 text-sm">Who said this?</div>
-          </div>
-        </div>
-
-        <!-- Choices -->
-        <div id="choices" class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
-
-        <!-- Result + controls -->
-        <div class="mt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <div class="text-sm text-slate-600">
-            Score: <span id="score">0</span> · Streak: <span id="streak">0</span> · Best: <span id="best">0</span>
-            <span id="resultMsg" class="ml-2 font-semibold" aria-live="polite"></span>
-          </div>
-          <div class="flex items-center gap-2">
-            <button id="nextQuote" class="px-3 py-1.5 rounded-full border border-slate-300 text-slate-700 hover:bg-slate-100 transition text-sm" type="button" disabled>Next</button>
-            <button id="resetGame" class="px-3 py-1.5 rounded-full border border-slate-300 text-slate-700 hover:bg-slate-100 transition text-sm" type="button">Reset</button>
-          </div>
-        </div>
+      <!-- Quiz card -->
+      <div id="quizCard" class="quiz-card relative mx-auto max-w-3xl text-left bg-white/90 backdrop-blur rounded-2xl p-7 shadow-xl ring-1 ring-slate-200">
+        <blockquote id="qText" class="font-serif text-2xl md:text-[1.7rem] leading-snug text-slate-800 mb-6">Loading…</blockquote>
+        <div id="choices" class="grid sm:grid-cols-2 gap-3 mb-3"></div>
+        <div id="feedback" class="text-sm h-5 text-slate-600"></div>
       </div>
 
-      <p class="mt-4 text-center text-slate-500 text-sm">
-        Bonus wisdom: “He who knows only his own side of the case knows little of that.” — J.S. Mill
-      </p>
+      <!-- Results -->
+      <div id="results" class="hidden mt-10 mx-auto max-w-3xl text-left bg-white rounded-2xl p-7 shadow ring-1 ring-slate-200">
+        <h3 class="font-serif text-2xl font-bold mb-1">Your results</h3>
+        <p class="text-slate-600 mb-4"><span id="score"></span></p>
+        <ul id="breakdown" class="space-y-2 text-slate-700"></ul>
+        <div class="mt-6">
+          <button id="playAgain" class="px-5 py-2 rounded-full border border-slate-300 text-slate-700 hover:bg-slate-50">Play again</button>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -508,48 +298,13 @@
         <h2 class="font-serif text-4xl md:text-5xl font-bold mb-4 tracking-tight reveal">About Newman Nahas</h2>
         <p class="text-lg text-slate-600 reveal">Curious about all the human things.</p>
       </div>
-
       <div class="mx-auto text-slate-700 space-y-6 leading-relaxed text-lg">
         <p class="reveal">
-          Newman Nahas is curious about all the human things. As an undergraduate, he took classes across <strong>13 disciplines</strong> and was awarded a <strong>Rhodes Scholarship</strong> to study at the University of Oxford, where he focused on questions at the intersection of <strong>philosophy, religion, and science</strong>.
+          Newman Nahas has never met a subject he didn’t want to explore. As an undergraduate, he studied across <strong>13 different fields</strong> and was awarded a <strong>Rhodes Scholarship</strong> to study at Oxford, where he waded into the waters where philosophy, religion, and science intersect. He then attended <strong>Harvard Law School</strong>, continuing the journey into the philosophy of law while serving as a teaching fellow for <strong>Michael Sandel’s</strong> celebrated course on Justice.
         </p>
         <p class="reveal">
-          He later attended <strong>Harvard Law School</strong>, working on the philosophy of law and its relationship to prevailing ethical theories. Throughout, Newman has had a hard time sitting still in any one discipline. (He also has ADHD—so he’s had a hard time sitting still, period.)
+          Throughout, one constant remained: an almost restless curiosity (and, yes, the ADHD didn’t exactly hurt the “restless” part). Rather than fight it, Newman built a podcast around it. Expect conversations with leading thinkers from different worlds about the human things—big and small. These discussions leap from <em>metaphysics to gym mats</em>, from <em>ancient texts to modern labs</em>, from <em>boardrooms to churches</em>.
         </p>
-        <p class="reveal">
-          This podcast is Newman's response to that persistent, wide‑ranging curiosity. Its aim is to take on the big human questions by interviewing thought leaders across different disciplines and perspectives. The conversations will take you from <em>metaphysics to gym mats</em>, from <em>ancient texts to modern labs</em>, and everywhere in between.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- FAQ -->
-  <section id="faq" class="py-24 px-6 bg-white">
-    <div class="max-w-4xl mx-auto">
-      <div class="text-center mb-10">
-        <h2 class="font-serif text-4xl md:text-5xl font-bold tracking-tight">FAQ</h2>
-      </div>
-
-      <div class="space-y-8 text-slate-700 leading-relaxed text-lg">
-        <div>
-          <h3 class="font-semibold text-slate-900">Why “Aletheia”?</h3>
-          <p><em>Aletheia</em> is Greek for “truth” in the sense of what’s unconcealed or brought to light.</p>
-        </div>
-
-        <div>
-          <h3 class="font-semibold text-slate-900">What’s the show format?</h3>
-          <p>One 60–90 minute conversation per episode, plus occasional short “Field Notes” on a single idea or practice.</p>
-        </div>
-
-        <div>
-          <h3 class="font-semibold text-slate-900">How do you handle disagreement?</h3>
-          <p>We welcome it. We steel‑man each other’s views, ask for the best evidence, and keep it human. Clarity over victory.</p>
-        </div>
-
-        <div>
-          <h3 class="font-semibold text-slate-900">How can I support the show?</h3>
-          <p>Join the list, share an episode when it lands, or introduce us to a guest we should meet.</p>
-        </div>
       </div>
     </div>
   </section>
@@ -563,22 +318,15 @@
 
     <div class="relative max-w-3xl mx-auto">
       <h2 class="text-3xl md:text-4xl font-serif font-bold mb-4 tracking-tight reveal">Be part of the conversation</h2>
-      <p class="text-lg mb-8 reveal">
-        Season 1 releases soon! Join for early access to the first four episodes, reading lists, and behind‑the‑scenes notes. No spam—unsubscribe anytime.
-      </p>
+      <p class="text-lg mb-8 reveal">Season 1 is coming soon. Join for early access to the first four episodes, reading lists, and behind‑the‑scenes notes. No spam—unsubscribe anytime.</p>
       <div class="flex flex-col sm:flex-row justify-center gap-4 reveal">
-        <a href="mailto:your-email@example.com?subject=Early%20Access%20Request"
-           class="bg-white text-blue-700 font-semibold py-3 px-6 rounded-full shadow-lg hover:shadow-xl hover:brightness-95 transition"
-           aria-label="Get Early Access — two emails before launch plus show notes">
-          Get Early Access
-        </a>
-        <a href="mailto:your-email@example.com?subject=Podcast%20Guest%20Nomination"
-           class="bg-gradient-to-r from-indigo-400 to-indigo-600 text-white font-semibold py-3 px-6 rounded-full shadow-lg hover:shadow-xl hover:brightness-110 transition">
+        <a href="mailto:your-email@example.com?subject=Nominate%20a%20Guest"
+           class="bg-white text-blue-700 font-semibold py-3 px-6 rounded-full shadow-lg hover:shadow-xl hover:brightness-95 transition">
           Nominate a Guest
         </a>
-        <a href="mailto:your-email@example.com?subject=Topic%20Nomination"
-           class="bg-white/90 text-blue-700 font-semibold py-3 px-6 rounded-full shadow-lg hover:shadow-xl hover:brightness-95 transition">
-          Nominate a Topic
+        <a href="mailto:your-email@example.com?subject=Get%20Early%20Access"
+           class="bg-gradient-to-r from-indigo-400 to-indigo-600 text-white font-semibold py-3 px-6 rounded-full shadow-lg hover:shadow-xl hover:brightness-110 transition">
+          Get Early Access
         </a>
       </div>
     </div>
@@ -594,24 +342,14 @@
             <path d="M19.5 12A7.5 7.5 0 106.5 12" stroke-width="2"></path>
           </svg>
         </div>
-        <span class="font-serif text-lg font-bold text-white brand-sc">Aletheia Conversations</span>
+        <span class="font-serif text-lg font-bold text-white">Aletheia Conversations</span>
       </div>
-      <p class="text-sm">© <span id="year"></span> Aletheia Conversations. Dedicated to the pursuit of truth through compassionate, rigorous dialogue.</p>
+      <p class="text-sm">© <span id="year"></span> Aletheia Conversations. From first principles to first steps.</p>
     </div>
   </footer>
 
   <!-- SCRIPTS -->
   <script>
-    // Always start at the top on the first load of this session (even if a hash is present)
-    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-    window.addEventListener('load', () => {
-      if (!sessionStorage.getItem('visitedOnce')) {
-        if (location.hash) history.replaceState(null, '', location.pathname + location.search);
-        window.scrollTo(0, 0);
-        sessionStorage.setItem('visitedOnce', '1');
-      }
-    });
-
     // Sticky nav style tweak on scroll
     const nav = document.getElementById('siteNav');
     window.addEventListener('scroll', () => {
@@ -624,7 +362,7 @@
     const mobileMenu = document.getElementById('mobileMenu');
     menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
 
-    // ===== Typewriter rotation for big questions (original, slower) =====
+    // ===== Typewriter rotation (original questions, slower) =====
     const questions = [
       "Does God exist?",
       "What is consciousness?",
@@ -633,209 +371,136 @@
       "What is health?"
     ];
     const qEl = document.getElementById('bigQuestion');
-
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const motionToggle = document.getElementById('motionToggle');
-    let motionOn = !prefersReduced;
-    function showMotionToggleIfNeeded() {
-      if (!motionOn) motionToggle.classList.remove('hidden'); else motionToggle.classList.add('hidden');
-      motionToggle.setAttribute('aria-pressed', String(motionOn));
-      motionToggle.textContent = motionOn ? 'Pause animations' : 'Animations are off — Play anyway';
-    }
-    motionToggle.addEventListener('click', () => {
-      motionOn = !motionOn; showMotionToggleIfNeeded();
-      if (motionOn) { startTypewriter(); startConstellation(); }
-      else { stopTypewriter(); stopConstellation(); }
-    });
-
     let ti = 0, charI = 0, deleting = false, typerRef = null;
     function typeStep() {
-      if (!motionOn) return;
       const full = questions[ti];
       const target = deleting ? full.slice(0, Math.max(0, charI - 1)) : full.slice(0, Math.min(full.length, charI + 1));
       qEl.textContent = target; charI = deleting ? charI - 1 : charI + 1;
-      let delay = deleting ? 55 : 90;
-      if (!deleting && charI >= full.length) { delay = 2000; deleting = true; }
-      else if (deleting && charI <= 0) { deleting = false; ti = (ti + 1) % questions.length; delay = 550; }
+      let delay = deleting ? 60 : 88; // slowed down
+      if (!deleting && charI >= full.length) { delay = 1400; deleting = true; }
+      else if (deleting && charI <= 0) { deleting = false; ti = (ti + 1) % questions.length; delay = 420; }
       typerRef = setTimeout(typeStep, delay);
     }
-    function startTypewriter() { stopTypewriter(); typeStep(); }
-    function stopTypewriter() { if (typerRef) clearTimeout(typerRef); typerRef = null; }
-    qEl.textContent = questions[0]; charI = questions[0].length; deleting = true;
-    if (motionOn) startTypewriter(); else showMotionToggleIfNeeded();
+    qEl.textContent = questions[0]; charI = questions[0].length; deleting = true; typeStep();
 
-    // ===== Constellation Canvas =====
+    // ===== Constellation Canvas (subtle) =====
     const canvas = document.getElementById('constellation');
     const ctx = canvas.getContext('2d');
     let dpr = window.devicePixelRatio || 1, W = 0, H = 0, particles = [], rafRef = null, mouse = { x: 0, y: 0, active: false };
     function resize() { W = canvas.clientWidth; H = canvas.clientHeight; canvas.width = Math.floor(W * dpr); canvas.height = Math.floor(H * dpr); ctx.setTransform(dpr, 0, 0, dpr, 0, 0); }
     window.addEventListener('resize', resize);
     function initParticles() {
-      const density = Math.min(110, Math.max(60, Math.floor(W * H / 14000)));
-      particles = Array.from({ length: density }, () => ({ x: Math.random()*W, y: Math.random()*H, vx: (Math.random()-0.5)*0.25, vy: (Math.random()-0.5)*0.25, r: Math.random()*1.6+0.6 }));
+      const density = Math.min(100, Math.max(60, Math.floor(W * H / 15000)));
+      particles = Array.from({ length: density }, () => ({ x: Math.random()*W, y: Math.random()*H, vx: (Math.random()-0.5)*0.22, vy: (Math.random()-0.5)*0.22, r: Math.random()*1.5+0.6 }));
     }
     function draw() {
       ctx.clearRect(0, 0, W, H);
-      const grad = ctx.createLinearGradient(0, 0, W, H); grad.addColorStop(0,'rgba(59,130,246,0.10)'); grad.addColorStop(1,'rgba(99,102,241,0.10)'); ctx.fillStyle = grad; ctx.fillRect(0,0,W,H);
       for (const p of particles) {
-        if (mouse.active) { const dx=mouse.x-p.x, dy=mouse.y-p.y, dist=Math.hypot(dx,dy); if (dist<160) { const f=(160-dist)/160*0.03; p.vx+=dx*f/dist; p.vy+=dy*f/dist; } }
+        if (mouse.active) { const dx=mouse.x-p.x, dy=mouse.y-p.y, dist=Math.hypot(dx,dy); if (dist<150) { const f=(150-dist)/150*0.03; p.vx+=dx*f/dist; p.vy+=dy*f/dist; } }
         p.x+=p.vx; p.y+=p.vy; if (p.x<-20) p.x=W+20; if (p.x>W+20) p.x=-20; if (p.y<-20) p.y=H+20; if (p.y>H+20) p.y=-20;
         ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fillStyle='rgba(15,23,42,0.45)'; ctx.fill();
       }
       const maxDist=110; ctx.lineWidth=1;
       for (let i=0;i<particles.length;i++) for (let j=i+1;j<particles.length;j++) {
         const a=particles[i], b=particles[j], dx=a.x-b.x, dy=a.y-b.y, d=dx*dx+dy*dy; if (d<maxDist*maxDist) {
-          const alpha=1-Math.sqrt(d)/maxDist; ctx.strokeStyle=`rgba(37,99,235,${0.15*alpha})`; ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+          const alpha=1-Math.sqrt(d)/maxDist; ctx.strokeStyle=`rgba(37,99,235,${0.13*alpha})`; ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
         }
       }
     }
     function tick(){ draw(); rafRef=requestAnimationFrame(tick); }
-    function startConstellation(){ stopConstellation(); resize(); initParticles(); tick(); }
-    function stopConstellation(){ if (rafRef) cancelAnimationFrame(rafRef); rafRef=null; resize(); initParticles(); draw(); }
+    function startConstellation(){ resize(); initParticles(); tick(); }
     window.addEventListener('pointermove', (e)=>{ const r=canvas.getBoundingClientRect(); mouse.x=e.clientX-r.left; mouse.y=e.clientY-r.top; mouse.active=true; }, { passive:true });
     window.addEventListener('pointerleave', ()=>{ mouse.active=false; }, { passive:true });
-    if (motionOn) startConstellation(); else stopConstellation();
+    startConstellation();
 
     // ===== Reveal-on-scroll =====
     const io = new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('show'); io.unobserve(e.target); } }); }, { threshold: 0.12 });
     document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-    // ===== Bullet micro-accordion + tooltips =====
-    function slideDown(el, duration=220){
-      el.hidden = false; el.style.height = '0px';
-      requestAnimationFrame(() => {
-        const h = el.scrollHeight; el.style.transition = `height ${duration}ms ease`; el.style.height = h + 'px';
-        el.addEventListener('transitionend', () => { el.style.height = 'auto'; el.style.transition = ''; }, { once: true });
-      });
-    }
-    function slideUp(el, duration=200){
-      el.style.height = el.scrollHeight + 'px';
-      requestAnimationFrame(() => {
-        el.style.transition = `height ${duration}ms ease`; el.style.height = '0px';
-        el.addEventListener('transitionend', () => { el.style.transition = ''; el.hidden = true; }, { once: true });
-      });
-    }
-    document.querySelectorAll('.bullet-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const expanded = btn.getAttribute('aria-expanded') === 'true';
-        const panel = document.getElementById(btn.getAttribute('aria-controls'));
-        btn.setAttribute('aria-expanded', String(!expanded));
-        if (expanded) slideUp(panel); else slideDown(panel);
-      });
-      btn.addEventListener('focus', () => {
-        const tip = document.getElementById(btn.getAttribute('aria-describedby')); if (tip) tip.classList.add('show');
-      });
-      btn.addEventListener('blur', () => {
-        const tip = document.getElementById(btn.getAttribute('aria-describedby')); if (tip) tip.classList.remove('show');
-      });
-    });
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        document.querySelectorAll('.bullet-btn[aria-expanded="true"]').forEach(btn => {
-          btn.setAttribute('aria-expanded', 'false');
-          const panel = document.getElementById(btn.getAttribute('aria-controls'));
-          slideUp(panel);
-        });
-      }
-    });
-
-    // ===== Quote Match Game =====
-    const QUOTES = [
-      { t: "There are no separate systems. The world is a continuum.", a: "Donella Meadows", icon: "🌿" },
-      { t: "Nature is not organized in the same way that universities are.", a: "Russell Ackoff", icon: "🏗️" },
-      { t: "The truth is a snare: you cannot have it, without being caught.", a: "Søren Kierkegaard", icon: "🌀" },
-      { t: "We know more than we can tell.", a: "Michael Polanyi", icon: "🧩" },
-      { t: "All models are wrong, but some are useful.", a: "George Box", icon: "📈" },
-      { t: "The map is not the territory.", a: "Alfred Korzybski", icon: "🗺️" },
-      { t: "The unexamined life is not worth living.", a: "Socrates", icon: "🏛️" },
-      { t: "He who knows only his own side of the case knows little of that.", a: "J.S. Mill", icon: "⚖️" },
-      { t: "The heart has its reasons which reason knows not.", a: "Blaise Pascal", icon: "🔥" }
+    // ===== Floating Quotes Quiz (ask each once, then results) =====
+    const quizData = [
+      { t: "The whole is more than the sum of its parts. And sooner or later that insight will prove to be the key to the quantum enigma.", a: "Wolfgang Smith" },
+      { t: "Concepts create idols; only wonder comprehends anything. People kill one another over idols. Wonder makes us fall to our knees.", a: "Gregory of Nyssa" },
+      { t: "This world, after all our science and sciences, is still a miracle—wonderful, inscrutable, magical and more, to whosoever will think of it.", a: "Thomas Carlyle" },
+      { t: "Modern science is based on the principle: 'Give us one free miracle and we'll explain the rest.'", a: "Terence McKenna" },
+      { t: "Silence is the sleep that nourishes wisdom.", a: "Francis Bacon" },
+      { t: "All our knowledge begins with the senses, proceeds then to the understanding, and ends with reason. There is nothing higher than reason.", a: "Immanuel Kant" },
+      { t: "The nous is the eye of the soul.", a: "St. John of Damascus" },
+      { t: "For those who have purified their hearts see God... He shows Himself to the purified nous as in a mirror, while all the while He Himself remains invisible.", a: "St. Gregory Palamas" },
+      { t: "The deadlift also serves as a way to train the mind to do things that are hard.", a: "Mark Rippetoe" },
+      { t: "People who succeed in the stock market also accept periodic losses, setbacks, and unexpected occurrences. Calamitous drops do not scare them out of the game.", a: "Peter Lynch" },
+      { t: "Go for a business that any idiot can run—because sooner or later any idiot probably is going to be running it.", a: "Peter Lynch" },
+      { t: "It's far better to buy a wonderful company at a fair price than a fair company at a wonderful price.", a: "Warren Buffett" },
+      { t: "Experience seems to most of us to lead to conclusions, but empiricism has sworn never to draw them.", a: "George Santayana" },
+      { t: "Science is no more than an investigation of a miracle we can never explain, and art is an interpretation of that miracle.", a: "Ray Bradbury" },
+      { t: "Metaphysics is a dark ocean without shores or lighthouse, strewn with many a philosophic wreck.", a: "Immanuel Kant" },
+      { t: "Love is metaphysical gravity.", a: "R. Buckminster Fuller" },
+      { t: "He who has a why to live for can bear almost any how.", a: "Friedrich Nietzsche" },
+      { t: "If you only know your side, you don't know your side.", a: "John Stuart Mill" }
     ];
-    const AUTHORS = Array.from(new Set(QUOTES.map(q => q.a))); // unique
+    const allAuthors = [...new Set(quizData.map(q => q.a))];
 
-    const gameQuote = document.getElementById('gameQuote');
-    const gameIcon  = document.getElementById('quoteIcon');
+    // Shuffle utility
+    function shuffle(arr){ for(let i=arr.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]]; } return arr; }
+
+    let order = shuffle([...quizData.keys()]);
+    let idx = 0, correct = 0, answered = [];
+    const qText = document.getElementById('qText');
     const choicesEl = document.getElementById('choices');
-    const nextBtn   = document.getElementById('nextQuote');
-    const resetBtn  = document.getElementById('resetGame');
-    const scoreEl   = document.getElementById('score');
-    const streakEl  = document.getElementById('streak');
-    const bestEl    = document.getElementById('best');
-    const resultMsg = document.getElementById('resultMsg');
+    const feedback = document.getElementById('feedback');
+    const results = document.getElementById('results');
+    const scoreEl = document.getElementById('score');
+    const breakdown = document.getElementById('breakdown');
+    const playAgain = document.getElementById('playAgain');
 
-    let idx = -1, correctAuthor = null, answered = false;
-    let score = 0, streak = 0, best = Number(localStorage.getItem('ac_best_streak') || 0);
-
-    function rand(n){ return Math.floor(Math.random()*n); }
-    function sample(arr, k, exclude=null){
-      const pool = arr.filter(x => x !== exclude);
-      const out = [];
-      while (out.length < Math.min(k, pool.length)) {
-        const pick = pool[rand(pool.length)];
-        if (!out.includes(pick)) out.push(pick);
-      }
-      return out;
-    }
-    function shuffle(arr){ for (let i=arr.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]]; } return arr; }
-
-    function renderRound() {
-      answered = false; resultMsg.textContent = ''; nextBtn.disabled = true;
-      // pick a new random quote
-      const newIdx = rand(QUOTES.length);
-      idx = newIdx;
-      const q = QUOTES[idx];
-      correctAuthor = q.a;
-      gameQuote.textContent = `“${q.t}”`;
-      gameIcon.textContent = q.icon;
-
-      // build choices: 1 correct + 3 random others
-      const distractors = sample(AUTHORS, 3, correctAuthor);
-      const opts = shuffle([correctAuthor, ...distractors]);
-
+    function nextQuestion() {
+      if (idx >= order.length) return showResults();
+      const q = quizData[order[idx]];
+      qText.textContent = `“${q.t}”`;
+      feedback.textContent = '';
+      // build choices: correct + 3 random unique
+      let opts = new Set([q.a]);
+      const pool = shuffle(allAuthors.filter(a => a !== q.a));
+      for (let i=0; i<pool.length && opts.size<4; i++) opts.add(pool[i]);
+      const choices = shuffle([...opts]);
       choicesEl.innerHTML = '';
-      opts.forEach(name => {
+      choices.forEach(txt => {
         const b = document.createElement('button');
-        b.type = 'button';
-        b.className = 'choice';
-        b.innerHTML = `<span aria-hidden="true">👤</span> <span>${name}</span>`;
-        b.addEventListener('click', () => choose(name, b));
+        b.className = 'choice w-full text-left px-4 py-2 rounded-lg transition';
+        b.textContent = txt;
+        b.addEventListener('click', () => handleChoice(b, txt === q.a, q));
         choicesEl.appendChild(b);
       });
     }
 
-    function choose(name, btn) {
-      if (answered) return;
-      answered = true;
-      const all = choicesEl.querySelectorAll('.choice');
-      all.forEach(b => b.disabled = true);
-
-      if (name === correctAuthor) {
-        btn.classList.add('correct');
-        score += 1; streak += 1;
-        resultMsg.textContent = 'Correct!';
-      } else {
-        btn.classList.add('wrong');
-        // highlight the correct one
-        all.forEach(b => { if (b.textContent.trim().endsWith(correctAuthor)) b.classList.add('correct'); });
-        streak = 0;
-        resultMsg.textContent = 'Close, but not quite.';
-      }
-      if (streak > best) { best = streak; localStorage.setItem('ac_best_streak', String(best)); }
-      scoreEl.textContent = String(score);
-      streakEl.textContent = String(streak);
-      bestEl.textContent = String(best);
-      nextBtn.disabled = false;
+    function handleChoice(btn, isCorrect, q) {
+      const buttons = Array.from(choicesEl.querySelectorAll('button.choice'));
+      buttons.forEach(b => b.disabled = true);
+      if (isCorrect) { btn.classList.add('correct'); feedback.textContent = 'Correct.'; correct++; }
+      else { btn.classList.add('wrong'); feedback.textContent = `Answer: ${q.a}.`; }
+      answered.push({ quote: q.t, author: q.a, ok: isCorrect });
+      setTimeout(() => { idx++; nextQuestion(); }, 850);
     }
 
-    nextBtn.addEventListener('click', renderRound);
-    resetBtn.addEventListener('click', () => {
-      score = 0; streak = 0; scoreEl.textContent = '0'; streakEl.textContent = '0'; resultMsg.textContent = '';
-      renderRound();
+    function showResults() {
+      document.getElementById('quizCard').classList.add('opacity-90');
+      results.classList.remove('hidden');
+      scoreEl.textContent = `You got ${correct} of ${order.length} right.`;
+      breakdown.innerHTML = '';
+      answered.forEach(item => {
+        const li = document.createElement('li');
+        li.innerHTML = `<span class="${item.ok ? 'text-emerald-600' : 'text-rose-600'} font-semibold">${item.ok ? '✓' : '✕'}</span>
+                        <span class="italic">“${item.quote}”</span> — ${item.author}`;
+        breakdown.appendChild(li);
+      });
+    }
+    playAgain.addEventListener('click', () => {
+      order = shuffle([...quizData.keys()]); idx = 0; correct = 0; answered = [];
+      results.classList.add('hidden');
+      nextQuestion();
     });
 
-    // init
-    bestEl.textContent = String(best);
-    renderRound();
+    nextQuestion();
 
     // Footer year
     document.getElementById('year').textContent = new Date().getFullYear();
