@@ -1,402 +1,335 @@
-import React, { useState, useEffect } from 'react';
-import { ChevronDown, Play, Search, Menu, X, Quote, ArrowRight, Sparkles, Brain, Heart, Compass, BookOpen, Radio, Mail } from 'lucide-react';
-
-const AletheiaWebsite = () => {
-  const [scrollY, setScrollY] = useState(0);
-  const [activeSection, setActiveSection] = useState('vision');
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [currentQuote, setCurrentQuote] = useState(0);
-  const [selectedTheme, setSelectedTheme] = useState('all');
-  const [visibleQuestion, setVisibleQuestion] = useState(0);
-  const [visiblePractical, setVisiblePractical] = useState(0);
-
-  // Three principles (streamlined to your exact wording)
-  const principles = [
-    {
-      title: "Interdisciplinary Approach",
-      body: "Reality does not respect the boundaries we draw; neither will this podcast."
-    },
-    {
-      title: "Virtue Epistemology",
-      body: "“The heart has its reasons which reason knows not.” — Blaise Pascal"
-    },
-    {
-      title: "Embracing Dissent",
-      body: "“He who knows only his own side of the case knows little of that.” — J.S. Mill"
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Aletheia Conversations — Newman Nahas</title>
+  <meta name="description" content="Aletheia Conversations: exploring fundamental and practical questions with leading thinkers. Host: Newman Nahas." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* make anchor jumps not hide under fixed nav */
+    #vision, #themes, #about { scroll-margin-top: 100px; }
+    /* simple fades for rotating text */
+    .fade { transition: opacity 600ms ease; }
+    @media (prefers-reduced-motion: reduce) {
+      .fade { transition: none; }
     }
-  ];
-
-  // Fundamental questions (keep existing)
-  const fundamentalQuestions = [
-    { text: "Does God exist?", icon: "✨" },
-    { text: "What is consciousness?", icon: "🧠" },
-    { text: "How do we know what we know?", icon: "🔍" },
-    { text: "What is justice?", icon: "⚖️" },
-    { text: "What is health?", icon: "🌱" }
-  ];
-
-  // Practical questions (new rotating list)
-  const practicalQuestions = [
-    "Who is right in the diet wars?",
-    "What is the latest on cardiovascular health?",
-    "How can I maintain my strength?",
-    "How much cardio do I really need?",
-    "How do the financial markets work?",
-    "What is bitcoin?",
-    "How do you plan for retirement?",
-    "How can I be more productive?",
-    "How can I keep my house in order?",
-    "How can I be a better a parent?",
-    "What is love and what keeps relationships healthy?"
-  ];
-
-  // Rotating quotes (added your new ones)
-  const quotes = [
-    { text: "The unexamined life is not worth living.", author: "Socrates" },
-    { text: "Truth is not what you want it to be; it is what it is.", author: "Unknown" },
-    { text: "In the marketplace of ideas, error sharpens wisdom.", author: "John Stuart Mill" },
-    { text: "Wonder is the beginning of wisdom.", author: "Aristotle" },
-    { text: "There are no separate systems. The world is a continuum.", author: "Donella Meadows" },
-    { text: "Nature is not organized in the same way that universities are.", author: "Russell Ackoff" },
-    { text: "The truth is a snare: you cannot have it, without being caught. You cannot have the truth in such a way that you catch it, but only in such a way that it catches you.", author: "Søren Kierkegaard" },
-    { text: "We know more than we can tell.", author: "Michael Polanyi" }
-  ];
-
-  // COMING SOON categories
-  const philosophicalThemes = [
-    { id: 'religion', name: 'God and Religion', icon: Sparkles, color: 'from-amber-700 to-yellow-600' },
-    { id: 'mind-ai', name: 'The Mind and AI', icon: Brain, color: 'from-navy-700 to-blue-700' },
-    { id: 'health', name: 'Health and Wellbeing', icon: Heart, color: 'from-rose-700 to-pink-600' },
-    { id: 'practical', name: 'Practical Wisdom', icon: Compass, color: 'from-emerald-700 to-teal-600' }
-  ];
-
-  // Handle scroll effects
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-
-      // Update active section based on scroll position
-      const sections = ['vision', 'themes', 'about'];
-      const scrollPosition = window.scrollY + 200;
-
-      for (const section of sections) {
-        const element = document.getElementById(section);
-        if (element && scrollPosition >= element.offsetTop) {
-          setActiveSection(section);
-        }
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  // Cycle through fundamental questions
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setVisibleQuestion((prev) => (prev + 1) % fundamentalQuestions.length);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, []);
-
-  // Cycle through practical questions
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setVisiblePractical((prev) => (prev + 1) % practicalQuestions.length);
-    }, 2800);
-    return () => clearInterval(interval);
-  }, []);
-
-  // Rotate quotes
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentQuote((prev) => (prev + 1) % quotes.length);
-    }, 8000);
-    return () => clearInterval(interval);
-  }, []);
-
-  return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white text-slate-800">
-      {/* Navigation */}
-      <nav className={`fixed top-0 w-full z-50 transition-all duration-500 ${
-        scrollY > 50 ? 'bg-white/95 backdrop-blur-md shadow-lg py-4' : 'bg-transparent py-6'
-      }`}>
-        <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
-          <div className="flex items-center gap-2">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-900 to-blue-700 flex items-center justify-center" aria-hidden="true">
-              <Radio className="w-5 h-5 text-white" />
-            </div>
-            <span className="font-serif text-xl font-bold">Aletheia</span>
-          </div>
-
-          <div className="hidden md:flex items-center gap-8">
-            {['Vision', 'Themes', 'About'].map(item => (
-              <a
-                key={item}
-                href={`#${item.toLowerCase()}`}
-                className={`transition-colors duration-300 ${
-                  activeSection === item.toLowerCase()
-                    ? 'text-blue-800 font-medium'
-                    : 'text-slate-600 hover:text-blue-700'
-                }`}
-              >
-                {item}
-              </a>
-            ))}
-            <button className="px-5 py-2 bg-gradient-to-r from-blue-900 to-blue-700 text-white rounded-full hover:shadow-lg transition-all duration-300 transform hover:scale-105">
-              Subscribe
-            </button>
-          </div>
-
-          <button
-            onClick={() => setMenuOpen(!menuOpen)}
-            className="md:hidden p-2"
-            aria-label="Toggle menu"
-          >
-            {menuOpen ? <X /> : <Menu />}
-          </button>
+  </style>
+</head>
+<body class="min-h-screen bg-gradient-to-b from-slate-50 to-white text-slate-800">
+  <!-- Nav -->
+  <nav id="siteNav" class="fixed top-0 w-full z-50 bg-transparent py-6 transition-all">
+    <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+      <div class="flex items-center gap-2">
+        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-900 to-blue-700 flex items-center justify-center" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
         </div>
+        <span class="font-serif text-xl font-bold">Aletheia</span>
+      </div>
 
-        {/* Mobile menu */}
-        {menuOpen && (
-          <div className="md:hidden absolute top-full left-0 w-full bg-white shadow-xl">
-            <div className="flex flex-col p-6 gap-4">
-              {['Vision', 'Themes', 'About'].map(item => (
-                <a
-                  key={item}
-                  href={`#${item.toLowerCase()}`}
-                  onClick={() => setMenuOpen(false)}
-                  className="text-slate-700 hover:text-blue-800 font-medium"
-                >
-                  {item}
-                </a>
-              ))}
-            </div>
-          </div>
-        )}
-      </nav>
+      <div class="hidden md:flex items-center gap-8">
+        <a href="#vision" class="text-slate-600 hover:text-blue-700 transition-colors" data-navlink>Vision</a>
+        <a href="#themes" class="text-slate-600 hover:text-blue-700 transition-colors" data-navlink>Themes</a>
+        <a href="#about"  class="text-slate-600 hover:text-blue-700 transition-colors" data-navlink>About</a>
+        <a href="#subscribe" class="px-5 py-2 bg-gradient-to-r from-blue-900 to-blue-700 text-white rounded-full hover:shadow-lg transition-all transform hover:scale-105">Subscribe</a>
+      </div>
 
-      {/* Hero Section */}
-      <section id="vision" className="min-h-screen flex items-center justify-center px-6 pt-20">
-        <div className="max-w-5xl mx-auto text-center">
-          {/* Removed "A Marketplace of Ideas" badge */}
-
-          <h1 className="font-serif text-5xl md:text-7xl font-bold mb-8 leading-tight">
-            Aletheia Conversations
-          </h1>
-
-          {/* Rotating Questions Display */}
-          <div className="mb-12 flex flex-col items-center justify-center">
-            <p className="text-xl md:text-2xl text-slate-600 text-center mb-6">
-              Join Newman Nahas as we explore our most fundamental questions
-            </p>
-
-            {/* Fundamental questions carousel */}
-            <div className="relative h-20 w-full max-w-2xl mx-auto mb-8">
-              {fundamentalQuestions.map((question, index) => (
-                <div
-                  key={index}
-                  className={`absolute inset-0 flex items-center justify-center transition-all duration-1000 ${
-                    visibleQuestion === index
-                      ? 'opacity-100 transform translate-y-0'
-                      : 'opacity-0 transform -translate-y-4'
-                  }`}
-                >
-                  <div className="flex items-center gap-4">
-                    <span className="text-4xl" aria-hidden="true">{question.icon}</span>
-                    <span className="text-2xl md:text-3xl text-slate-700 font-medium">
-                      {question.text}
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Practical questions intro */}
-            <p className="text-lg md:text-xl text-slate-600 text-center mb-4">
-              And also some of our most practical questions, too
-            </p>
-
-            {/* Practical questions carousel */}
-            <div className="relative h-16 w-full max-w-3xl mx-auto">
-              {practicalQuestions.map((q, index) => (
-                <div
-                  key={index}
-                  className={`absolute inset-0 flex items-center justify-center transition-all duration-1000 ${
-                    visiblePractical === index
-                      ? 'opacity-100 transform translate-y-0'
-                      : 'opacity-0 transform translate-y-4'
-                  }`}
-                >
-                  <span className="text-lg md:text-2xl text-slate-700 font-medium">
-                    {q}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Guest Information */}
-          <div className="mb-12 max-w-3xl mx-auto text-center">
-            <p className="text-lg text-slate-600">
-              We will explore these questions together by interviewing some of the most important and interesting thought leaders of our time.
-            </p>
-          </div>
-
-          {/* Removed Aletheia (Greek) explanatory card */}
-
-          {/* Three Guiding Principles */}
-          <div className="mb-12 bg-blue-900 rounded-3xl p-12 -mx-6 md:-mx-12">
-            <h2 className="text-xl text-white text-center mb-10">
-              The podcast will be guided by three principles:
-            </h2>
-            <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-              {principles.map((p, idx) => (
-                <div
-                  key={idx}
-                  className="p-6 rounded-xl bg-white/10 backdrop-blur"
-                >
-                  <h3 className="font-bold text-white text-xl mb-3">
-                    {idx + 1}. {p.title}
-                  </h3>
-                  <p className="text-blue-100 text-sm leading-relaxed">
-                    {p.body}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Removed "No agenda. No dogma..." */}
-
-          {/* Rotating quotes */}
-          <div className="mb-12 h-24 flex items-center justify-center">
-            <div className="relative">
-              <Quote className="absolute -left-8 -top-2 w-6 h-6 text-blue-300" aria-hidden="true" />
-              <blockquote className="italic text-lg text-slate-500 transition-opacity duration-1000">
-                “{quotes[currentQuote].text}”
-                <cite className="block mt-2 text-sm not-italic">— {quotes[currentQuote].author}</cite>
-              </blockquote>
-            </div>
-          </div>
-
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="group px-8 py-4 bg-gradient-to-r from-blue-900 to-blue-700 text-white rounded-full hover:shadow-xl transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2">
-              <Play className="w-5 h-5" />
-              Latest Conversation
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </button>
-            <a href="#themes" className="px-8 py-4 border-2 border-slate-300 rounded-full hover:border-blue-800 transition-colors duration-300 inline-flex items-center justify-center">
-              Explore Themes
-            </a>
-          </div>
-        </div>
-
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce" aria-hidden="true">
-          <ChevronDown className="w-6 h-6 text-slate-400" />
-        </div>
-      </section>
-
-      {/* Themes / Coming Soon */}
-      <section id="themes" className="py-24 px-6 bg-gradient-to-br from-slate-50 via-white to-amber-50">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="font-serif text-4xl md:text-5xl font-bold mb-6">
-              Conversations
-            </h2>
-            <p className="text-3xl text-blue-800 font-bold">
-              COMING SOON
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-8">
-            {philosophicalThemes.map((theme, index) => (
-              <div
-                key={theme.id}
-                className="group relative p-8 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2"
-                style={{ animationDelay: `${index * 100}ms` }}
-              >
-                <div className={`absolute inset-0 bg-gradient-to-br ${theme.color} opacity-0 group-hover:opacity-5 rounded-2xl transition-opacity duration-500`} />
-                <div className="relative z-10">
-                  <div className={`inline-flex p-3 rounded-xl bg-gradient-to-br ${theme.color} mb-4`} aria-hidden="true">
-                    <theme.icon className="w-6 h-6 text-white" />
-                  </div>
-                  <h3 className="font-serif text-2xl font-bold mb-3">{theme.name}</h3>
-                  <p className="text-slate-600 mb-4">
-                    {theme.id === 'mind-ai' && "Where code meets cognition—unraveling the mysteries of mind and machine."}
-                    {theme.id === 'religion' && "Exploring God, faith, meaning, and religious life."}
-                    {theme.id === 'health' && "Evidence-based habits, longevity, fitness, and flourishing."}
-                    {theme.id === 'practical' && "Money, productivity, relationships, and the everyday art of living."}
-                  </p>
-                  <button
-                    onClick={() => setSelectedTheme(theme.id)}
-                    className="text-blue-800 font-medium flex items-center gap-2 group-hover:gap-3 transition-all"
-                  >
-                    Explore Theme
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Removed the entire Conversations list/search section */}
-
-      {/* About Section */}
-      <section id="about" className="py-24 px-6 bg-gradient-to-b from-slate-50 to-white">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="font-serif text-4xl md:text-5xl font-bold mb-6">
-              About Newman Nahas
-            </h2>
-            <p className="text-xl text-slate-600">Interdisciplinary Voyager</p>
-          </div>
-
-          <div className="prose prose-lg mx-auto text-slate-700">
-            <p className="lead text-xl mb-6">
-              I'm Newman Nahas. I studied philosophy and religion at Oxford as a Rhodes Scholar. But throughout my life, I have struggled to sit still within the boundaries of any discipline. Prior to grad school, I ended up taking classes in 13 disciplines.
-            </p>
-
-            <p className="mb-6">
-              Aletheia Conversations is my response to that struggle. It's a space for exploring the big philosophical questions of life and also the mundane and practical questions too.
-            </p>
-          </div>
-
-          <div className="mt-12 flex justify-center">
-            <button className="px-8 py-4 bg-gradient-to-r from-blue-900 to-blue-700 text-white rounded-full hover:shadow-xl transition-all duration-300 transform hover:scale-105 flex items-center gap-2">
-              <Mail className="w-5 h-5" />
-              Contact Newman
-            </button>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="py-12 px-6 bg-slate-900 text-slate-300">
-        <div className="max-w-7xl mx-auto text-center">
-          <div className="flex items-center justify-center gap-2 mb-6">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-900 to-blue-700 flex items-center justify-center" aria-hidden="true">
-              <Radio className="w-5 h-5 text-white" />
-            </div>
-            <span className="font-serif text-xl font-bold text-white">Aletheia Conversations</span>
-          </div>
-
-          <p className="text-sm mb-8 max-w-2xl mx-auto">
-            © 2024 Aletheia Conversations. Dedicated to the pursuit of truth through compassionate dialogue.
-          </p>
-
-          <div className="flex justify-center gap-6 text-sm">
-            <a href="#" className="hover:text-white transition-colors">Spotify</a>
-            <a href="#" className="hover:text-white transition-colors">Apple Podcasts</a>
-            <a href="#" className="hover:text-white transition-colors">YouTube</a>
-            <a href="#" className="hover:text-white transition-colors">RSS</a>
-          </div>
-        </div>
-      </footer>
+      <button id="menuBtn" class="md:hidden p-2" aria-label="Toggle menu">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
     </div>
-  );
-};
 
-export default AletheiaWebsite;
+    <!-- mobile menu -->
+    <div id="mobileMenu" class="hidden md:hidden absolute top-full left-0 w-full bg-white shadow-xl">
+      <div class="flex flex-col p-6 gap-4">
+        <a href="#vision" class="text-slate-700 hover:text-blue-800 font-medium">Vision</a>
+        <a href="#themes" class="text-slate-700 hover:text-blue-800 font-medium">Themes</a>
+        <a href="#about"  class="text-slate-700 hover:text-blue-800 font-medium">About</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero / Vision -->
+  <section id="vision" class="min-h-screen flex items-center justify-center px-6 pt-24">
+    <div class="max-w-5xl mx-auto text-center">
+      <h1 class="font-serif text-5xl md:text-7xl font-bold mb-8 leading-tight">Aletheia Conversations</h1>
+
+      <!-- Rotating questions -->
+      <div class="mb-12 flex flex-col items-center justify-center">
+        <p class="text-xl md:text-2xl text-slate-600 text-center mb-6">
+          Join Newman Nahas as we explore our most fundamental questions
+        </p>
+
+        <!-- fundamental -->
+        <div class="h-20 w-full max-w-2xl mx-auto mb-8">
+          <div class="h-full flex items-center justify-center">
+            <span id="fundamentalText" class="text-2xl md:text-3xl text-slate-700 font-medium fade"></span>
+          </div>
+        </div>
+
+        <!-- practical intro -->
+        <p class="text-lg md:text-xl text-slate-600 text-center mb-4">
+          And also some of our most practical questions, too
+        </p>
+
+        <!-- practical -->
+        <div class="h-16 w-full max-w-3xl mx-auto">
+          <div class="h-full flex items-center justify-center">
+            <span id="practicalText" class="text-lg md:text-2xl text-slate-700 font-medium fade" aria-live="polite"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Guest info -->
+      <div class="mb-12 max-w-3xl mx-auto text-center">
+        <p class="text-lg text-slate-600">
+          We will explore these questions together by interviewing some of the most important and interesting thought leaders of our time.
+        </p>
+      </div>
+
+      <!-- Principles -->
+      <div class="mb-12 bg-blue-900 rounded-3xl p-12 -mx-6 md:-mx-12">
+        <h2 class="text-xl text-white text-center mb-10">The podcast will be guided by three principles:</h2>
+        <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          <div class="p-6 rounded-xl bg-white/10 backdrop-blur">
+            <h3 class="font-bold text-white text-xl mb-3">1. Interdisciplinary Approach</h3>
+            <p class="text-blue-100 text-sm leading-relaxed">
+              Reality does not respect the boundaries we draw; neither will this podcast.
+            </p>
+          </div>
+          <div class="p-6 rounded-xl bg-white/10 backdrop-blur">
+            <h3 class="font-bold text-white text-xl mb-3">2. Virtue Epistemology</h3>
+            <p class="text-blue-100 text-sm leading-relaxed">
+              “The heart has its reasons which reason knows not.” — Blaise Pascal
+            </p>
+          </div>
+          <div class="p-6 rounded-xl bg-white/10 backdrop-blur">
+            <h3 class="font-bold text-white text-xl mb-3">3. Embracing Dissent</h3>
+            <p class="text-blue-100 text-sm leading-relaxed">
+              “He who knows only his own side of the case knows little of that.” — J.S. Mill
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Rotating quote -->
+      <div class="mb-12 h-24 flex items-center justify-center">
+        <blockquote class="italic text-lg text-slate-500 transition-opacity duration-1000 fade text-center max-w-3xl">
+          “<span id="quoteText"></span>”
+          <cite class="block mt-2 text-sm not-italic">— <span id="quoteAuthor"></span></cite>
+        </blockquote>
+      </div>
+
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="#themes" class="group px-8 py-4 bg-gradient-to-r from-blue-900 to-blue-700 text-white rounded-full hover:shadow-xl transition-all transform hover:scale-105 inline-flex items-center justify-center gap-2">
+          <span>Explore Themes</span>
+          <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        </a>
+        <a id="subscribe" href="#" class="px-8 py-4 border-2 border-slate-300 rounded-full hover:border-blue-800 transition-colors">
+          Subscribe
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Themes / Coming Soon -->
+  <section id="themes" class="py-24 px-6 bg-gradient-to-br from-slate-50 via-white to-amber-50">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-16">
+        <h2 class="font-serif text-4xl md:text-5xl font-bold mb-6">Conversations</h2>
+        <p class="text-3xl text-blue-800 font-bold">COMING SOON</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-8">
+        <!-- God & Religion -->
+        <div class="group relative p-8 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-2">
+          <div class="relative z-10">
+            <div class="inline-flex p-3 rounded-xl bg-gradient-to-br from-amber-700 to-yellow-600 mb-4" aria-hidden="true">✨</div>
+            <h3 class="font-serif text-2xl font-bold mb-3">God and Religion</h3>
+            <p class="text-slate-600 mb-4">Exploring God, faith, meaning, and religious life.</p>
+          </div>
+        </div>
+
+        <!-- Mind & AI -->
+        <div class="group relative p-8 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-2">
+          <div class="relative z-10">
+            <div class="inline-flex p-3 rounded-xl bg-gradient-to-br from-indigo-900 to-blue-700 mb-4" aria-hidden="true">🧠</div>
+            <h3 class="font-serif text-2xl font-bold mb-3">The Mind and AI</h3>
+            <p class="text-slate-600 mb-4">Where code meets cognition—unraveling the mysteries of mind and machine.</p>
+          </div>
+        </div>
+
+        <!-- Health & Wellbeing -->
+        <div class="group relative p-8 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-2">
+          <div class="relative z-10">
+            <div class="inline-flex p-3 rounded-xl bg-gradient-to-br from-rose-700 to-pink-600 mb-4" aria-hidden="true">❤️</div>
+            <h3 class="font-serif text-2xl font-bold mb-3">Health and Wellbeing</h3>
+            <p class="text-slate-600 mb-4">Evidence-based habits, longevity, fitness, and flourishing.</p>
+          </div>
+        </div>
+
+        <!-- Practical Wisdom -->
+        <div class="group relative p-8 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-2">
+          <div class="relative z-10">
+            <div class="inline-flex p-3 rounded-xl bg-gradient-to-br from-emerald-700 to-teal-600 mb-4" aria-hidden="true">🧭</div>
+            <h3 class="font-serif text-2xl font-bold mb-3">Practical Wisdom</h3>
+            <p class="text-slate-600 mb-4">Money, productivity, relationships, and the everyday art of living.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about" class="py-24 px-6 bg-gradient-to-b from-slate-50 to-white">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-16">
+        <h2 class="font-serif text-4xl md:text-5xl font-bold mb-6">About Newman Nahas</h2>
+        <p class="text-xl text-slate-600">Interdisciplinary Voyager</p>
+      </div>
+
+      <div class="prose prose-lg mx-auto text-slate-700">
+        <p class="lead text-xl mb-6">
+          I'm Newman Nahas. I studied philosophy and religion at Oxford as a Rhodes Scholar.
+          But throughout my life, I have struggled to sit still within the boundaries of any discipline.
+          Prior to grad school, I ended up taking classes in 13 disciplines.
+        </p>
+
+        <p class="mb-6">
+          Aletheia Conversations is my response to that struggle.
+          It's a space for exploring the big philosophical questions of life and also the mundane and practical questions too.
+        </p>
+      </div>
+
+      <div class="mt-12 flex justify-center">
+        <a href="#" class="px-8 py-4 bg-gradient-to-r from-blue-900 to-blue-700 text-white rounded-full hover:shadow-xl transition-all transform hover:scale-105 inline-flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12H8m8 0a4 4 0 10-8 0 4 4 0 008 0z"/></svg>
+          Contact Newman
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-12 px-6 bg-slate-900 text-slate-300">
+    <div class="max-w-7xl mx-auto text-center">
+      <div class="flex items-center justify-center gap-2 mb-6">
+        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-900 to-blue-700 flex items-center justify-center" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <circle cx="12" cy="12" r="3" stroke-width="2"></circle>
+            <path d="M19.5 12A7.5 7.5 0 106.5 12" stroke-width="2"></path>
+          </svg>
+        </div>
+        <span class="font-serif text-xl font-bold text-white">Aletheia Conversations</span>
+      </div>
+
+      <p class="text-sm mb-8 max-w-2xl mx-auto">
+        © 2024 Aletheia Conversations. Dedicated to the pursuit of truth through compassionate dialogue.
+      </p>
+
+      <div class="flex justify-center gap-6 text-sm">
+        <a href="#" class="hover:text-white transition-colors">Spotify</a>
+        <a href="#" class="hover:text-white transition-colors">Apple Podcasts</a>
+        <a href="#" class="hover:text-white transition-colors">YouTube</a>
+        <a href="#" class="hover:text-white transition-colors">RSS</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Sticky nav styling on scroll
+    const nav = document.getElementById('siteNav');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        nav.classList.add('bg-white/95','backdrop-blur-md','shadow-lg','py-4');
+        nav.classList.remove('bg-transparent','py-6');
+      } else {
+        nav.classList.remove('bg-white/95','backdrop-blur-md','shadow-lg','py-4');
+        nav.classList.add('bg-transparent','py-6');
+      }
+    });
+
+    // Mobile menu toggle
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    menuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    // Rotators (respect reduced motion)
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const fundamental = [
+      "✨ Does God exist?",
+      "🧠 What is consciousness?",
+      "🔍 How do we know what we know?",
+      "⚖️ What is justice?",
+      "🌱 What is health?"
+    ];
+
+    const practical = [
+      "Who is right in the diet wars?",
+      "What is the latest on cardiovascular health?",
+      "How can I maintain my strength?",
+      "How much cardio do I really need?",
+      "How do the financial markets work?",
+      "What is bitcoin?",
+      "How do you plan for retirement?",
+      "How can I be more productive?",
+      "How can I keep my house in order?",
+      "How can I be a better a parent?",
+      "What is love and what keeps relationships healthy?"
+    ];
+
+    const quotes = [
+      { t: "The unexamined life is not worth living.", a: "Socrates" },
+      { t: "Wonder is the beginning of wisdom.", a: "Aristotle" },
+      { t: "There are no separate systems. The world is a continuum.", a: "Donella Meadows" },
+      { t: "Nature is not organized in the same way that universities are.", a: "Russell Ackoff" },
+      { t: "The truth is a snare: you cannot have it, without being caught. You cannot have the truth in such a way that you catch it, but only in such a way that it catches you.", a: "Søren Kierkegaard" },
+      { t: "We know more than we can tell.", a: "Michael Polanyi" }
+    ];
+
+    const fundamentalEl = document.getElementById('fundamentalText');
+    const practicalEl   = document.getElementById('practicalText');
+    const quoteTextEl   = document.getElementById('quoteText');
+    const quoteAuthEl   = document.getElementById('quoteAuthor');
+
+    let fi = 0, pi = 0, qi = 0;
+    function setFade(el, text) {
+      el.classList.add('opacity-0');
+      setTimeout(() => { el.textContent = text; el.classList.remove('opacity-0'); el.classList.add('opacity-100'); }, reduceMotion ? 0 : 200);
+    }
+
+    // initialize
+    fundamentalEl.classList.add('opacity-100');
+    practicalEl.classList.add('opacity-100');
+    quoteTextEl.textContent = quotes[0].t; quoteAuthEl.textContent = quotes[0].a;
+
+    fundamentalEl.textContent = fundamental[0];
+    practicalEl.textContent = practical[0];
+
+    if (!reduceMotion) {
+      setInterval(() => {
+        fi = (fi + 1) % fundamental.length;
+        setFade(fundamentalEl, fundamental[fi]);
+      }, 3000);
+
+      setInterval(() => {
+        pi = (pi + 1) % practical.length;
+        setFade(practicalEl, practical[pi]);
+      }, 2800);
+
+      setInterval(() => {
+        qi = (qi + 1) % quotes.length;
+        setFade(quoteTextEl, quotes[qi].t);
+        quoteAuthEl.textContent = quotes[qi].a;
+      }, 8000);
+    }
+  </script>
+</body>
+</html>
