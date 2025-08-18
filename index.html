@@ -3,16 +3,16 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Aletheia Conversations — Big Questions, Real Lives</title>
+  <title>Aletheia Conversations:  A Podcast that Goes from First Principles to First Steps</title>
   <meta name="description" content="A long‑form interview show where theology, philosophy, science, and practical wisdom meet. Join Newman Nahas for candid, evidence‑minded conversations." />
 
-  <!-- Open Graph / Twitter (optional: update the image path) -->
-  <meta property="og:title" content="Aletheia Conversations — Big Questions, Real Lives" />
+  <!-- Open Graph / Twitter -->
+  <meta property="og:title" content="Aletheia Conversations:  A Podcast that Goes from First Principles to First Steps" />
   <meta property="og:description" content="Nuanced interviews on God, mind, health, and practical wisdom—seeking truth with charity and rigor. Get early access to the first four episodes." />
   <meta property="og:type" content="website" />
   <meta property="og:image" content="/og-image.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Aletheia Conversations — Big Questions, Real Lives" />
+  <meta name="twitter:title" content="Aletheia Conversations:  A Podcast that Goes from First Principles to First Steps" />
   <meta name="twitter:description" content="Nuanced interviews on God, mind, health, and practical wisdom—seeking truth with charity and rigor. Get early access to the first four episodes." />
   <meta name="twitter:image" content="/og-image.jpg" />
 
@@ -41,7 +41,7 @@
 
   <style>
     /* Anchor offset so headings aren't hidden under the fixed nav */
-    #vision, #themes, #season1, #quotes, #about, #faq, #cta { scroll-margin-top: 96px; }
+    #vision, #themes, #quotes, #about, #faq, #cta { scroll-margin-top: 96px; }
 
     /* Reveal-on-scroll */
     .reveal { opacity: 0; transform: translateY(14px); transition: opacity 600ms ease, transform 600ms ease; }
@@ -119,6 +119,9 @@
       content: '–'; position: absolute; left: 0; top: 0; color: #94a3b8; /* slate-400 */
     }
 
+    /* Quotes: progress bar animation */
+    @keyframes quoteFill { from { width: 0%; } to { width: 100%; } }
+
     /* Respect reduced motion */
     @media (prefers-reduced-motion: reduce) {
       .reveal { opacity: 1 !important; transform: none !important; }
@@ -158,7 +161,6 @@
       <ul id="navLinks" class="hidden md:flex items-center gap-8">
         <li><a href="#vision"   class="text-slate-700 hover:text-blue-800 transition-colors">Vision</a></li>
         <li><a href="#themes"   class="text-slate-700 hover:text-blue-800 transition-colors">Themes</a></li>
-        <li><a href="#season1"  class="text-slate-700 hover:text-blue-800 transition-colors">Season 1</a></li>
         <li><a href="#quotes"   class="text-slate-700 hover:text-blue-800 transition-colors">Quotes</a></li>
         <li><a href="#about"    class="text-slate-700 hover:text-blue-800 transition-colors">About</a></li>
         <li><a href="#faq"      class="text-slate-700 hover:text-blue-800 transition-colors">FAQ</a></li>
@@ -171,7 +173,6 @@
       <div class="flex flex-col p-6 gap-4">
         <a href="#vision"  class="text-slate-700 hover:text-blue-800 font-medium">Vision</a>
         <a href="#themes"  class="text-slate-700 hover:text-blue-800 font-medium">Themes</a>
-        <a href="#season1" class="text-slate-700 hover:text-blue-800 font-medium">Season 1</a>
         <a href="#quotes"  class="text-slate-700 hover:text-blue-800 font-medium">Quotes</a>
         <a href="#about"   class="text-slate-700 hover:text-blue-800 font-medium">About</a>
         <a href="#faq"     class="text-slate-700 hover:text-blue-800 font-medium">FAQ</a>
@@ -223,7 +224,7 @@
   </header>
 
   <!-- GUIDING PRINCIPLES -->
-  <section class="py-20 px-6 bg-gradient-to-br from-blue-900 to-indigo-900 text-white relative overflow-hidden">
+  <section class="py-24 px-6 bg-gradient-to-br from-blue-900 to-indigo-900 text-white relative overflow-hidden">
     <div class="absolute inset-0 opacity-10" aria-hidden="true">
       <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
         <defs>
@@ -236,19 +237,22 @@
     </div>
 
     <div class="relative max-w-6xl mx-auto">
-      <h2 class="text-center text-2xl font-semibold mb-10 tracking-wide reveal">Guiding Principles</h2>
+      <h2 class="text-center font-serif text-4xl md:text-5xl font-bold mb-3 tracking-tight reveal">Guiding Principles</h2>
+      <p class="text-center text-blue-100/90 text-base md:text-lg mb-12 reveal">What makes this podcast different?</p>
+
       <div class="grid md:grid-cols-3 gap-8">
-        <div class="p-6 rounded-2xl bg-white/10 backdrop-blur reveal">
-          <h3 class="text-xl font-bold mb-2">1. Interdisciplinary Approach</h3>
-          <p class="text-blue-100/90">Reality doesn’t respect silos; neither do we. Expect episodes that cross philosophy, neuroscience, economics, and history.</p>
+        <div class="p-7 md:p-8 rounded-2xl bg-white/10 backdrop-blur reveal ring-1 ring-white/15 hover:ring-white/25 transition">
+          <h3 class="text-2xl font-bold mb-3">1. Interdisciplinary Approach</h3>
+          <p class="text-blue-100/95 text-lg">Reality doesn’t respect the boundaries of our disciplines; neither will this podcast.</p>
         </div>
-        <div class="p-6 rounded-2xl bg-white/10 backdrop-blur reveal">
-          <h3 class="text-xl font-bold mb-2">2. The Epistemology of Virtue</h3>
-          <p class="text-blue-100/90">“The heart has its reasons which reason knows not.” — Blaise Pascal. So what: wisdom is not just about logic but about a purified heart and character.</p>
+        <div class="p-7 md:p-8 rounded-2xl bg-white/10 backdrop-blur reveal ring-1 ring-white/15 hover:ring-white/25 transition">
+          <h3 class="text-2xl font-bold mb-3">2. Focus on Virtue</h3>
+          <p class="text-blue-100/95 text-lg">Wisdom is not just about thinking soundly but also living well. Expect conversations that explore the practical alongside the theoretical.</p>
         </div>
-        <div class="p-6 rounded-2xl bg-white/10 backdrop-blur reveal">
-          <h3 class="text-xl font-bold mb-2">3. Embracing Dissent</h3>
-          <p class="text-blue-100/90">“He who knows only his own side of the case knows little of that.” — J.S. Mill. So what: guests with real disagreement, steel‑manned. We model how to argue without becoming arguments.</p>
+        <div class="p-7 md:p-8 rounded-2xl bg-white/10 backdrop-blur reveal ring-1 ring-white/15 hover:ring-white/25 transition">
+          <h3 class="text-2xl font-bold mb-3">3. Embracing Dissent</h3>
+          <p class="text-blue-100/90 italic mb-2">“He who knows only his own side of the case knows little of that.” — J.S. Mill</p>
+          <p class="text-blue-100/95 text-lg">Expect conversations where opposing and alternative views are steel‑manned, not straw‑manned.</p>
         </div>
       </div>
     </div>
@@ -559,59 +563,60 @@
     </div>
   </section>
 
-  <!-- SEASON 1 (Working Slate) -->
-  <section id="season1" class="py-16 px-6 bg-slate-50">
-    <div class="max-w-4xl mx-auto">
-      <h2 class="font-serif text-3xl md:text-4xl font-bold tracking-tight mb-4">Season 1 (Working Slate)</h2>
-      <ol class="list-decimal pl-6 space-y-2 text-slate-700 text-lg">
-        <li><strong>Suffering and the Good God</strong> — Evil, freedom, and hope.</li>
-        <li><strong>Awareness Without Report</strong> — Consciousness at the edge cases.</li>
-        <li><strong>ApoB and the Practical Heart</strong> — Cardiovascular health that’s actionable.</li>
-        <li><strong>Systems You Can Keep</strong> — Productivity that survives busy seasons.</li>
-      </ol>
-      <p class="mt-4 text-slate-600">Join the list to help choose Episode 5.</p>
+  <!-- QUOTES (Upgraded: glass card + progress bar) -->
+  <section id="quotes" class="py-24 px-6 relative overflow-hidden">
+    <!-- Soft gradient orbs -->
+    <div class="absolute inset-0 -z-10">
+      <div class="absolute -top-24 -left-24 w-80 h-80 rounded-full bg-indigo-200/30 blur-3xl"></div>
+      <div class="absolute -bottom-24 -right-24 w-96 h-96 rounded-full bg-blue-200/30 blur-3xl"></div>
     </div>
-  </section>
 
-  <!-- QUOTES (Rotating, autoplay loop) -->
-  <section id="quotes" class="py-20 px-6 bg-white">
-    <div class="max-w-5xl mx-auto text-center reveal">
-      <figure class="relative">
-        <div class="absolute -top-8 -left-6 text-6xl text-slate-200 select-none" aria-hidden="true">“</div>
+    <div class="max-w-3xl mx-auto reveal">
+      <figure class="relative bg-white/60 backdrop-blur-lg rounded-3xl p-8 md:p-10 shadow-xl ring-1 ring-slate-200/60">
+        <div class="absolute -top-6 -left-6 w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-600 to-blue-600 text-white flex items-center justify-center shadow-glow select-none" aria-hidden="true">
+          <span class="text-3xl leading-none">“</span>
+        </div>
 
         <!-- Live region for screen readers -->
         <blockquote id="insightText"
-                    class="italic text-xl md:text-2xl text-slate-700 mx-auto transition-opacity duration-300"
+                    class="italic text-2xl md:text-3xl text-slate-800 mx-auto leading-snug"
                     aria-live="polite">
           “There are no separate systems. The world is a continuum.”
         </blockquote>
         <figcaption id="insightAuthor"
-                    class="mt-3 text-slate-500 transition-opacity duration-300">
+                    class="mt-4 text-slate-600 text-lg">
           — Donella Meadows
         </figcaption>
+
+        <!-- Animated progress bar -->
+        <div id="quoteProgress" class="mt-6 h-1.5 rounded-full bg-slate-200 overflow-hidden" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-label="Quote progress">
+          <div id="quoteProgressFill" class="h-full w-0 bg-gradient-to-r from-indigo-500 to-blue-600"></div>
+        </div>
+
+        <!-- Controls -->
+        <div class="mt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div class="flex items-center gap-2" role="group" aria-label="Quote controls">
+            <button id="quotePrev"
+                    class="px-3 py-1.5 rounded-full border border-slate-300 text-slate-700 hover:bg-slate-100 transition text-sm"
+                    type="button" aria-label="Previous quote">
+              Prev
+            </button>
+            <button id="quotePlayPause"
+                    class="px-3 py-1.5 rounded-full border border-slate-300 text-slate-700 hover:bg-slate-100 transition text-sm"
+                    type="button" aria-pressed="true" aria-label="Play or pause quote rotation">
+              Pause
+            </button>
+            <button id="quoteNext"
+                    class="px-3 py-1.5 rounded-full border border-slate-300 text-slate-700 hover:bg-slate-100 transition text-sm"
+                    type="button" aria-label="Next quote">
+              Next
+            </button>
+          </div>
+
+          <!-- Dots -->
+          <div id="quoteDots" class="flex justify-center gap-2" aria-label="Quote indicators"></div>
+        </div>
       </figure>
-
-      <!-- Controls -->
-      <div class="mt-6 flex items-center justify-center gap-2" role="group" aria-label="Quote controls">
-        <button id="quotePrev"
-                class="px-3 py-1.5 rounded-full border border-slate-300 text-slate-600 hover:bg-slate-100 transition text-sm"
-                type="button" aria-label="Previous quote">
-          Prev
-        </button>
-        <button id="quotePlayPause"
-                class="px-3 py-1.5 rounded-full border border-slate-300 text-slate-600 hover:bg-slate-100 transition text-sm"
-                type="button" aria-pressed="true" aria-label="Play or pause quote rotation">
-          Pause
-        </button>
-        <button id="quoteNext"
-                class="px-3 py-1.5 rounded-full border border-slate-300 text-slate-600 hover:bg-slate-100 transition text-sm"
-                type="button" aria-label="Next quote">
-          Next
-        </button>
-      </div>
-
-      <!-- Dots -->
-      <div id="quoteDots" class="mt-4 flex justify-center gap-2" aria-label="Quote indicators"></div>
     </div>
   </section>
 
@@ -726,17 +731,13 @@
     const mobileMenu = document.getElementById('mobileMenu');
     menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
 
-    // ===== Typewriter rotation for big questions =====
+    // ===== Typewriter rotation for big questions (original, slower) =====
     const questions = [
       "Does God exist?",
       "What is consciousness?",
       "How do we know what we know?",
       "What is justice?",
-      "What is health?",
-      "Are we confusing fluent output with lived awareness?",
-      "What keeps love alive on a Tuesday?",
-      "When does evidence become evidence‑biased?",
-      "What’s the minimum effective dose of wisdom?"
+      "What is health?"
     ];
     const qEl = document.getElementById('bigQuestion');
 
@@ -754,16 +755,16 @@
       if (motionOn) { startTypewriter(); startConstellation(); } else { stopTypewriter(); stopConstellation(); }
     });
 
-    // Typewriter engine
+    // Slower typewriter engine
     let ti = 0, charI = 0, deleting = false, typerRef = null;
     function typeStep() {
       if (!motionOn) return;
       const full = questions[ti];
       const target = deleting ? full.slice(0, Math.max(0, charI - 1)) : full.slice(0, Math.min(full.length, charI + 1));
       qEl.textContent = target; charI = deleting ? charI - 1 : charI + 1;
-      let delay = deleting ? 28 : 42;
-      if (!deleting && charI >= full.length) { delay = 1200; deleting = true; }
-      else if (deleting && charI <= 0) { deleting = false; ti = (ti + 1) % questions.length; delay = 350; }
+      let delay = deleting ? 45 : 75; // slower typing & deleting
+      if (!deleting && charI >= full.length) { delay = 1800; deleting = true; }
+      else if (deleting && charI <= 0) { deleting = false; ti = (ti + 1) % questions.length; delay = 450; }
       typerRef = setTimeout(typeStep, delay);
     }
     function startTypewriter() { stopTypewriter(); typeStep(); }
@@ -859,22 +860,17 @@
       }
     });
 
-    // ===== Rotating Quotes (autoplay loop) =====
+    // ===== Rotating Quotes (upgraded with progress bar) =====
     (function () {
       const insights = [
         { t: "There are no separate systems. The world is a continuum.", a: "Donella Meadows" },
         { t: "Nature is not organized in the same way that universities are.", a: "Russell Ackoff" },
         { t: "The truth is a snare: you cannot have it, without being caught. You cannot have the truth in such a way that you catch it, but only in such a way that it catches you.", a: "Søren Kierkegaard" },
         { t: "We know more than we can tell.", a: "Michael Polanyi" },
-
-        // New classics
         { t: "All models are wrong, but some are useful.", a: "George Box" },
         { t: "The map is not the territory.", a: "Alfred Korzybski" },
         { t: "The unexamined life is not worth living.", a: "Socrates" },
-
-        // House lines
-        { t: "We do disagreement with dignity.", a: "Aletheia Conversations" },
-        { t: "Clarity over victory. Curiosity over certainty.", a: "Aletheia Conversations" }
+        { t: "The heart has its reasons which reason knows not.", a: "Blaise Pascal" }
       ];
 
       const iText   = document.getElementById('insightText');
@@ -884,11 +880,19 @@
       const qNext   = document.getElementById('quoteNext');
       const qPP     = document.getElementById('quotePlayPause');
       const dots    = document.getElementById('quoteDots');
+      const bar     = document.getElementById('quoteProgressFill');
 
       let idx = 0;
       let timer = null;
-      const interval = 6000;
+      const interval = 7000; // slightly longer to read; progress bar synced
       let playing = true; // autoplay
+
+      function restartProgress() {
+        bar.style.animation = 'none';
+        // Force reflow to restart the animation
+        void bar.offsetWidth;
+        bar.style.animation = `quoteFill ${interval}ms linear forwards`;
+      }
 
       function render(i, instant = false) {
         iText.style.opacity = 0;
@@ -900,17 +904,28 @@
           iAuthor.style.opacity = 1;
         }, instant ? 0 : 160);
         updateDots();
+        restartProgress();
       }
       function start() {
         stop();
         playing = true; setPP();
+        restartProgress();
         timer = setInterval(() => {
           idx = (idx + 1) % insights.length;
           render(idx);
         }, interval);
       }
-      function stop() { if (timer) clearInterval(timer); timer = null; playing = false; setPP(); }
-      function setPP() { qPP.textContent = playing ? 'Pause' : 'Play'; qPP.setAttribute('aria-pressed', String(playing)); }
+      function stop() {
+        if (timer) clearInterval(timer);
+        timer = null;
+        playing = false; setPP();
+        bar.style.animationPlayState = 'paused';
+      }
+      function setPP() {
+        qPP.textContent = playing ? 'Pause' : 'Play';
+        qPP.setAttribute('aria-pressed', String(playing));
+        if (playing) bar.style.animationPlayState = 'running';
+      }
 
       qPrev.addEventListener('click', () => { idx = (idx - 1 + insights.length) % insights.length; render(idx); if (playing) start(); });
       qNext.addEventListener('click', () => { idx = (idx + 1) % insights.length; render(idx); if (playing) start(); });
