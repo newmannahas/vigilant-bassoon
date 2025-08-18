@@ -23,6 +23,12 @@
           },
           boxShadow: {
             'glow': '0 10px 30px -5px rgba(30,64,175,.25), 0 6px 12px -6px rgba(30,64,175,.3)'
+          },
+          keyframes: {
+            loadbar: { '0%': { width: '0%' }, '100%': { width: '100%' } }
+          },
+          animation: {
+            loadbar: 'loadbar 3s linear infinite'
           }
         }
       }
@@ -35,18 +41,22 @@
 
     /* Smooth fades for text swaps */
     .fade { transition: opacity 300ms ease; }
-
     /* Subtle reveal-on-scroll */
     .reveal { opacity: 0; transform: translateY(14px); transition: opacity 600ms ease, transform 600ms ease; }
     .reveal.show { opacity: 1; transform: translateY(0); }
 
     /* Decorative blobs */
-    .blob {
-      filter: blur(60px);
-      opacity: .25;
+    .blob { filter: blur(60px); opacity: .25; pointer-events: none; }
+
+    /* Parallax orbs (hero) */
+    .orb {
+      position: absolute; border-radius: 9999px; opacity: 0.25; filter: blur(10px);
+      will-change: transform;
+      transition: transform 200ms ease;
       pointer-events: none;
     }
 
+    /* Respect reduced motion */
     @media (prefers-reduced-motion: reduce) {
       .fade { transition: none; }
       .reveal { opacity: 1 !important; transform: none !important; }
@@ -55,7 +65,7 @@
 </head>
 <body class="min-h-screen bg-gradient-to-b from-slate-50 to-white text-slate-800 font-sans">
 
-  <!-- Background decoration -->
+  <!-- Background decoration (global) -->
   <div class="fixed inset-0 -z-10 overflow-hidden">
     <div class="blob absolute -top-16 -left-10 w-80 h-80 rounded-full bg-gradient-to-br from-blue-300 to-indigo-200"></div>
     <div class="blob absolute top-40 -right-10 w-96 h-96 rounded-full bg-gradient-to-br from-rose-200 to-amber-200"></div>
@@ -106,21 +116,39 @@
   </nav>
 
   <!-- HERO / VISION -->
-  <header id="vision" class="min-h-[88vh] flex items-center justify-center px-6 pt-28">
+  <header id="vision" class="relative min-h-[90vh] flex items-center justify-center px-6 pt-28 overflow-hidden">
+    <!-- Parallax orbs (hero-only) -->
+    <div id="orbs" class="absolute inset-0 -z-10 pointer-events-none">
+      <div class="orb w-64 h-64 bg-gradient-to-br from-indigo-400 to-blue-500 top-10 left-6"></div>
+      <div class="orb w-56 h-56 bg-gradient-to-br from-rose-400 to-amber-400 bottom-16 right-10"></div>
+      <div class="orb w-72 h-72 bg-gradient-to-br from-emerald-400 to-teal-500 top-1/3 right-1/3"></div>
+    </div>
+
     <div class="max-w-5xl mx-auto text-center">
       <h1 class="font-serif text-5xl md:text-7xl font-bold leading-tight mb-4 tracking-tight reveal">
         Aletheia <span class="bg-gradient-to-r from-blue-800 to-indigo-600 bg-clip-text text-transparent">Conversations</span>
       </h1>
 
       <!-- Consolidated one-liner -->
-      <p class="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto mb-10 reveal">
+      <p class="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto mb-8 reveal">
         Join <span class="font-semibold">Newman Nahas</span> as we explore our most fundamental questions by interviewing some of the most interesting and important thought leaders of our time.
       </p>
 
       <!-- Rotating big questions (animated) -->
-      <div class="h-16 flex items-center justify-center mb-4 reveal">
-        <span id="bigQuestion" class="text-2xl md:text-3xl text-slate-900 font-semibold fade"></span>
+      <div class="w-full max-w-3xl mx-auto mb-3 reveal">
+        <div class="h-16 flex items-center justify-center">
+          <span id="bigQuestion" class="text-2xl md:text-3xl text-slate-900 font-semibold fade"></span>
+        </div>
+        <!-- progress bar synced to rotation -->
+        <div id="qProgress" class="h-1.5 bg-slate-200 rounded overflow-hidden">
+          <div id="qProgressBar" class="h-full bg-gradient-to-r from-blue-600 to-indigo-500"></div>
+        </div>
       </div>
+
+      <!-- Animations toggle (only shown if reduced motion is detected) -->
+      <button id="animToggle" class="hidden mt-4 mx-auto text-sm px-3 py-1.5 rounded-full border border-slate-300 text-slate-600 hover:bg-slate-100 transition" type="button" aria-pressed="false">
+        Animations are off — Play anyway
+      </button>
 
       <!-- Subtle scroll cue -->
       <div class="mt-8 animate-bounce text-slate-400" aria-hidden="true">
@@ -215,7 +243,7 @@
           <p class="text-slate-600 mb-3">Money, productivity, relationships, and the everyday art of living.</p>
           <ul class="list-disc list-inside text-slate-700 space-y-1">
             <li>How do the financial markets work?</li>
-            <li>How do you plan for retirement?</li>
+            <li>what are the secrets to productivity and life management?</li>
             <li>What is love, and what keeps relationships healthy?</li>
           </ul>
         </div>
@@ -288,56 +316,117 @@
 
   <!-- SCRIPTS -->
   <script>
-    // Sticky nav style tweak on scroll
-    const nav = document.getElementById('siteNav');
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 24) {
-        nav.classList.add('shadow', 'py-3');
-        nav.classList.remove('py-4');
-      } else {
-        nav.classList.remove('shadow', 'py-3');
-        nav.classList.add('py-4');
-      }
-    });
-
-    // Mobile menu toggle
-    const menuBtn = document.getElementById('menuBtn');
-    const mobileMenu = document.getElementById('mobileMenu');
-    menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
-
-    // Rotating BIG questions (animated)
-    const bigQuestions = [
-      "Does God exist?",
-      "What is consciousness?",
-      "How do we know what we know?",
-      "What is justice?",
-      "What is health?"
-    ];
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const bigEl = document.getElementById('bigQuestion');
-    let bq = 0;
-    function setBig(text) {
-      bigEl.style.opacity = 0;
-      setTimeout(() => { bigEl.textContent = text; bigEl.style.opacity = 1; }, prefersReduced ? 0 : 160);
-    }
-    setBig(bigQuestions[0]);
-    if (!prefersReduced) {
-      setInterval(() => { bq = (bq + 1) % bigQuestions.length; setBig(bigQuestions[bq]); }, 3000);
-    }
-
-    // Reveal-on-scroll
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((e) => {
-        if (e.isIntersecting) {
-          e.target.classList.add('show');
-          io.unobserve(e.target);
+    document.addEventListener('DOMContentLoaded', () => {
+      // Sticky nav style tweak on scroll
+      const nav = document.getElementById('siteNav');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 24) {
+          nav.classList.add('shadow', 'py-3');
+          nav.classList.remove('py-4');
+        } else {
+          nav.classList.remove('shadow', 'py-3');
+          nav.classList.add('py-4');
         }
       });
-    }, { threshold: 0.12 });
-    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-    // Footer year
-    document.getElementById('year').textContent = new Date().getFullYear();
+      // Mobile menu toggle
+      const menuBtn = document.getElementById('menuBtn');
+      const mobileMenu = document.getElementById('mobileMenu');
+      menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+
+      // Rotating BIG questions (animated) + progress bar
+      const bigQuestions = [
+        "Does God exist?",
+        "What is consciousness?",
+        "How do we know what we know?",
+        "What is justice?",
+        "What is health?"
+      ];
+
+      const bigEl = document.getElementById('bigQuestion');
+      const progressBar = document.getElementById('qProgressBar');
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const animToggle = document.getElementById('animToggle');
+      let allowAnim = !prefersReduced; // default follow system; can be overridden
+      let intervalRef = null;
+      let bq = 0;
+
+      function setBig(text, instant = false) {
+        if (!instant) bigEl.style.opacity = 0;
+        setTimeout(() => { bigEl.textContent = text; bigEl.style.opacity = 1; }, instant ? 0 : 160);
+      }
+
+      function startRotation() {
+        stopRotation();
+        // sync progress bar
+        progressBar.classList.remove('animate-loadbar'); // restart
+        void progressBar.offsetWidth; // reflow to restart animation
+        progressBar.classList.add('animate-loadbar');
+
+        intervalRef = setInterval(() => {
+          bq = (bq + 1) % bigQuestions.length;
+          setBig(bigQuestions[bq]);
+          // restart bar
+          progressBar.classList.remove('animate-loadbar');
+          void progressBar.offsetWidth;
+          progressBar.classList.add('animate-loadbar');
+        }, 3000);
+      }
+
+      function stopRotation() {
+        if (intervalRef) clearInterval(intervalRef);
+        intervalRef = null;
+        progressBar.classList.remove('animate-loadbar');
+        progressBar.style.width = '0%';
+      }
+
+      // Initialize question and rotation based on motion preference
+      setBig(bigQuestions[bq], true);
+      if (allowAnim) startRotation(); else {
+        // show toggle if animations suppressed
+        animToggle.classList.remove('hidden');
+      }
+
+      // Toggle to override reduced-motion
+      animToggle.addEventListener('click', () => {
+        allowAnim = !allowAnim;
+        const pressed = animToggle.getAttribute('aria-pressed') === 'true';
+        animToggle.setAttribute('aria-pressed', String(!pressed));
+        animToggle.textContent = allowAnim ? 'Animations on — Pause' : 'Animations are off — Play anyway';
+        if (allowAnim) startRotation(); else stopRotation();
+      });
+
+      // Reveal-on-scroll
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add('show');
+            io.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.12 });
+      document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+      // Footer year
+      document.getElementById('year').textContent = new Date().getFullYear();
+
+      // Parallax orbs (hero)
+      const orbs = document.querySelectorAll('#orbs .orb');
+      const parallaxActive = !prefersReduced;
+      function parallax(e) {
+        if (!parallaxActive) return;
+        const { innerWidth: w, innerHeight: h } = window;
+        const x = (e.clientX / w) - 0.5;
+        const y = (e.clientY / h) - 0.5;
+        // different intensities for depth
+        orbs.forEach((el, i) => {
+          const intensity = [10, 16, 22][i] || 12;
+          el.style.transform = `translate3d(${x * intensity}px, ${y * intensity}px, 0)`;
+        });
+      }
+      // Use pointermove (mouse/touch)
+      window.addEventListener('pointermove', parallax, { passive: true });
+    });
   </script>
 </body>
 </html>
