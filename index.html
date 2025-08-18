@@ -40,7 +40,6 @@
       opacity: .25;
       pointer-events: none;
     }
-    /* Respect reduced motion */
     @media (prefers-reduced-motion: reduce) {
       .fade { transition: none; }
     }
@@ -101,7 +100,7 @@
   </nav>
 
   <!-- HERO / VISION -->
-  <header id="vision" class="min-h-[92vh] flex items-center justify-center px-6 pt-24">
+  <header id="vision" class="min-h-[88vh] flex items-center justify-center px-6 pt-28">
     <div class="max-w-5xl mx-auto text-center">
       <h1 class="font-serif text-5xl md:text-7xl font-bold leading-tight mb-4 tracking-tight">
         Aletheia <span class="bg-gradient-to-r from-blue-800 to-indigo-600 bg-clip-text text-transparent">Conversations</span>
@@ -111,27 +110,9 @@
       </p>
 
       <!-- Rotating big questions (animated) -->
-      <div class="h-16 flex items-center justify-center mb-8">
+      <div class="h-16 flex items-center justify-center mb-10">
         <span id="bigQuestion" class="text-2xl md:text-3xl text-slate-900 font-semibold fade"></span>
       </div>
-
-      <!-- Practical questions (static list) -->
-      <p class="text-lg md:text-xl text-slate-700 mb-3">
-        And also some of our most practical questions, too:
-      </p>
-      <ul class="max-w-4xl mx-auto text-left list-disc list-inside text-slate-700 space-y-2 mb-12">
-        <li>Who is right in the diet wars?</li>
-        <li>What is the latest on cardiovascular health?</li>
-        <li>How can I maintain my strength?</li>
-        <li>How much cardio do I really need?</li>
-        <li>How do the financial markets work?</li>
-        <li>What is bitcoin?</li>
-        <li>How do you plan for retirement?</li>
-        <li>How can I be more productive?</li>
-        <li>How can I keep my house in order?</li>
-        <li>How can I be a better parent?</li>
-        <li>What is love, and what keeps relationships healthy?</li>
-      </ul>
 
       <p class="text-lg text-slate-600 max-w-3xl mx-auto">
         We will explore these questions together by interviewing some of the most important and interesting thought leaders of our time.
@@ -142,7 +123,6 @@
   <!-- GUIDING PRINCIPLES -->
   <section class="py-20 px-6 bg-gradient-to-br from-blue-900 to-indigo-900 text-white relative overflow-hidden">
     <div class="absolute inset-0 opacity-10" aria-hidden="true">
-      <!-- soft grid pattern -->
       <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
@@ -182,28 +162,62 @@
 
       <div class="grid md:grid-cols-2 gap-8">
         <!-- God & Religion -->
-        <div class="group p-8 bg-white/70 rounded-2xl shadow hover:shadow-lg transition">
+        <div class="group p-8 bg-white/80 rounded-2xl shadow hover:shadow-lg transition">
           <div class="inline-flex p-3 rounded-xl bg-gradient-to-br from-amber-700 to-yellow-600 mb-4 text-white" aria-hidden="true">✨</div>
           <h3 class="font-serif text-2xl font-bold mb-2">God and Religion</h3>
-          <p class="text-slate-600">Exploring God, faith, meaning, and religious life.</p>
+          <p class="text-slate-600 mb-3">Exploring God, faith, meaning, and religious life.</p>
+          <h4 class="text-sm font-semibold text-slate-500 mb-1">Sample topics</h4>
+          <ul class="list-disc list-inside text-slate-700 space-y-1">
+            <li>Does God exist?</li>
+            <li>Why does suffering exist? (the problem of evil)</li>
+            <li>Can faith and reason coexist?</li>
+            <li>What practices—prayer, fasting, ritual—shape a life?</li>
+          </ul>
         </div>
+
         <!-- Mind & AI -->
-        <div class="group p-8 bg-white/70 rounded-2xl shadow hover:shadow-lg transition">
+        <div class="group p-8 bg-white/80 rounded-2xl shadow hover:shadow-lg transition">
           <div class="inline-flex p-3 rounded-xl bg-gradient-to-br from-indigo-900 to-blue-700 mb-4 text-white" aria-hidden="true">🧠</div>
           <h3 class="font-serif text-2xl font-bold mb-2">The Mind and AI</h3>
-          <p class="text-slate-600">Where code meets cognition—unraveling the mysteries of mind and machine.</p>
+          <p class="text-slate-600 mb-3">Where code meets cognition—unraveling the mysteries of mind and machine.</p>
+          <h4 class="text-sm font-semibold text-slate-500 mb-1">Sample topics</h4>
+          <ul class="list-disc list-inside text-slate-700 space-y-1">
+            <li>What is consciousness?</li>
+            <li>Can machines think?</li>
+            <li>Where does computation end and cognition begin?</li>
+            <li>How should we use AI ethically and well?</li>
+          </ul>
         </div>
+
         <!-- Health & Wellbeing -->
-        <div class="group p-8 bg-white/70 rounded-2xl shadow hover:shadow-lg transition">
+        <div class="group p-8 bg-white/80 rounded-2xl shadow hover:shadow-lg transition">
           <div class="inline-flex p-3 rounded-xl bg-gradient-to-br from-rose-700 to-pink-600 mb-4 text-white" aria-hidden="true">❤️</div>
           <h3 class="font-serif text-2xl font-bold mb-2">Health and Wellbeing</h3>
-          <p class="text-slate-600">Evidence-based habits, longevity, fitness, and flourishing.</p>
+          <p class="text-slate-600 mb-3">Evidence-based habits, longevity, fitness, and flourishing.</p>
+          <h4 class="text-sm font-semibold text-slate-500 mb-1">Sample topics</h4>
+          <ul class="list-disc list-inside text-slate-700 space-y-1">
+            <li>Who is right in the diet wars?</li>
+            <li>What is the latest on cardiovascular health?</li>
+            <li>How can I maintain my strength?</li>
+            <li>How much cardio do I really need?</li>
+          </ul>
         </div>
+
         <!-- Practical Wisdom -->
-        <div class="group p-8 bg-white/70 rounded-2xl shadow hover:shadow-lg transition">
+        <div class="group p-8 bg-white/80 rounded-2xl shadow hover:shadow-lg transition">
           <div class="inline-flex p-3 rounded-xl bg-gradient-to-br from-emerald-700 to-teal-600 mb-4 text-white" aria-hidden="true">🧭</div>
           <h3 class="font-serif text-2xl font-bold mb-2">Practical Wisdom</h3>
-          <p class="text-slate-600">Money, productivity, relationships, and the everyday art of living.</p>
+          <p class="text-slate-600 mb-3">Money, productivity, relationships, and the everyday art of living.</p>
+          <h4 class="text-sm font-semibold text-slate-500 mb-1">Sample topics</h4>
+          <ul class="list-disc list-inside text-slate-700 space-y-1">
+            <li>How do the financial markets work?</li>
+            <li>What is bitcoin?</li>
+            <li>How do you plan for retirement?</li>
+            <li>How can I be more productive?</li>
+            <li>How can I keep my house in order?</li>
+            <li>How can I be a better parent?</li>
+            <li>What is love, and what keeps relationships healthy?</li>
+          </ul>
         </div>
       </div>
     </div>
