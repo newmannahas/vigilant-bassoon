@@ -41,55 +41,79 @@
     .caret::after {
       content: '';
       display: inline-block;
-      width: 2px;
-      height: 1em;
-      background: currentColor;
-      margin-left: 4px;
+      width: 2px; height: 1em; background: currentColor; margin-left: 4px;
       transform: translateY(0.15em);
-      animation: blink 1s steps(1, end) infinite;
-      opacity: .7;
+      animation: blink 1s steps(1, end) infinite; opacity: .7;
     }
     @keyframes blink { 50% { opacity: 0; } }
 
     /* Fancy bullets — semantic lists with custom gradient markers */
-    .fancy-list {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-    }
+    .fancy-list { list-style: none; margin: 0; padding: 0; }
     .fancy-list li {
       position: relative;
       padding-left: 1.75rem; /* room for marker */
       line-height: 1.6;
-      transition: color .2s ease;
     }
     .fancy-list li::before {
       content: '';
-      position: absolute;
-      left: 0;
-      top: .62em;           /* aligns with first text line */
-      width: .55rem;
-      height: .55rem;
-      border-radius: 9999px;
+      position: absolute; left: 0; top: .62em;
+      width: .55rem; height: .55rem; border-radius: 9999px;
       background: linear-gradient(135deg, var(--bullet-from), var(--bullet-to));
       box-shadow: 0 0 0 2px rgba(255,255,255,.9), 0 0 18px rgba(99,102,241,.35);
       transition: transform .2s ease, box-shadow .2s ease;
     }
-    .fancy-list li:hover { color: #0f172a; } /* slate-900 */
-    .fancy-list li:hover::before {
+    .fancy-list li:hover::before,
+    .fancy-list li:focus-within::before {
       transform: scale(1.18);
       box-shadow: 0 0 0 2px rgba(255,255,255,.95), 0 0 26px rgba(99,102,241,.45);
     }
-    /* Theme colors for bullets (CSS vars) */
-    .fancy-god      { --bullet-from: #f59e0b; --bullet-to: #d97706; } /* amber/yellow */
+    /* Theme color vars for bullets */
+    .fancy-god      { --bullet-from: #f59e0b; --bullet-to: #d97706; } /* amber */
     .fancy-ai       { --bullet-from: #4338ca; --bullet-to: #1e3a8a; } /* indigo/blue */
     .fancy-health   { --bullet-from: #be123c; --bullet-to: #db2777; } /* rose/pink */
     .fancy-practice { --bullet-from: #059669; --bullet-to: #0d9488; } /* emerald/teal */
+
+    /* Bullet row button */
+    .bullet-btn {
+      width: 100%; text-align: left;
+      display: flex; align-items: center; justify-content: space-between; gap: .75rem;
+      padding: .25rem 0; color: #1f2937; /* slate-800 */
+      transition: color .2s ease;
+    }
+    .bullet-btn:hover, .bullet-btn:focus-visible { color: #0f172a; } /* slate-900 */
+    .bullet-chev { width: 1rem; height: 1rem; opacity: .6; transition: transform .2s ease, opacity .2s ease; }
+    .bullet-btn[aria-expanded="true"] .bullet-chev { transform: rotate(180deg); opacity: .9; }
+
+    /* Tooltip */
+    .tip {
+      position: absolute; left: 1.75rem; top: 100%; margin-top: .35rem;
+      background: rgba(15,23,42,.95); color: white; font-size: .85rem;
+      padding: .35rem .55rem; border-radius: .5rem;
+      box-shadow: 0 8px 24px rgba(2,6,23,.28);
+      opacity: 0; visibility: hidden; transform: translateY(-4px);
+      transition: opacity .15s ease, transform .15s ease; pointer-events: none; z-index: 20;
+      white-space: nowrap;
+    }
+    .tip::after {
+      content: ''; position: absolute; top: -6px; left: 10px;
+      border-width: 6px; border-style: solid;
+      border-color: transparent transparent rgba(15,23,42,.95) transparent;
+    }
+    li:hover > .tip, li:focus-within > .tip, .tip.show { opacity: 1; visibility: visible; transform: translateY(0); }
+
+    /* Teaser panel (micro-accordion) */
+    .teasers { overflow: hidden; height: 0; }
+    .teasers-inner { padding: .35rem 0 .15rem 0; }
+    .teasers li { color: #475569; /* slate-600 */ padding-left: 1.2rem; position: relative; }
+    .teasers li::before {
+      content: '–'; position: absolute; left: 0; top: 0; color: #94a3b8; /* slate-400 */
+    }
 
     /* Respect reduced motion */
     @media (prefers-reduced-motion: reduce) {
       .reveal { opacity: 1 !important; transform: none !important; }
       .caret::after { animation: none; }
+      .teasers { height: auto !important; }
     }
 
     html, body { height: 100%; } /* keep hero canvas crisp on resize */
@@ -220,10 +244,71 @@
           <div class="inline-flex p-3 rounded-xl bg-gradient-to-br from-amber-700 to-yellow-600 mb-4 text-white" aria-hidden="true">✨</div>
           <h3 class="font-serif text-2xl font-bold mb-2">God and Religion</h3>
           <p class="text-slate-600 mb-3">Exploring God, faith, meaning, and religious life.</p>
+
           <ul class="fancy-list fancy-god text-slate-800 space-y-2">
-            <li>How can we know whether God exists and what he is like?</li>
-            <li>The problem of evil</li>
-            <li>Eastern vs Western Christianity</li>
+            <li class="bullet" id="li-g1">
+              <button type="button" class="bullet-btn" aria-expanded="false" aria-controls="teaser-g1" aria-describedby="tip-g1">
+                <span class="bullet-text">How can we know whether God exists and what he is like?</span>
+                <svg class="bullet-chev" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"/></svg>
+              </button>
+              <span id="tip-g1" role="tooltip" class="tip">Natural theology, revelation, experience</span>
+              <div id="teaser-g1" class="teasers" hidden>
+                <div class="teasers-inner">
+                  <ul>
+                    <li>What counts as evidence—reason, revelation, experience?</li>
+                    <li>What is God like—goodness, simplicity, personhood?</li>
+                  </ul>
+                </div>
+              </div>
+            </li>
+
+            <li class="bullet" id="li-g2">
+              <button type="button" class="bullet-btn" aria-expanded="false" aria-controls="teaser-g2" aria-describedby="tip-g2">
+                <span class="bullet-text">The problem of evil</span>
+                <svg class="bullet-chev" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"/></svg>
+              </button>
+              <span id="tip-g2" role="tooltip" class="tip">Suffering, freedom, justice</span>
+              <div id="teaser-g2" class="teasers" hidden>
+                <div class="teasers-inner">
+                  <ul>
+                    <li>Moral vs natural evil—do they need different answers?</li>
+                    <li>Free‑will defense vs soul‑making theodicy?</li>
+                  </ul>
+                </div>
+              </div>
+            </li>
+
+            <li class="bullet" id="li-g3">
+              <button type="button" class="bullet-btn" aria-expanded="false" aria-controls="teaser-g3" aria-describedby="tip-g3">
+                <span class="bullet-text">Eastern vs Western Christianity</span>
+                <svg class="bullet-chev" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"/></svg>
+              </button>
+              <span id="tip-g3" role="tooltip" class="tip">Atonement, apophatic/cataphatic, theosis</span>
+              <div id="teaser-g3" class="teasers" hidden>
+                <div class="teasers-inner">
+                  <ul>
+                    <li>Filioque & councils—why did they matter?</li>
+                    <li>Theosis vs sanctification—two pathways?</li>
+                  </ul>
+                </div>
+              </div>
+            </li>
+
+            <li class="bullet" id="li-g4">
+              <button type="button" class="bullet-btn" aria-expanded="false" aria-controls="teaser-g4" aria-describedby="tip-g4">
+                <span class="bullet-text">Science and Religion</span>
+                <svg class="bullet-chev" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"/></svg>
+              </button>
+              <span id="tip-g4" role="tooltip" class="tip">From Galileo to gene editing</span>
+              <div id="teaser-g4" class="teasers" hidden>
+                <div class="teasers-inner">
+                  <ul>
+                    <li>Conflict or complementarity—what models fit best?</li>
+                    <li>Where are the proper boundaries of each domain?</li>
+                  </ul>
+                </div>
+              </div>
+            </li>
           </ul>
         </div>
 
@@ -232,10 +317,71 @@
           <div class="inline-flex p-3 rounded-xl bg-gradient-to-br from-indigo-900 to-blue-700 mb-4 text-white" aria-hidden="true">🧠</div>
           <h3 class="font-serif text-2xl font-bold mb-2">The Mind and AI</h3>
           <p class="text-slate-600 mb-3">Where code meets cognition—unraveling the mysteries of mind and machine.</p>
+
           <ul class="fancy-list fancy-ai text-slate-800 space-y-2">
-            <li>What is consciousness?</li>
-            <li>Can machines think?</li>
-            <li>Where does computation end and cognition begin?</li>
+            <li class="bullet" id="li-a1">
+              <button type="button" class="bullet-btn" aria-expanded="false" aria-controls="teaser-a1" aria-describedby="tip-a1">
+                <span class="bullet-text">What is consciousness?</span>
+                <svg class="bullet-chev" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"/></svg>
+              </button>
+              <span id="tip-a1" role="tooltip" class="tip">Hard problem, qualia, global workspace</span>
+              <div id="teaser-a1" class="teasers" hidden>
+                <div class="teasers-inner">
+                  <ul>
+                    <li>Is consciousness fundamental or emergent?</li>
+                    <li>How do we measure it—report vs behavior?</li>
+                  </ul>
+                </div>
+              </div>
+            </li>
+
+            <li class="bullet" id="li-a2">
+              <button type="button" class="bullet-btn" aria-expanded="false" aria-controls="teaser-a2" aria-describedby="tip-a2">
+                <span class="bullet-text">Can machines think?</span>
+                <svg class="bullet-chev" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"/></svg>
+              </button>
+              <span id="tip-a2" role="tooltip" class="tip">Turing tests, Chinese Room, agency</span>
+              <div id="teaser-a2" class="teasers" hidden>
+                <div class="teasers-inner">
+                  <ul>
+                    <li>Passing tests vs genuine understanding</li>
+                    <li>Tool vs agent vs person—where’s the line?</li>
+                  </ul>
+                </div>
+              </div>
+            </li>
+
+            <li class="bullet" id="li-a3">
+              <button type="button" class="bullet-btn" aria-expanded="false" aria-controls="teaser-a3" aria-describedby="tip-a3">
+                <span class="bullet-text">Where does computation end and cognition begin?</span>
+                <svg class="bullet-chev" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"/></svg>
+              </button>
+              <span id="tip-a3" role="tooltip" class="tip">Embodiment, symbols, predictive processing</span>
+              <div id="teaser-a3" class="teasers" hidden>
+                <div class="teasers-inner">
+                  <ul>
+                    <li>Are bodies required for minds?</li>
+                    <li>Symbolic vs neural—hybrids that work?</li>
+                  </ul>
+                </div>
+              </div>
+            </li>
+
+            <li class="bullet" id="li-a4">
+              <button type="button" class="bullet-btn" aria-expanded="false" aria-controls="teaser-a4" aria-describedby="tip-a4">
+                <span class="bullet-text">Awareness vs Cognition</span>
+                <svg class="bullet-chev" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"/></svg>
+              </button>
+              <span id="tip-a4" role="tooltip" class="tip">Phenomenal vs access consciousness</span>
+              <div id="teaser-a4" class="teasers" hidden>
+                <div class="teasers-inner">
+                  <ul>
+                    <li>Can awareness exist without report?</li>
+                    <li>Metacognition and self‑models</li>
+                  </ul>
+                </div>
+              </div>
+            </li>
           </ul>
         </div>
 
@@ -244,10 +390,71 @@
           <div class="inline-flex p-3 rounded-xl bg-gradient-to-br from-rose-700 to-pink-600 mb-4 text-white" aria-hidden="true">❤️</div>
           <h3 class="font-serif text-2xl font-bold mb-2">Health and Wellbeing</h3>
           <p class="text-slate-600 mb-3">Evidence-based habits, longevity, fitness, and flourishing.</p>
+
           <ul class="fancy-list fancy-health text-slate-800 space-y-2">
-            <li>Who is right in the diet wars?</li>
-            <li>What is the latest on cardiovascular health?</li>
-            <li>How can I maintain my strength?</li>
+            <li class="bullet" id="li-h1">
+              <button type="button" class="bullet-btn" aria-expanded="false" aria-controls="teaser-h1" aria-describedby="tip-h1">
+                <span class="bullet-text">Who is right in the diet wars?</span>
+                <svg class="bullet-chev" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"/></svg>
+              </button>
+              <span id="tip-h1" role="tooltip" class="tip">Mediterranean, low‑carb, plant‑based</span>
+              <div id="teaser-h1" class="teasers" hidden>
+                <div class="teasers-inner">
+                  <ul>
+                    <li>Evidence quality vs anecdotes—how to weigh them?</li>
+                    <li>Personalization, adherence, and biomarkers</li>
+                  </ul>
+                </div>
+              </div>
+            </li>
+
+            <li class="bullet" id="li-h2">
+              <button type="button" class="bullet-btn" aria-expanded="false" aria-controls="teaser-h2" aria-describedby="tip-h2">
+                <span class="bullet-text">What is the latest on cardiovascular health?</span>
+                <svg class="bullet-chev" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"/></svg>
+              </button>
+              <span id="tip-h2" role="tooltip" class="tip">ApoB, LDL‑C, blood pressure</span>
+              <div id="teaser-h2" class="teasers" hidden>
+                <div class="teasers-inner">
+                  <ul>
+                    <li>Zone 2 vs HIIT—what’s optimal for heart health?</li>
+                    <li>Lipids, inflammation, and lifestyle levers</li>
+                  </ul>
+                </div>
+              </div>
+            </li>
+
+            <li class="bullet" id="li-h3">
+              <button type="button" class="bullet-btn" aria-expanded="false" aria-controls="teaser-h3" aria-describedby="tip-h3">
+                <span class="bullet-text">How can I maintain my strength?</span>
+                <svg class="bullet-chev" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"/></svg>
+              </button>
+              <span id="tip-h3" role="tooltip" class="tip">Protein, progressive overload, sleep</span>
+              <div id="teaser-h3" class="teasers" hidden>
+                <div class="teasers-inner">
+                  <ul>
+                    <li>Minimum effective dose across decades</li>
+                    <li>Strength vs hypertrophy—do you need both?</li>
+                  </ul>
+                </div>
+              </div>
+            </li>
+
+            <li class="bullet" id="li-h4">
+              <button type="button" class="bullet-btn" aria-expanded="false" aria-controls="teaser-h4" aria-describedby="tip-h4">
+                <span class="bullet-text">The Mysteries of Mental Health and ADHD</span>
+                <svg class="bullet-chev" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"/></svg>
+              </button>
+              <span id="tip-h4" role="tooltip" class="tip">Over/underdiagnosis, stimulants, environment</span>
+              <div id="teaser-h4" class="teasers" hidden>
+                <div class="teasers-inner">
+                  <ul>
+                    <li>Medical vs social models—where’s the tension?</li>
+                    <li>Focus strategies beyond medication</li>
+                  </ul>
+                </div>
+              </div>
+            </li>
           </ul>
         </div>
 
@@ -256,12 +463,74 @@
           <div class="inline-flex p-3 rounded-xl bg-gradient-to-br from-emerald-700 to-teal-600 mb-4 text-white" aria-hidden="true">🧭</div>
           <h3 class="font-serif text-2xl font-bold mb-2">Practical Wisdom</h3>
           <p class="text-slate-600 mb-3">Money, productivity, relationships, and the everyday art of living.</p>
+
           <ul class="fancy-list fancy-practice text-slate-800 space-y-2">
-            <li>How do the financial markets work?</li>
-            <li>what are the secrets to productivity and life management?</li>
-            <li>What is love, and what keeps relationships healthy?</li>
+            <li class="bullet" id="li-p1">
+              <button type="button" class="bullet-btn" aria-expanded="false" aria-controls="teaser-p1" aria-describedby="tip-p1">
+                <span class="bullet-text">How do the financial markets work?</span>
+                <svg class="bullet-chev" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"/></svg>
+              </button>
+              <span id="tip-p1" role="tooltip" class="tip">Compounding, risk, diversification</span>
+              <div id="teaser-p1" class="teasers" hidden>
+                <div class="teasers-inner">
+                  <ul>
+                    <li>Passive vs active—what survives the data?</li>
+                    <li>How do incentives shape markets?</li>
+                  </ul>
+                </div>
+              </div>
+            </li>
+
+            <li class="bullet" id="li-p2">
+              <button type="button" class="bullet-btn" aria-expanded="false" aria-controls="teaser-p2" aria-describedby="tip-p2">
+                <span class="bullet-text">what are the secrets to productivity and life management?</span>
+                <svg class="bullet-chev" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"/></svg>
+              </button>
+              <span id="tip-p2" role="tooltip" class="tip">Capture, review, deep work</span>
+              <div id="teaser-p2" class="teasers" hidden>
+                <div class="teasers-inner">
+                  <ul>
+                    <li>Systems that survive busy seasons</li>
+                    <li>Energy management vs time management</li>
+                  </ul>
+                </div>
+              </div>
+            </li>
+
+            <li class="bullet" id="li-p3">
+              <button type="button" class="bullet-btn" aria-expanded="false" aria-controls="teaser-p3" aria-describedby="tip-p3">
+                <span class="bullet-text">What is love, and what keeps relationships healthy?</span>
+                <svg class="bullet-chev" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"/></svg>
+              </button>
+              <span id="tip-p3" role="tooltip" class="tip">Attachment, commitment, repair</span>
+              <div id="teaser-p3" class="teasers" hidden>
+                <div class="teasers-inner">
+                  <ul>
+                    <li>Rituals that deepen bonds</li>
+                    <li>Conflict styles and repair attempts</li>
+                  </ul>
+                </div>
+              </div>
+            </li>
+
+            <li class="bullet" id="li-p4">
+              <button type="button" class="bullet-btn" aria-expanded="false" aria-controls="teaser-p4" aria-describedby="tip-p4">
+                <span class="bullet-text">How to Parent</span>
+                <svg class="bullet-chev" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"/></svg>
+              </button>
+              <span id="tip-p4" role="tooltip" class="tip">Boundaries, warmth, play</span>
+              <div id="teaser-p4" class="teasers" hidden>
+                <div class="teasers-inner">
+                  <ul>
+                    <li>Authoritative vs permissive—what outcomes?</li>
+                    <li>Household rhythms that actually stick</li>
+                  </ul>
+                </div>
+              </div>
+            </li>
           </ul>
         </div>
+
       </div>
     </div>
   </section>
@@ -332,13 +601,8 @@
     // Sticky nav style tweak on scroll
     const nav = document.getElementById('siteNav');
     window.addEventListener('scroll', () => {
-      if (window.scrollY > 24) {
-        nav.classList.add('shadow', 'py-3');
-        nav.classList.remove('py-4');
-      } else {
-        nav.classList.remove('shadow', 'py-3');
-        nav.classList.add('py-4');
-      }
+      if (window.scrollY > 24) { nav.classList.add('shadow', 'py-3'); nav.classList.remove('py-4'); }
+      else { nav.classList.remove('shadow', 'py-3'); nav.classList.add('py-4'); }
     });
 
     // Mobile menu toggle
@@ -356,167 +620,129 @@
     ];
     const qEl = document.getElementById('bigQuestion');
 
-    // ===== Motion preference & toggle handling =====
+    // Motion preference & toggle
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const motionToggle = document.getElementById('motionToggle');
-    let motionOn = !prefersReduced; // follow system by default
-
+    let motionOn = !prefersReduced;
     function showMotionToggleIfNeeded() {
-      if (!motionOn) motionToggle.classList.remove('hidden');
-      else motionToggle.classList.add('hidden');
-      motionToggle.setAttribute('aria-pressed', String(!motionOn ? false : true));
+      if (!motionOn) motionToggle.classList.remove('hidden'); else motionToggle.classList.add('hidden');
+      motionToggle.setAttribute('aria-pressed', String(motionOn));
       motionToggle.textContent = motionOn ? 'Pause animations' : 'Animations are off — Play anyway';
     }
-
     motionToggle.addEventListener('click', () => {
-      motionOn = !motionOn;
-      showMotionToggleIfNeeded();
-      if (motionOn) {
-        startTypewriter();
-        startConstellation();
-      } else {
-        stopTypewriter();
-        stopConstellation();
-      }
+      motionOn = !motionOn; showMotionToggleIfNeeded();
+      if (motionOn) { startTypewriter(); startConstellation(); } else { stopTypewriter(); stopConstellation(); }
     });
 
-    // ===== Typewriter engine =====
+    // Typewriter engine
     let ti = 0, charI = 0, deleting = false, typerRef = null;
     function typeStep() {
       if (!motionOn) return;
       const full = questions[ti];
-      const current = qEl.textContent || "";
       const target = deleting ? full.slice(0, Math.max(0, charI - 1)) : full.slice(0, Math.min(full.length, charI + 1));
-      qEl.textContent = target;
-      charI = deleting ? charI - 1 : charI + 1;
-
-      let delay = deleting ? 28 : 42; // ms, tuned for readability
+      qEl.textContent = target; charI = deleting ? charI - 1 : charI + 1;
+      let delay = deleting ? 28 : 42;
       if (!deleting && charI >= full.length) { delay = 1200; deleting = true; }
       else if (deleting && charI <= 0) { deleting = false; ti = (ti + 1) % questions.length; delay = 350; }
-
       typerRef = setTimeout(typeStep, delay);
     }
     function startTypewriter() { stopTypewriter(); typeStep(); }
     function stopTypewriter() { if (typerRef) clearTimeout(typerRef); typerRef = null; }
-
-    // Initialize typewriter text
-    qEl.textContent = questions[0];
-    charI = questions[0].length; deleting = true;
+    qEl.textContent = questions[0]; charI = questions[0].length; deleting = true;
     if (motionOn) startTypewriter(); else showMotionToggleIfNeeded();
 
     // ===== Constellation Canvas =====
     const canvas = document.getElementById('constellation');
     const ctx = canvas.getContext('2d');
-    let dpr = window.devicePixelRatio || 1;
-    let W = 0, H = 0, particles = [], rafRef = null, mouse = { x: 0, y: 0, active: false };
-
-    function resize() {
-      W = canvas.clientWidth;
-      H = canvas.clientHeight;
-      canvas.width = Math.floor(W * dpr);
-      canvas.height = Math.floor(H * dpr);
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    }
+    let dpr = window.devicePixelRatio || 1, W = 0, H = 0, particles = [], rafRef = null, mouse = { x: 0, y: 0, active: false };
+    function resize() { W = canvas.clientWidth; H = canvas.clientHeight; canvas.width = Math.floor(W * dpr); canvas.height = Math.floor(H * dpr); ctx.setTransform(dpr, 0, 0, dpr, 0, 0); }
     window.addEventListener('resize', resize);
-
     function initParticles() {
       const density = Math.min(110, Math.max(60, Math.floor(W * H / 14000)));
-      particles = Array.from({ length: density }, () => ({
-        x: Math.random() * W,
-        y: Math.random() * H,
-        vx: (Math.random() - 0.5) * 0.25,
-        vy: (Math.random() - 0.5) * 0.25,
-        r: Math.random() * 1.6 + 0.6
-      }));
+      particles = Array.from({ length: density }, () => ({ x: Math.random()*W, y: Math.random()*H, vx: (Math.random()-0.5)*0.25, vy: (Math.random()-0.5)*0.25, r: Math.random()*1.6+0.6 }));
     }
-
     function draw() {
       ctx.clearRect(0, 0, W, H);
-
-      const grad = ctx.createLinearGradient(0, 0, W, H);
-      grad.addColorStop(0, 'rgba(59,130,246,0.10)');
-      grad.addColorStop(1, 'rgba(99,102,241,0.10)');
-      ctx.fillStyle = grad;
-      ctx.fillRect(0, 0, W, H);
-
+      const grad = ctx.createLinearGradient(0, 0, W, H); grad.addColorStop(0,'rgba(59,130,246,0.10)'); grad.addColorStop(1,'rgba(99,102,241,0.10)'); ctx.fillStyle = grad; ctx.fillRect(0,0,W,H);
       for (const p of particles) {
-        if (mouse.active) {
-          const dx = mouse.x - p.x, dy = mouse.y - p.y;
-          const dist = Math.hypot(dx, dy);
-          if (dist < 160) {
-            const force = (160 - dist) / 160 * 0.03;
-            p.vx += dx * force / dist;
-            p.vy += dy * force / dist;
-          }
-        }
-        p.x += p.vx; p.y += p.vy;
-        if (p.x < -20) p.x = W + 20; if (p.x > W + 20) p.x = -20;
-        if (p.y < -20) p.y = H + 20; if (p.y > H + 20) p.y = -20;
-
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(15,23,42,0.45)';
-        ctx.fill();
+        if (mouse.active) { const dx=mouse.x-p.x, dy=mouse.y-p.y, dist=Math.hypot(dx,dy); if (dist<160) { const f=(160-dist)/160*0.03; p.vx+=dx*f/dist; p.vy+=dy*f/dist; } }
+        p.x+=p.vx; p.y+=p.vy; if (p.x<-20) p.x=W+20; if (p.x>W+20) p.x=-20; if (p.y<-20) p.y=H+20; if (p.y>H+20) p.y=-20;
+        ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fillStyle='rgba(15,23,42,0.45)'; ctx.fill();
       }
-
-      const maxDist = 110;
-      ctx.lineWidth = 1;
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const a = particles[i], b = particles[j];
-          const dx = a.x - b.x, dy = a.y - b.y;
-          const d = dx * dx + dy * dy;
-          if (d < maxDist * maxDist) {
-            const alpha = 1 - Math.sqrt(d) / maxDist;
-            ctx.strokeStyle = `rgba(37,99,235,${0.15 * alpha})`;
-            ctx.beginPath();
-            ctx.moveTo(a.x, a.y);
-            ctx.lineTo(b.x, b.y);
-            ctx.stroke();
-          }
+      const maxDist=110; ctx.lineWidth=1;
+      for (let i=0;i<particles.length;i++) for (let j=i+1;j<particles.length;j++) {
+        const a=particles[i], b=particles[j], dx=a.x-b.x, dy=a.y-b.y, d=dx*dx+dy*dy; if (d<maxDist*maxDist) {
+          const alpha=1-Math.sqrt(d)/maxDist; ctx.strokeStyle=`rgba(37,99,235,${0.15*alpha})`; ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
         }
       }
     }
-
-    function tick() {
-      draw();
-      rafRef = requestAnimationFrame(tick);
-    }
-
-    function startConstellation() {
-      stopConstellation();
-      resize();
-      initParticles();
-      tick();
-    }
-    function stopConstellation() {
-      if (rafRef) cancelAnimationFrame(rafRef);
-      rafRef = null;
-      resize();
-      initParticles();
-      draw();
-    }
-
-    window.addEventListener('pointermove', (e) => {
-      const rect = canvas.getBoundingClientRect();
-      mouse.x = e.clientX - rect.left;
-      mouse.y = e.clientY - rect.top;
-      mouse.active = true;
-    }, { passive: true });
-    window.addEventListener('pointerleave', () => { mouse.active = false; }, { passive: true });
-
+    function tick(){ draw(); rafRef=requestAnimationFrame(tick); }
+    function startConstellation(){ stopConstellation(); resize(); initParticles(); tick(); }
+    function stopConstellation(){ if (rafRef) cancelAnimationFrame(rafRef); rafRef=null; resize(); initParticles(); draw(); }
+    window.addEventListener('pointermove', (e)=>{ const r=canvas.getBoundingClientRect(); mouse.x=e.clientX-r.left; mouse.y=e.clientY-r.top; mouse.active=true; }, { passive:true });
+    window.addEventListener('pointerleave', ()=>{ mouse.active=false; }, { passive:true });
     if (motionOn) startConstellation(); else stopConstellation();
 
-    // Reveal-on-scroll
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((e) => {
-        if (e.isIntersecting) {
-          e.target.classList.add('show');
-          io.unobserve(e.target);
-        }
-      });
-    }, { threshold: 0.12 });
+    // ===== Reveal-on-scroll =====
+    const io = new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('show'); io.unobserve(e.target); } }); }, { threshold: 0.12 });
     document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+    // ===== Bullet micro-accordion + tooltips =====
+    function slideDown(el, duration=220){
+      el.hidden = false;
+      el.style.height = '0px';
+      requestAnimationFrame(() => {
+        const h = el.scrollHeight;
+        el.style.transition = `height ${duration}ms ease`;
+        el.style.height = h + 'px';
+        el.addEventListener('transitionend', () => {
+          el.style.height = 'auto';
+          el.style.transition = '';
+        }, { once: true });
+      });
+    }
+    function slideUp(el, duration=200){
+      el.style.height = el.scrollHeight + 'px';
+      requestAnimationFrame(() => {
+        el.style.transition = `height ${duration}ms ease`;
+        el.style.height = '0px';
+        el.addEventListener('transitionend', () => {
+          el.style.transition = '';
+          el.hidden = true;
+        }, { once: true });
+      });
+    }
+
+    document.querySelectorAll('.bullet-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const expanded = btn.getAttribute('aria-expanded') === 'true';
+        const panel = document.getElementById(btn.getAttribute('aria-controls'));
+        btn.setAttribute('aria-expanded', String(!expanded));
+        if (expanded) slideUp(panel);
+        else slideDown(panel);
+      });
+
+      // Keyboard tip hint on focus (helpful on mobile, too)
+      btn.addEventListener('focus', () => {
+        const tip = document.getElementById(btn.getAttribute('aria-describedby'));
+        if (tip) tip.classList.add('show');
+      });
+      btn.addEventListener('blur', () => {
+        const tip = document.getElementById(btn.getAttribute('aria-describedby'));
+        if (tip) tip.classList.remove('show');
+      });
+    });
+
+    // Close any open panel on Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.bullet-btn[aria-expanded="true"]').forEach(btn => {
+          btn.setAttribute('aria-expanded', 'false');
+          const panel = document.getElementById(btn.getAttribute('aria-controls'));
+          slideUp(panel);
+        });
+      }
+    });
 
     // Footer year
     document.getElementById('year').textContent = new Date().getFullYear();
