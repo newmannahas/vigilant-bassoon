@@ -1,537 +1,861 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Aletheia Conversations:  A Podcast that Goes from First Principles to First Steps</title>
-  <meta name="description" content="Aletheia Conversations — the podcast that goes from first principles to first steps. Host: Newman Nahas." />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Aletheia Conversations:  A Podcast that Goes from First Principles to First Steps</title>
+  <meta name="description" content="Aletheia Conversations — the podcast that goes from first principles to first steps. Host: Newman Nahas." />
 
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+  <!-- Open Graph Tags (for social sharing) -->
+  <meta property="og:title" content="Aletheia Conversations: From First Principles to First Steps">
+  <meta property="og:description" content="The podcast exploring God, AI, Health, and Practical Wisdom. Hosted by Newman Nahas.">
+  <meta property="og:type" content="website">
+  <!-- !! IMPORTANT: Replace with your actual URL and image when deployed !! -->
+  <meta property="og:url" content="https://www.yourwebsite.com">
+  <meta property="og:image" content="https://www.yourwebsite.com/social-image.jpg">
 
-  <!-- Tailwind via CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Inter', 'ui-sans-serif', 'system-ui', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'Noto Sans', 'Apple Color Emoji', 'Segoe UI Emoji'],
-            serif: ['Playfair Display', 'ui-serif', 'Georgia', 'Cambria', 'Times New Roman', 'Times', 'serif'],
-          },
-          boxShadow: {
-            'glow': '0 10px 30px -5px rgba(30,64,175,.25), 0 6px 12px -6px rgba(30,64,175,.3)'
-          },
-          keyframes: {
-            float: { '0%,100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-12px)' } },
-            drift: { '0%': { transform: 'rotate(0deg) translateX(var(--r)) rotate(0deg)' }, '100%': { transform: 'rotate(360deg) translateX(var(--r)) rotate(-360deg)' } }
-          },
-          animation: {
-            float: 'float 5s ease-in-out infinite',
-            drift: 'drift var(--t) linear infinite'
-          }
-        }
-      }
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><style>text{font-family:serif;font-weight:bold;font-size:70px;fill:%231e3a8a;}</style><text y=%2275%22 x=%2210%22>AC</text></svg>" type="image/svg+xml">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind via CDN -->
+  <script src="https://cdn.tailwindcss.com" defer></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'ui-sans-serif', 'system-ui', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'Noto Sans', 'Apple Color Emoji', 'Segoe UI Emoji'],
+            serif: ['Playfair Display', 'ui-serif', 'Georgia', 'Cambria', 'Times New Roman', 'Times', 'serif'],
+          },
+          boxShadow: {
+            'glow': '0 10px 30px -5px rgba(30,64,175,.25), 0 6px 12px -6px rgba(30,64,175,.3)'
+          },
+          keyframes: {
+            float: { '0%,100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-12px)' } },
+            drift: { '0%': { transform: 'rotate(0deg) translateX(var(--r)) rotate(0deg)' }, '100%': { transform: 'rotate(360deg) translateX(var(--r)) rotate(-360deg)' } }
+          },
+          animation: {
+            float: 'float 5s ease-in-out infinite',
+            drift: 'drift var(--t) linear infinite'
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    html, body { height: 100%; scroll-behavior: smooth; }
+    /* Anchor offset so headings aren't hidden under the fixed nav */
+    #why, #season1, #about, #cta, #quiz { scroll-margin-top: 96px; }
+
+    .brand-sc { font-variant-caps: small-caps; letter-spacing: .06em; }
+    .caret::after {
+      content: ''; display: inline-block; width: 2px; height: 1em;
+      background: currentColor; margin-left: 4px; transform: translateY(.18em);
+      animation: blink 1s steps(1, end) infinite; opacity: .7;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    /* Reveal-on-scroll (subtle) */
+    .reveal { opacity: 0; transform: translateY(14px); transition: opacity 600ms ease, transform 600ms ease; }
+    .reveal.show { opacity: 1; transform: translateY(0); }
+
+    /* Fancy bullets */
+    .fancy-list { list-style: none; margin: 0; padding: 0; }
+    .fancy-list li { position: relative; padding-left: 1.55rem; line-height: 1.6; }
+    .fancy-list li::before {
+      content: ''; position: absolute; left: 0; top: .62em; width: .5rem; height: .5rem; border-radius: 9999px;
+      background: linear-gradient(135deg, var(--b-from), var(--b-to));
+      box-shadow: 0 0 0 2px rgba(255,255,255,.9), 0 0 14px rgba(99,102,241,.3);
+    }
+    .fancy-god      { --b-from:#f59e0b; --b-to:#d97706; }  /* amber */
+    .fancy-ai       { --b-from:#4338ca; --b-to:#1e3a8a; }  /* indigo/blue */
+    .fancy-health   { --b-from:#be123c; --b-to:#db2777; }  /* rose/pink */
+    .fancy-practice { --b-from:#059669; --b-to:#0d9488; }  /* emerald/teal */
+
+    /* Decorative orbit chips */
+    .orbit { position: absolute; inset: 0; pointer-events: none; }
+    .orbit .chip {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      background: rgba(255,255,255,.8); border: 1px solid rgba(15,23,42,.08);
+      box-shadow: 0 8px 24px rgba(2,6,23,.12);
+      padding: .4rem .6rem; border-radius: .7rem; font-size: .8rem; color: #334155;
+      display: inline-flex; align-items: center; gap: .35rem; white-space: nowrap;
+      animation: drift var(--t) linear infinite; transform-origin: 0 0;
+    }
+    .orbit .chip i { opacity: .7; }
+
+    /* Quiz card */
+    .quiz-card button.choice { border:1px solid rgba(15,23,42,.15); }
+    .quiz-card button.choice:hover:not(:disabled), .quiz-card button.choice:focus { border-color: rgba(15,23,42,.28); background: rgba(2,6,23,.03); }
+    .quiz-card button.choice:disabled { opacity: 0.8; cursor: default; }
+    .quiz-card .correct { background:#ecfdf5; border-color:#10b981 !important; }
+    .quiz-card .wrong   { background:#fef2f2; border-color:#ef4444 !important; }
+
+    /* Dialog/Modal Styling */
+    dialog {
+      opacity: 0;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      transform: scale(0.95);
     }
-  </script>
-
-  <style>
-    html, body { height: 100%; scroll-behavior: smooth; }
-    /* Anchor offset so headings aren't hidden under the fixed nav */
-    #why, #season1, #about, #cta, #quiz { scroll-margin-top: 96px; }
-
-    .brand-sc { font-variant-caps: small-caps; letter-spacing: .06em; }
-    .caret::after {
-      content: ''; display: inline-block; width: 2px; height: 1em;
-      background: currentColor; margin-left: 4px; transform: translateY(.18em);
-      animation: blink 1s steps(1, end) infinite; opacity: .7;
+    dialog[open] {
+      opacity: 1;
+      transform: scale(1);
     }
-    @keyframes blink { 50% { opacity: 0; } }
-
-    /* Reveal-on-scroll (subtle) */
-    .reveal { opacity: 0; transform: translateY(14px); transition: opacity 600ms ease, transform 600ms ease; }
-    .reveal.show { opacity: 1; transform: translateY(0); }
-
-    /* Fancy bullets */
-    .fancy-list { list-style: none; margin: 0; padding: 0; }
-    .fancy-list li { position: relative; padding-left: 1.55rem; line-height: 1.6; }
-    .fancy-list li::before {
-      content: ''; position: absolute; left: 0; top: .62em; width: .5rem; height: .5rem; border-radius: 9999px;
-      background: linear-gradient(135deg, var(--b-from), var(--b-to));
-      box-shadow: 0 0 0 2px rgba(255,255,255,.9), 0 0 14px rgba(99,102,241,.3);
+    dialog::backdrop {
+      background: rgba(2, 6, 23, 0.5);
+      backdrop-filter: blur(4px);
     }
-    .fancy-god      { --b-from:#f59e0b; --b-to:#d97706; }  /* amber */
-    .fancy-ai       { --b-from:#4338ca; --b-to:#1e3a8a; }  /* indigo/blue */
-    .fancy-health   { --b-from:#be123c; --b-to:#db2777; }  /* rose/pink */
-    .fancy-practice { --b-from:#059669; --b-to:#0d9488; }  /* emerald/teal */
 
-    /* Decorative orbit chips */
-    .orbit { position: absolute; inset: 0; pointer-events: none; }
-    .orbit .chip {
-      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-      background: rgba(255,255,255,.8); border: 1px solid rgba(15,23,42,.08);
-      box-shadow: 0 8px 24px rgba(2,6,23,.12);
-      padding: .4rem .6rem; border-radius: .7rem; font-size: .8rem; color: #334155;
-      display: inline-flex; align-items: center; gap: .35rem; white-space: nowrap;
-      animation: drift var(--t) linear infinite; transform-origin: 0 0;
-    }
-    .orbit .chip i { opacity: .7; }
-
-    /* Quiz card */
-    .quiz-card button.choice { border:1px solid rgba(15,23,42,.15); }
-    .quiz-card button.choice:hover { border-color: rgba(15,23,42,.28); background: rgba(2,6,23,.03); }
-    .quiz-card .correct { background:#ecfdf5; border-color:#10b981 !important; }
-    .quiz-card .wrong   { background:#fef2f2; border-color:#ef4444 !important; }
-
-    @media (prefers-reduced-motion: reduce) {
-      .reveal { opacity: 1 !important; transform: none !important; }
-      .orbit .chip { animation: none !important; }
-    }
-  </style>
+    /* Accessibility - Enhanced reduced motion handling */
+    @media (prefers-reduced-motion: reduce) {
+      html, body { scroll-behavior: auto; } /* Disable smooth scroll */
+      .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+      .orbit .chip { animation: none !important; }
+      /* Stop caret blink */
+      .caret::after { animation: none !important; }
+    }
+  </style>
 </head>
 <body class="min-h-screen bg-gradient-to-b from-slate-50 to-white text-slate-800 font-sans">
 
-  <!-- Force start at the top unless there's an anchor -->
-  <script>window.addEventListener('load',()=>{ if(!location.hash) window.scrollTo(0,0); });</script>
+  <!-- Force start at the top unless there's an anchor -->
+  <script>window.addEventListener('load',()=>{ if(!location.hash) window.scrollTo(0,0); });</script>
 
-  <!-- Skip link -->
-  <a href="#why" class="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 bg-blue-700 text-white px-3 py-2 rounded">
-    Skip to main content
-  </a>
+  <!-- Skip link -->
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 bg-blue-700 text-white px-3 py-2 rounded z-[100]">
+    Skip to main content
+  </a>
 
-  <!-- NAVBAR -->
-  <nav id="siteNav" class="fixed top-0 w-full z-50 bg-white/60 backdrop-blur-md py-4 transition-all">
-    <div class="max-w-7xl mx-auto px-6 flex items-center justify-between">
-      <a href="#top" class="flex items-center gap-3" aria-label="Aletheia Conversations Home">
-        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-900 to-blue-700 flex items-center justify-center shadow-glow" aria-hidden="true">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-            <circle cx="12" cy="12" r="3" stroke-width="2"></circle>
-            <path d="M19.5 12A7.5 7.5 0 106.5 12" stroke-width="2"></path>
-          </svg>
-        </div>
-        <span class="font-serif text-xl font-bold tracking-tight">Aletheia Conversations</span>
-      </a>
+  <!-- NAVBAR -->
+  <nav id="siteNav" class="fixed top-0 w-full z-50 bg-white/60 backdrop-blur-md py-4 transition-all">
+    <div class="max-w-7xl mx-auto px-6 flex items-center justify-between">
+      <a href="#top" class="flex items-center gap-3" aria-label="Aletheia Conversations Home">
+        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-900 to-blue-700 flex items-center justify-center shadow-glow" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <circle cx="12" cy="12" r="3" stroke-width="2"></circle>
+            <path d="M19.5 12A7.5 7.5 0 106.5 12" stroke-width="2"></path>
+          </svg>
+        </div>
+        <span class="font-serif text-xl font-bold tracking-tight">Aletheia Conversations</span>
+      </a>
 
-      <button id="menuBtn" class="md:hidden p-2" aria-label="Toggle menu">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <button id="menuBtn" class="md:hidden p-2" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobileMenu">
+        <svg id="menuIconOpen" xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
         </svg>
+        <svg id="menuIconClose" xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+
+      <ul id="navLinks" class="hidden md:flex items-center gap-8">
+        <li><a href="#why"     class="text-slate-700 hover:text-blue-800 transition-colors">Why this show</a></li>
+        <li><a href="#season1" class="text-slate-700 hover:text-blue-800 transition-colors">Season 1</a></li>
+        <li><a href="#quiz"    class="text-slate-700 hover:text-blue-800 transition-colors">Take the Quiz</a></li>
+        <li><a href="#about"   class="text-slate-700 hover:text-blue-800 transition-colors">About</a></li>
+        <li><button data-cta="open" type="button" class="px-5 py-2 bg-gradient-to-r from-blue-900 to-blue-700 text-white rounded-full shadow-glow hover:brightness-110 transition">Get Early Access</button></li>
+      </ul>
+    </div>
+    <div id="mobileMenu" class="md:hidden hidden bg-white shadow-xl absolute top-full left-0 right-0" data-open="false">
+      <div class="flex flex-col p-6 gap-4">
+        <a href="#why"     class="mobile-link text-slate-700 hover:text-blue-800 font-medium">Why this show</a>
+        <a href="#season1" class="mobile-link text-slate-700 hover:text-blue-800 font-medium">Season 1</a>
+        <a href="#quiz"    class="mobile-link text-slate-700 hover:text-blue-800 font-medium">Take the Quiz</a>
+        <a href="#about"   class="mobile-link text-slate-700 hover:text-blue-800 font-medium">About</a>
+        <a href="#cta" data-cta="open" class="mobile-link text-slate-700 hover:text-blue-800 font-medium">Get Early Access</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header id="top" class="relative min-h-[88vh] flex items-center justify-center px-6 pt-28 overflow-hidden">
+    <canvas id="constellation" class="absolute inset-0 -z-10" aria-label="Subtle background visualization of a constellation"></canvas>
+
+    <div class="max-w-5xl mx-auto text-center bg-white/55 backdrop-blur-lg rounded-3xl px-6 sm:px-10 py-10 shadow-xl ring-1 ring-white/40">
+      <h1 class="font-serif text-[2.6rem] md:text-[3.2rem] font-bold leading-[1.15] tracking-tight mb-4 reveal">
+        <span class="brand-sc bg-gradient-to-r from-sky-700 to-blue-900 bg-clip-text text-transparent">Aletheia Conversations</span>
+        <span class="text-slate-700" aria-hidden="true">—</span>
+        <span class="block mt-1">The Podcast that goes from First Principles to First Steps</span>
+      </h1>
+
+      <!-- Typewriter -->
+      <!-- Increased height (h-14) to better accommodate longer phrases wrapping on mobile -->
+      <div class="h-14 flex items-center justify-center mb-2 reveal" aria-live="polite">
+        <span id="bigQuestion" class="caret text-lg md:text-xl text-slate-900 font-semibold"></span>
+      </div>
+
+      <!-- COPY EDIT: Added Value Proposition -->
+      <p class="text-lg text-slate-700 mt-4 max-w-3xl mx-auto reveal">
+        We live in a world of soundbites and silos. Aletheia Conversations breaks that mold. Join Newman Nahas as he engages leading thinkers across disciplines to explore the deepest questions of human existence and discover practical wisdom for everyday life.
+      </p>
+    </div>
+
+    <div class="pointer-events-none absolute inset-0 -z-10"
+         style="background: radial-gradient(1100px 520px at 50% 20%, rgba(255,255,255,.6), rgba(255,255,255,0) 60%),
+                        radial-gradient(700px 340px at 85% 80%, rgba(59,130,246,.10), rgba(59,130,246,0) 60%),
+                        radial-gradient(700px 340px at 15% 80%, rgba(236,72,153,.10), rgba(236,72,153,0) 60%);"></div>
+  </header>
+
+  <main id="main-content">
+
+  <!-- WHY THIS SHOW -->
+  <section id="why" class="py-20 px-6 bg-gradient-to-br from-blue-900 to-indigo-900 text-white relative overflow-hidden">
+    <div class="relative max-w-6xl mx-auto">
+      <!-- COPY EDIT: Benefit-driven headline -->
+      <h2 class="text-center font-serif text-4xl md:text-5xl font-extrabold tracking-tight mb-6">Think Deeper, Live Better.</h2>
+      
+      <!-- COPY EDIT: The Problem/Solution Intro -->
+      <p class="text-center max-w-4xl mx-auto mb-12 text-lg text-blue-50/95 leading-relaxed reveal">
+        We live in an age of hot takes, ideological echo chambers, and shallow discourse. It’s easy to find information, but harder to find wisdom. <strong>Aletheia Conversations is the antidote.</strong> We cut through the noise by engaging leading thinkers in deep, respectful dialogue that seeks truth, not victory.
+      </p>
+
+      <div class="grid md:grid-cols-3 gap-8">
+        <!-- COPY EDIT: Pillar 1 -->
+        <div class="p-7 rounded-2xl bg-white/10 backdrop-blur reveal">
+          <div class="text-2xl mb-2" aria-hidden="true">🧭</div>
+          <h3 class="text-xl md:text-2xl font-bold mb-2">Beyond the Silos</h3>
+          <p class="text-blue-100/95">The world isn't organized by academic departments. To understand reality, we connect the dots between philosophy, science, economics, and theology.</p>
+        </div>
+        <!-- COPY EDIT: Pillar 2 -->
+        <div class="p-7 rounded-2xl bg-white/10 backdrop-blur reveal">
+          <div class="text-2xl mb-2" aria-hidden="true">💠</div>
+          <h3 class="text-xl md:text-2xl font-bold mb-2">Wisdom in Action</h3>
+          <p class="text-blue-100/95">We don’t stop at abstract ideas. Our goal is practical wisdom that translates complex truths into better ways to live, work, and thrive. This is philosophy you can apply on Monday morning.</p>
+        </div>
+        <!-- COPY EDIT: Pillar 3 -->
+        <div class="p-7 rounded-2xl bg-white/10 backdrop-blur reveal">
+          <div class="text-2xl mb-2" aria-hidden="true">🤝</div>
+          <h3 class="text-xl md:text-2xl font-bold mb-2">Steel-Manning Dissent</h3>
+          <p class="text-blue-100/95">We go beyond echo chambers. Expect rigorous, good-faith engagement with opposing views, because the pursuit of truth requires understanding the strongest arguments against your own.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEASON 1 -->
+  <section id="season1" class="py-24 px-6">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-14">
+        <h2 class="font-serif text-4xl md:text-5xl font-bold mb-1 tracking-tight reveal">Season 1</h2>
+        <p class="text-2xl text-blue-800 font-bold tracking-wide reveal">COMING SOON</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-8">
+        <!-- COPY EDIT: God & Religion -->
+        <div class="group p-8 bg-white/80 rounded-2xl shadow hover:shadow-xl transition-transform duration-300 hover:-translate-y-1 reveal">
+          <div class="inline-flex p-3 rounded-xl bg-gradient-to-br from-amber-700 to-yellow-600 mb-4 text-white" aria-hidden="true">✨</div>
+          <h3 class="font-serif text-2xl font-bold mb-2">God & Religion</h3>
+          <p class="text-slate-600 mb-3">The search for the transcendent. Navigating faith, reason, and meaning in a secular age.</p>
+          <ul class="fancy-list fancy-god text-slate-800 space-y-2">
+            <li><strong>The Evidence for God:</strong> Can faith be rational, or is it purely experiential?</li>
+            <li><strong>The Problem of Evil:</strong> Reconciling suffering with a benevolent creator.</li>
+            <li><strong>Eastern & Western Paths:</strong> Exploring the roles of silence, intellect, and ritual in faith.</li>
+            <li><strong>Science & Religion:</strong> Are they locked in conflict, or can they inform each other?</li>
+          </ul>
+        </div>
+
+        <!-- COPY EDIT: Mind & AI -->
+        <div class="group p-8 bg-white/80 rounded-2xl shadow hover:shadow-xl transition-transform duration-300 hover:-translate-y-1 reveal">
+          <div class="inline-flex p-3 rounded-xl bg-gradient-to-br from-indigo-900 to-blue-700 mb-4 text-white" aria-hidden="true">🧠</div>
+          <h3 class="font-serif text-2xl font-bold mb-2">The Mind & AI</h3>
+          <p class="text-slate-600 mb-3">The boundaries of being. Where code meets cognition, exploring consciousness, agency, and the future of intelligence.</p>
+          <ul class="fancy-list fancy-ai text-slate-800 space-y-2">
+            <li><strong>The Mystery of Consciousness:</strong> Are we just biological machines, or something more?</li>
+            <li><strong>The Rise of AI:</strong> Will machines achieve true intelligence and agency?</li>
+            <li><strong>How We Think:</strong> Exploring the limits of the brain-as-computer metaphor.</li>
+            <li><strong>The Human Experience:</strong> What neuroscience reveals about self-awareness and free will.</li>
+          </ul>
+        </div>
+
+        <!-- COPY EDIT: Health & Wellbeing -->
+        <div class="group p-8 bg-white/80 rounded-2xl shadow hover:shadow-xl transition-transform duration-300 hover:-translate-y-1 reveal">
+          <div class="inline-flex p-3 rounded-xl bg-gradient-to-br from-rose-700 to-pink-600 mb-4 text-white" aria-hidden="true">❤️</div>
+          <h3 class="font-serif text-2xl font-bold mb-2">Health & Wellbeing</h3>
+          <p class="text-slate-600 mb-3">The science of flourishing. Cutting through the noise to find evidence-based strategies for longevity and vitality.</p>
+          <ul class="fancy-list fancy-health text-slate-800 space-y-2">
+            <li><strong>Cutting Through Diet Noise:</strong> Evidence-based nutrition for long-term health.</li>
+            <li><strong>Heart Health Metrics:</strong> The biomarkers that actually matter and the workouts that move the needle.</li>
+            <li><strong>Lifelong Strength:</strong> Strategies for building and maintaining muscle as you age.</li>
+            <li><strong>Mental Health & Focus:</strong> Practical tools for managing ADHD and navigating stress.</li>
+          </ul>
+        </div>
+
+        <!-- Practical Wisdom -->
+        <div class="group p-8 bg-white/80 rounded-2xl shadow hover:shadow-xl transition-transform duration-300 hover:-translate-y-1 reveal">
+          <div class="inline-flex p-3 rounded-xl bg-gradient-to-br from-emerald-700 to-teal-600 mb-4 text-white" aria-hidden="true">🧭</div>
+          <h3 class="font-serif text-2xl font-bold mb-2">Practical Wisdom</h3>
+          <p class="text-slate-600 mb-3">Money, productivity, relationships, parenting.</p>
+          <ul class="fancy-list fancy-practice text-slate-800 space-y-2">
+            <li><strong>How Markets Work:</strong> Compounding, risk, incentives, data.</li>
+            <li><strong>Productivity that lasts:</strong> Capture, review, deep work, energy.</li>
+            <li><strong>Love & Attachment:</strong> Rituals, repair, commitment.</li>
+            <li><strong>Raising Humans:</strong> Warmth, boundaries, rhythms that stick.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section id="quiz" class="relative py-24 px-6 bg-white">
+    <div class="max-w-5xl mx-auto text-center">
+      <h2 class="font-serif text-4xl md:text-5xl font-bold tracking-tight mb-10">Take this Quiz!</h2>
+
+      <!-- Decorative floating chips -->
+      <div class="orbit hidden md:block" aria-hidden="true">
+        <span class="chip" style="--r:220px; --t:32s;"><i>✨</i> “All models are wrong…”</span>
+        <span class="chip" style="--r:150px; --t:28s;"><i>📜</i> “The map is not the territory.”</span>
+        <span class="chip" style="--r:260px; --t:36s;"><i>🧠</i> “We know more than we can tell.”</span>
+        <span class="chip" style="--r:190px; --t:30s;"><i>🏛️</i> “The unexamined life…”</span>
+      </div>
+
+      <!-- Quiz card -->
+      <div id="quizCard" class="quiz-card relative mx-auto max-w-3xl text-left bg-white/90 backdrop-blur rounded-2xl p-7 shadow-xl ring-1 ring-slate-200 transition-all duration-300">
+        <blockquote id="qText" class="font-serif text-2xl md:text-[1.7rem] leading-snug text-slate-800 mb-6" aria-live="polite">Loading…</blockquote>
+        <div id="choices" class="grid sm:grid-cols-2 gap-3 mb-3" role="radiogroup"></div>
+        <div id="feedback" class="text-sm h-5 text-slate-600 font-medium" aria-live="assertive"></div>
+      </div>
+
+      <!-- Results -->
+      <div id="results" class="hidden mt-10 mx-auto max-w-3xl text-left bg-white rounded-2xl p-7 shadow ring-1 ring-slate-200" aria-live="polite">
+        <h3 class="font-serif text-2xl font-bold mb-1" id="resultsHeading" tabindex="-1">Your results</h3>
+        <p class="text-slate-600 mb-4"><span id="score"></span></p>
+        <ul id="breakdown" class="space-y-2 text-slate-700"></ul>
+        <div class="mt-6">
+          <button id="playAgain" class="px-5 py-2 rounded-full border border-slate-300 text-slate-700 hover:bg-slate-50">Play again</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="py-24 px-6 bg-gradient-to-b from-slate-50 to-white">
+    <div class="max-w-5xl mx-auto">
+      <div class="text-center mb-12">
+        <h2 class="font-serif text-4xl md:text-5xl font-bold mb-4 tracking-tight reveal">About your Host</h2>
+        <p class="text-lg text-slate-600 reveal">Curious about all the human things.</p>
+      </div>
+
+      <div class="flex flex-col md:flex-row gap-10 items-center">
+        <!-- Host Image Placeholder -->
+        <div class="md:w-1/3 flex-shrink-0 reveal">
+          <!-- !! Replace src with your actual image !! -->
+          <img src="https://via.placeholder.com/300x400.png?text=Newman+Nahas" alt="Newman Nahas, Host of Aletheia Conversations" class="rounded-2xl shadow-lg object-cover w-full aspect-[3/4] max-w-xs mx-auto md:max-w-none">
+        </div>
+
+        <!-- COPY EDIT: Revised Narrative and Mission Statement -->
+        <div class="md:w-2/3 mx-auto text-slate-700 space-y-6 leading-relaxed text-lg">
+          <p class="reveal">
+            Why specialize when reality doesn't? Newman Nahas built a career by ignoring disciplinary boundaries. As an undergraduate, he studied across <strong>13 different fields</strong> before being awarded a <strong>Rhodes Scholarship</strong> to Oxford, where he explored the intersections of philosophy, religion, and science. He then attended <strong>Harvard Law School</strong>, continuing the journey into the philosophy of law while serving as a teaching fellow for <strong>Michael Sandel’s</strong> celebrated course on Justice.
+          </p>
+          <p class="reveal">
+            Throughout, one constant remained: an almost restless curiosity (and, yes, the ADHD didn’t exactly hurt the “restless” part). Rather than fight it, Newman built a podcast around it. Expect conversations with leading thinkers from different worlds about the human things—big and small. These discussions leap from <em>metaphysics to gym mats</em>, from <em>ancient texts to modern labs</em>, from <em>boardrooms to churches</em>.
+          </p>
+          <p class="reveal">
+            Aletheia Conversations is the culmination of this journey—a space dedicated to the belief that rigorous inquiry and practical application are two sides of the same coin. Newman’s goal is simple: to synthesize complex ideas and help listeners understand the world more deeply so they can navigate it more wisely.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="cta" class="py-20 px-6 bg-blue-700 text-white text-center relative overflow-hidden">
+    <div class="absolute inset-0 opacity-20 blur-3xl" aria-hidden="true">
+      <div class="w-80 h-80 bg-white rounded-full absolute -top-10 left-10"></div>
+      <div class="w-96 h-96 bg-white rounded-full absolute -bottom-16 right-16"></div>
+    </div>
+
+    <div class="relative max-w-3xl mx-auto">
+      <!-- COPY EDIT: Stronger CTA Headline -->
+      <h2 class="text-3xl md:text-4xl font-serif font-bold mb-4 tracking-tight reveal">Go Deeper. Get Exclusive Early Access.</h2>
+      <!-- COPY EDIT: Emphasizing Value -->
+      <p class="text-lg mb-8 reveal">Tired of shallow content? Season 1 launches soon. Subscribe now for <strong>exclusive early access</strong> to the first episodes (before everyone else), <strong>curated reading lists</strong> from our guests, and detailed host notes. Dive deep with us.</p>
+
+      <div class="flex flex-col sm:flex-row justify-center gap-4 reveal">
+        <a href="mailto:your-email@example.com?subject=Nominate%20a%20Guest"
+           class="bg-white text-blue-700 font-semibold py-3 px-6 rounded-full shadow-lg hover:shadow-xl hover:brightness-95 transition">
+          Nominate a Guest
+        </a>
+        <button data-cta="open" type="button"
+           class="bg-gradient-to-r from-indigo-400 to-indigo-600 text-white font-semibold py-3 px-6 rounded-full shadow-lg hover:shadow-xl hover:brightness-110 transition">
+          Get Early Access
+        </button>
+      </div>
+    </div>
+  </section>
+
+  </main> <!-- End Main Content -->
+
+  <!-- FOOTER -->
+  <footer class="py-10 px-6 bg-slate-900 text-slate-300">
+    <div class="max-w-7xl mx-auto text-center">
+      <div class="flex items-center justify-center gap-2 mb-3">
+        <div class="w-9 h-9 rounded-full bg-gradient-to-br from-blue-900 to-blue-700 flex items-center justify-center" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <circle cx="12" cy="12" r="3" stroke-width="2"></circle>
+            <path d="M19.5 12A7.5 7.5 0 106.5 12" stroke-width="2"></path>
+          </svg>
+        </div>
+        <span class="font-serif text-lg font-bold text-white">Aletheia Conversations</span>
+      </div>
+      <p class="text-sm">© <span id="year"></span> Aletheia Conversations. From first principles to first steps.</p>
+    </div>
+  </footer>
+
+  <!-- CTA Modal (Dialog) -->
+  <dialog id="ctaModal" class="max-w-lg w-full p-8 rounded-2xl shadow-2xl bg-white m-auto">
+    <div class="flex justify-between items-start mb-4">
+      <h3 class="font-serif text-3xl font-bold text-slate-900">Get Early Access</h3>
+      <button id="closeCtaModalBtn" type="button" class="text-slate-500 hover:text-slate-700 transition p-1 -m-1" aria-label="Close">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
       </button>
-
-      <ul id="navLinks" class="hidden md:flex items-center gap-8">
-        <li><a href="#why"     class="text-slate-700 hover:text-blue-800 transition-colors">Why this show</a></li>
-        <li><a href="#season1" class="text-slate-700 hover:text-blue-800 transition-colors">Season 1</a></li>
-        <li><a href="#quiz"    class="text-slate-700 hover:text-blue-800 transition-colors">Take the Quiz</a></li>
-        <li><a href="#about"   class="text-slate-700 hover:text-blue-800 transition-colors">About</a></li>
-        <li><a href="#cta"     class="px-5 py-2 bg-gradient-to-r from-blue-900 to-blue-700 text-white rounded-full shadow-glow hover:brightness-110 transition">Get Early Access</a></li>
-      </ul>
     </div>
-    <div id="mobileMenu" class="md:hidden hidden bg-white shadow-xl">
-      <div class="flex flex-col p-6 gap-4">
-        <a href="#why"     class="text-slate-700 hover:text-blue-800 font-medium">Why this show</a>
-        <a href="#season1" class="text-slate-700 hover:text-blue-800 font-medium">Season 1</a>
-        <a href="#quiz"    class="text-slate-700 hover:text-blue-800 font-medium">Take the Quiz</a>
-        <a href="#about"   class="text-slate-700 hover:text-blue-800 font-medium">About</a>
-        <a href="#cta"     class="text-slate-700 hover:text-blue-800 font-medium">Get Early Access</a>
+    <p class="text-slate-600 mb-6">Subscribe now for exclusive first access to Season 1 episodes, curated reading lists from our guests, and behind-the-scenes notes.</p>
+    
+    <!-- 
+      NOTE: This form is a placeholder. Connect it to your backend service 
+      (e.g., Mailchimp, ConvertKit) by updating the 'action' and 'method'.
+    -->
+    <form action="#" method="POST" id="signupForm">
+      <div class="mb-4">
+        <label for="email" class="block text-sm font-medium text-slate-700 mb-1">Email Address</label>
+        <input type="email" id="email" name="email" required placeholder="you@example.com" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition">
       </div>
+      <button type="submit" class="w-full bg-gradient-to-r from-blue-900 to-blue-700 text-white font-semibold py-3 px-6 rounded-lg shadow-glow hover:brightness-110 transition">
+        Subscribe Now
+      </button>
+    </form>
+    <div id="formSuccess" class="hidden mt-4 p-4 bg-emerald-100 text-emerald-800 rounded-lg" aria-live="polite">
+      Thanks for subscribing! Check your inbox soon.
     </div>
-  </nav>
-
-  <!-- HERO -->
-  <header id="top" class="relative min-h-[88vh] flex items-center justify-center px-6 pt-28 overflow-hidden">
-    <canvas id="constellation" class="absolute inset-0 -z-10"></canvas>
-
-    <div class="max-w-5xl mx-auto text-center bg-white/55 backdrop-blur-lg rounded-3xl px-6 sm:px-10 py-10 shadow-xl ring-1 ring-white/40">
-      <h1 class="font-serif text-[2.6rem] md:text-[3.2rem] font-bold leading-[1.15] tracking-tight mb-4 reveal">
-        <span class="brand-sc bg-gradient-to-r from-sky-700 to-blue-900 bg-clip-text text-transparent">Aletheia Conversations</span>
-        <span class="text-slate-700">—</span>
-        <span class="block mt-1">The Podcast that goes from First Principles to First Steps</span>
-      </h1>
-
-      <!-- Typewriter (original five; slower) -->
-      <div class="h-12 flex items-center justify-center mb-2 reveal">
-        <span id="bigQuestion" class="caret text-lg md:text-xl text-slate-900 font-semibold"></span>
-      </div>
-    </div>
-
-    <div class="pointer-events-none absolute inset-0 -z-10"
-         style="background: radial-gradient(1100px 520px at 50% 20%, rgba(255,255,255,.6), rgba(255,255,255,0) 60%),
-                        radial-gradient(700px 340px at 85% 80%, rgba(59,130,246,.10), rgba(59,130,246,0) 60%),
-                        radial-gradient(700px 340px at 15% 80%, rgba(236,72,153,.10), rgba(236,72,153,0) 60%);"></div>
-  </header>
-
-  <!-- WHY THIS SHOW -->
-  <section id="why" class="py-20 px-6 bg-gradient-to-br from-blue-900 to-indigo-900 text-white relative overflow-hidden">
-    <div class="relative max-w-6xl mx-auto">
-      <h2 class="text-center font-serif text-4xl md:text-5xl font-extrabold tracking-tight mb-2">What makes this podcast different?</h2>
+  </dialog>
 
 
-      <div class="grid md:grid-cols-3 gap-8">
-        <div class="p-7 rounded-2xl bg-white/10 backdrop-blur reveal">
-          <div class="text-2xl mb-2">🧭</div>
-          <h3 class="text-xl md:text-2xl font-bold mb-2">Interdisciplinary approach</h3>
-          <p class="text-blue-100/90">Reality doesn’t respect the boundaries of our disciplines; neither will this podcast.</p>
-        </div>
-        <div class="p-7 rounded-2xl bg-white/10 backdrop-blur reveal">
-          <div class="text-2xl mb-2">💠</div>
-          <h3 class="text-xl md:text-2xl font-bold mb-2">Focus on virtue</h3>
-          <p class="text-blue-100/90">Wisdom is not just about thinking soundly but about living well.</p>
-        </div>
-        <div class="p-7 rounded-2xl bg-white/10 backdrop-blur reveal">
-          <div class="text-2xl mb-2">🤝</div>
-          <h3 class="text-xl md:text-2xl font-bold mb-2">Embracing dissent</h3>
-          <p class="text-blue-100/90">If you only know your side, you don’t know your side.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+  <!-- SCRIPTS -->
+  <script>
+document.addEventListener('DOMContentLoaded', () => {
 
-  <!-- SEASON 1 -->
-  <section id="season1" class="py-24 px-6">
-    <div class="max-w-7xl mx-auto">
-      <div class="text-center mb-14">
-        <h2 class="font-serif text-4xl md:text-5xl font-bold mb-1 tracking-tight reveal">Season 1</h2>
-        <p class="text-2xl text-blue-800 font-bold tracking-wide reveal">COMING SOON</p>
-      </div>
+    // Global check for reduced motion preference
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-      <div class="grid md:grid-cols-2 gap-8">
-        <!-- God & Religion -->
-        <div class="group p-8 bg-white/80 rounded-2xl shadow hover:shadow-xl transition-transform duration-300 hover:-translate-y-1 reveal">
-          <div class="inline-flex p-3 rounded-xl bg-gradient-to-br from-amber-700 to-yellow-600 mb-4 text-white" aria-hidden="true">✨</div>
-          <h3 class="font-serif text-2xl font-bold mb-2">God & Religion</h3>
-          <p class="text-slate-600 mb-3">Exploring God, faith, meaning, and religious life.</p>
-          <ul class="fancy-list fancy-god text-slate-800 space-y-2">
-            <li><strong>Knowing God:</strong> What counts as evidence—reason, revelation, experience?</li>
-            <li><strong>The Problem of Evil:</strong> Free‑will defense vs. soul‑making?</li>
-            <li><strong>East & West:</strong> Apophatic vs. cataphatic paths.</li>
-            <li><strong>Science & Religion:</strong> Conflict or synergy?</li>
-          </ul>
-        </div>
+    // ===== Sticky nav style tweak on scroll =====
+    const nav = document.getElementById('siteNav');
+    function handleScroll() {
+      if (window.scrollY > 24) { nav.classList.add('shadow', 'py-3'); nav.classList.remove('py-4'); }
+      else { nav.classList.remove('shadow', 'py-3'); nav.classList.add('py-4'); }
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll(); // Initialize state
 
-        <!-- Mind & AI -->
-        <div class="group p-8 bg-white/80 rounded-2xl shadow hover:shadow-xl transition-transform duration-300 hover:-translate-y-1 reveal">
-          <div class="inline-flex p-3 rounded-xl bg-gradient-to-br from-indigo-900 to-blue-700 mb-4 text-white" aria-hidden="true">🧠</div>
-          <h3 class="font-serif text-2xl font-bold mb-2">The Mind & AI</h3>
-          <p class="text-slate-600 mb-3">Where code meets cognition—consciousness, agency, and the limits of computation.</p>
-          <ul class="fancy-list fancy-ai text-slate-800 space-y-2">
-            <li><strong>What is consciousness?</strong> Hard problem, qualia, measurement.</li>
-            <li><strong>Can machines think?</strong> Turing, Chinese Room, agency.</li>
-            <li><strong>Computation vs. Cognition:</strong> Symbols, embodiment, predictive processing.</li>
-            <li><strong>Awareness vs. Access:</strong> Phenomenal experience & self‑models.</li>
-          </ul>
-        </div>
+    // ===== Mobile menu toggle (Improved Accessibility & UX) =====
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const menuIconOpen = document.getElementById('menuIconOpen');
+    const menuIconClose = document.getElementById('menuIconClose');
 
-        <!-- Health & Wellbeing -->
-        <div class="group p-8 bg-white/80 rounded-2xl shadow hover:shadow-xl transition-transform duration-300 hover:-translate-y-1 reveal">
-          <div class="inline-flex p-3 rounded-xl bg-gradient-to-br from-rose-700 to-pink-600 mb-4 text-white" aria-hidden="true">❤️</div>
-          <h3 class="font-serif text-2xl font-bold mb-2">Health & Wellbeing</h3>
-          <p class="text-slate-600 mb-3">Evidence‑based habits for a long, strong life.</p>
-          <ul class="fancy-list fancy-health text-slate-800 space-y-2">
-            <li><strong>Diet Wars, de‑dramatised:</strong> Evidence quality, adherence, personalization.</li>
-            <li><strong>Cardiovascular Health:</strong> ApoB, blood pressure, Zone 2 vs. HIIT.</li>
-            <li><strong>Strength Across Decades:</strong> Protein, progressive overload, recovery.</li>
-            <li><strong>ADHD & Mental Health:</strong> Strategies beyond medication.</li>
-          </ul>
-        </div>
+    function toggleMenu(shouldOpen) {
+      const isOpen = mobileMenu.getAttribute('data-open') === 'true';
+      const finalState = shouldOpen !== undefined ? shouldOpen : !isOpen;
 
-        <!-- Practical Wisdom -->
-        <div class="group p-8 bg-white/80 rounded-2xl shadow hover:shadow-xl transition-transform duration-300 hover:-translate-y-1 reveal">
-          <div class="inline-flex p-3 rounded-xl bg-gradient-to-br from-emerald-700 to-teal-600 mb-4 text-white" aria-hidden="true">🧭</div>
-          <h3 class="font-serif text-2xl font-bold mb-2">Practical Wisdom</h3>
-          <p class="text-slate-600 mb-3">Money, productivity, relationships, parenting.</p>
-          <ul class="fancy-list fancy-practice text-slate-800 space-y-2">
-            <li><strong>How Markets Work:</strong> Compounding, risk, incentives, data.</li>
-            <li><strong>Productivity that lasts:</strong> Capture, review, deep work, energy.</li>
-            <li><strong>Love & Attachment:</strong> Rituals, repair, commitment.</li>
-            <li><strong>Raising Humans:</strong> Warmth, boundaries, rhythms that stick.</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
+      if (finalState) {
+        mobileMenu.classList.remove('hidden');
+        menuBtn.setAttribute('aria-expanded', 'true');
+        menuIconOpen.classList.add('hidden');
+        menuIconClose.classList.remove('hidden');
+        mobileMenu.setAttribute('data-open', 'true');
+      } else {
+        mobileMenu.classList.add('hidden');
+        menuBtn.setAttribute('aria-expanded', 'false');
+        menuIconOpen.classList.remove('hidden');
+        menuIconClose.classList.add('hidden');
+        mobileMenu.setAttribute('data-open', 'false');
+      }
+    }
 
-  <!-- QUIZ -->
-  <section id="quiz" class="relative py-24 px-6 bg-white">
-    <div class="max-w-5xl mx-auto text-center">
-      <h2 class="font-serif text-4xl md:text-5xl font-bold tracking-tight mb-2">Take this Quiz!</h2>
-
-      <!-- Decorative floating chips -->
-      <div class="orbit" aria-hidden="true">
-        <span class="chip" style="--r:220px; --t:32s;"><i>✨</i> “All models are wrong…”</span>
-        <span class="chip" style="--r:150px; --t:28s;"><i>📜</i> “The map is not the territory.”</span>
-        <span class="chip" style="--r:260px; --t:36s;"><i>🧠</i> “We know more than we can tell.”</span>
-        <span class="chip" style="--r:190px; --t:30s;"><i>🏛️</i> “The unexamined life…”</span>
-      </div>
-
-      <!-- Quiz card -->
-      <div id="quizCard" class="quiz-card relative mx-auto max-w-3xl text-left bg-white/90 backdrop-blur rounded-2xl p-7 shadow-xl ring-1 ring-slate-200">
-        <blockquote id="qText" class="font-serif text-2xl md:text-[1.7rem] leading-snug text-slate-800 mb-6">Loading…</blockquote>
-        <div id="choices" class="grid sm:grid-cols-2 gap-3 mb-3"></div>
-        <div id="feedback" class="text-sm h-5 text-slate-600"></div>
-      </div>
-
-      <!-- Results -->
-      <div id="results" class="hidden mt-10 mx-auto max-w-3xl text-left bg-white rounded-2xl p-7 shadow ring-1 ring-slate-200">
-        <h3 class="font-serif text-2xl font-bold mb-1">Your results</h3>
-        <p class="text-slate-600 mb-4"><span id="score"></span></p>
-        <ul id="breakdown" class="space-y-2 text-slate-700"></ul>
-        <div class="mt-6">
-          <button id="playAgain" class="px-5 py-2 rounded-full border border-slate-300 text-slate-700 hover:bg-slate-50">Play again</button>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ABOUT -->
-  <section id="about" class="py-24 px-6 bg-gradient-to-b from-slate-50 to-white">
-    <div class="max-w-4xl mx-auto">
-      <div class="text-center mb-12">
-        <h2 class="font-serif text-4xl md:text-5xl font-bold mb-4 tracking-tight reveal">About your Host</h2>
-        <p class="text-lg text-slate-600 reveal">Curious about all the human things.</p>
-      </div>
-      <div class="mx-auto text-slate-700 space-y-6 leading-relaxed text-lg">
-        <p class="reveal">
-          Newman Nahas has never met a subject he didn’t want to explore. As an undergraduate, he studied across <strong>13 different fields</strong> and was awarded a <strong>Rhodes Scholarship</strong> to study at Oxford, where he waded into the waters where philosophy, religion, and science intersect. He then attended <strong>Harvard Law School</strong>, continuing the journey into the philosophy of law while serving as a teaching fellow for <strong>Michael Sandel’s</strong> celebrated course on Justice.
-        </p>
-        <p class="reveal">
-          Throughout, one constant remained: an almost restless curiosity (and, yes, the ADHD didn’t exactly hurt the “restless” part). Rather than fight it, Newman built a podcast around it. Expect conversations with leading thinkers from different worlds about the human things—big and small. These discussions leap from <em>metaphysics to gym mats</em>, from <em>ancient texts to modern labs</em>, from <em>boardrooms to churches</em>.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA -->
-  <section id="cta" class="py-20 px-6 bg-blue-700 text-white text-center relative overflow-hidden">
-    <div class="absolute inset-0 opacity-20 blur-3xl" aria-hidden="true">
-      <div class="w-80 h-80 bg-white rounded-full absolute -top-10 left-10"></div>
-      <div class="w-96 h-96 bg-white rounded-full absolute -bottom-16 right-16"></div>
-    </div>
-
-    <div class="relative max-w-3xl mx-auto">
-      <h2 class="text-3xl md:text-4xl font-serif font-bold mb-4 tracking-tight reveal">Be part of the conversation</h2>
-      <p class="text-lg mb-8 reveal">Season 1 is coming soon. Join for early access to the first four episodes, reading lists, and behind‑the‑scenes notes. No spam—unsubscribe anytime.</p>
-      <div class="flex flex-col sm:flex-row justify-center gap-4 reveal">
-        <a href="mailto:your-email@example.com?subject=Nominate%20a%20Guest"
-           class="bg-white text-blue-700 font-semibold py-3 px-6 rounded-full shadow-lg hover:shadow-xl hover:brightness-95 transition">
-          Nominate a Guest
-        </a>
-        <a href="mailto:your-email@example.com?subject=Get%20Early%20Access"
-           class="bg-gradient-to-r from-indigo-400 to-indigo-600 text-white font-semibold py-3 px-6 rounded-full shadow-lg hover:shadow-xl hover:brightness-110 transition">
-          Get Early Access
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer class="py-10 px-6 bg-slate-900 text-slate-300">
-    <div class="max-w-7xl mx-auto text-center">
-      <div class="flex items-center justify-center gap-2 mb-3">
-        <div class="w-9 h-9 rounded-full bg-gradient-to-br from-blue-900 to-blue-700 flex items-center justify-center" aria-hidden="true">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-            <circle cx="12" cy="12" r="3" stroke-width="2"></circle>
-            <path d="M19.5 12A7.5 7.5 0 106.5 12" stroke-width="2"></path>
-          </svg>
-        </div>
-        <span class="font-serif text-lg font-bold text-white">Aletheia Conversations</span>
-      </div>
-      <p class="text-sm">© <span id="year"></span> Aletheia Conversations. From first principles to first steps.</p>
-    </div>
-  </footer>
-
-  <!-- SCRIPTS -->
-  <script>
-    // Sticky nav style tweak on scroll
-    const nav = document.getElementById('siteNav');
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 24) { nav.classList.add('shadow', 'py-3'); nav.classList.remove('py-4'); }
-      else { nav.classList.remove('shadow', 'py-3'); nav.classList.add('py-4'); }
+    menuBtn.addEventListener('click', () => toggleMenu());
+    
+    // Close menu when a standard link is clicked
+    document.querySelectorAll('.mobile-link').forEach(link => {
+      // Ensure this doesn't interfere with the CTA link behavior
+      if (!link.hasAttribute('data-cta')) {
+        link.addEventListener('click', () => toggleMenu(false));
+      }
     });
 
-    // Mobile menu toggle
-    const menuBtn = document.getElementById('menuBtn');
-    const mobileMenu = document.getElementById('mobileMenu');
-    menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
 
-    // ===== Typewriter rotation (original questions, slower) =====
-    const questions = [
-      "Does God exist?",
-      "What is consciousness?",
-      "How do we know what we know?",
-      "What is justice?",
-      "What is health?"
-    ];
-    const qEl = document.getElementById('bigQuestion');
-    let ti = 0, charI = 0, deleting = false, typerRef = null;
-    function typeStep() {
-      const full = questions[ti];
-      const target = deleting ? full.slice(0, Math.max(0, charI - 1)) : full.slice(0, Math.min(full.length, charI + 1));
-      qEl.textContent = target; charI = deleting ? charI - 1 : charI + 1;
-      let delay = deleting ? 60 : 88; // slowed down
-      if (!deleting && charI >= full.length) { delay = 1400; deleting = true; }
-      else if (deleting && charI <= 0) { deleting = false; ti = (ti + 1) % questions.length; delay = 420; }
-      typerRef = setTimeout(typeStep, delay);
-    }
-    qEl.textContent = questions[0]; charI = questions[0].length; deleting = true; typeStep();
+    // ===== Typewriter rotation =====
+    // COPY EDIT: Using the alternative approach-focused rotation
+    const questions = [
+      "Where philosophy meets the real world.",
+      "Bridging the gap between theory and practice.",
+      "Understanding the 'Why' behind the 'How'.",
+      "No silos. No shortcuts. Just the pursuit of truth."
+    ];
+    const qEl = document.getElementById('bigQuestion');
+    let ti = 0, charI = 0, deleting = false, typerRef = null;
 
-    // ===== Constellation Canvas (subtle) =====
-    const canvas = document.getElementById('constellation');
-    const ctx = canvas.getContext('2d');
-    let dpr = window.devicePixelRatio || 1, W = 0, H = 0, particles = [], rafRef = null, mouse = { x: 0, y: 0, active: false };
-    function resize() { W = canvas.clientWidth; H = canvas.clientHeight; canvas.width = Math.floor(W * dpr); canvas.height = Math.floor(H * dpr); ctx.setTransform(dpr, 0, 0, dpr, 0, 0); }
-    window.addEventListener('resize', resize);
-    function initParticles() {
-      const density = Math.min(100, Math.max(60, Math.floor(W * H / 15000)));
-      particles = Array.from({ length: density }, () => ({ x: Math.random()*W, y: Math.random()*H, vx: (Math.random()-0.5)*0.22, vy: (Math.random()-0.5)*0.22, r: Math.random()*1.5+0.6 }));
+    function typeStep() {
+      const full = questions[ti];
+      const target = deleting ? full.slice(0, Math.max(0, charI - 1)) : full.slice(0, Math.min(full.length, charI + 1));
+      qEl.textContent = target; charI = deleting ? charI - 1 : charI + 1;
+      let delay = deleting ? 60 : 88;
+      if (!deleting && charI >= full.length) { delay = 1800; deleting = true; } // slightly longer pause on complete phrase
+      else if (deleting && charI <= 0) { deleting = false; ti = (ti + 1) % questions.length; delay = 420; }
+      typerRef = setTimeout(typeStep, delay);
+    }
+
+    // Start typewriter only if reduced motion is NOT preferred
+    if (!prefersReducedMotion) {
+      // Start after a slight delay
+      setTimeout(() => {
+        qEl.textContent = questions[0]; charI = questions[0].length; deleting = true; typeStep();
+      }, 500);
+    } else {
+      // Show the first question statically
+      qEl.textContent = questions[0];
+      // The 'caret' blinking is stopped by the CSS @media query
     }
-    function draw() {
-      ctx.clearRect(0, 0, W, H);
-      for (const p of particles) {
-        if (mouse.active) { const dx=mouse.x-p.x, dy=mouse.y-p.y, dist=Math.hypot(dx,dy); if (dist<150) { const f=(150-dist)/150*0.03; p.vx+=dx*f/dist; p.vy+=dy*f/dist; } }
-        p.x+=p.vx; p.y+=p.vy; if (p.x<-20) p.x=W+20; if (p.x>W+20) p.x=-20; if (p.y<-20) p.y=H+20; if (p.y>H+20) p.y=-20;
-        ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fillStyle='rgba(15,23,42,0.45)'; ctx.fill();
-      }
-      const maxDist=110; ctx.lineWidth=1;
-      for (let i=0;i<particles.length;i++) for (let j=i+1;j<particles.length;j++) {
-        const a=particles[i], b=particles[j], dx=a.x-b.x, dy=a.y-b.y, d=dx*dx+dy*dy; if (d<maxDist*maxDist) {
-          const alpha=1-Math.sqrt(d)/maxDist; ctx.strokeStyle=`rgba(37,99,235,${0.13*alpha})`; ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+
+
+    // ===== Constellation Canvas (Optimized & Accessible) =====
+    const canvas = document.getElementById('constellation');
+    if (canvas) {
+        const ctx = canvas.getContext('2d');
+        let dpr = window.devicePixelRatio || 1, W = 0, H = 0, particles = [], rafRef = null, mouse = { x: 0, y: 0, active: false };
+        let isCanvasVisible = false; // Performance: Track visibility
+
+        function resize() { W = canvas.clientWidth; H = canvas.clientHeight; canvas.width = Math.floor(W * dpr); canvas.height = Math.floor(H * dpr); ctx.setTransform(dpr, 0, 0, dpr, 0, 0); }
+        
+        function initParticles() {
+          const density = Math.min(100, Math.max(60, Math.floor(W * H / 15000)));
+          // If reduced motion, particles don't move (velocity = 0)
+          const velocity = prefersReducedMotion ? 0 : 0.22;
+          particles = Array.from({ length: density }, () => ({ 
+            x: Math.random()*W, 
+            y: Math.random()*H, 
+            vx: (Math.random()-0.5)*velocity, 
+            vy: (Math.random()-0.5)*velocity, 
+            r: Math.random()*1.5+0.6 
+          }));
+        }
+        function draw() {
+          ctx.clearRect(0, 0, W, H);
+          for (const p of particles) {
+            // Physics calculation (only if animation is running and allowed)
+            if (!prefersReducedMotion) {
+                if (mouse.active) { const dx=mouse.x-p.x, dy=mouse.y-p.y, dist=Math.hypot(dx,dy); if (dist<150) { const f=(150-dist)/150*0.03; p.vx+=dx*f/dist; p.vy+=dy*f/dist; } }
+                p.x+=p.vx; p.y+=p.vy; if (p.x<-20) p.x=W+20; if (p.x>W+20) p.x=-20; if (p.y<-20) p.y=H+20; if (p.y>H+20) p.y=-20;
+            }
+            // Drawing the particle
+            ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fillStyle='rgba(15,23,42,0.45)'; ctx.fill();
+          }
+          // Drawing lines
+          const maxDist=110; ctx.lineWidth=1;
+          for (let i=0;i<particles.length;i++) for (let j=i+1;j<particles.length;j++) {
+            const a=particles[i], b=particles[j], dx=a.x-b.x, dy=a.y-b.y, d=dx*dx+dy*dy; if (d<maxDist*maxDist) {
+              const alpha=1-Math.sqrt(d)/maxDist; ctx.strokeStyle=`rgba(37,99,235,${0.13*alpha})`; ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+            }
+          }
+        }
+
+        // Performance: Optimized animation loop
+        function tick(){ 
+          // Only continue the loop if visible AND motion is allowed
+          if (isCanvasVisible && !prefersReducedMotion) {
+            draw(); 
+            rafRef=requestAnimationFrame(tick); 
+          } else {
+            rafRef = null;
+          }
         }
-      }
+
+        // Performance: Use IntersectionObserver to pause/play animation based on visibility
+        const canvasObserver = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            isCanvasVisible = entry.isIntersecting;
+            if (isCanvasVisible && !prefersReducedMotion && !rafRef) {
+              // Resume animation
+              tick();
+            }
+          });
+        }, { threshold: 0.01 });
+
+        function startConstellation(){ 
+          resize(); 
+          initParticles(); 
+          
+          // Always draw the static state initially
+          draw(); 
+
+          // If motion is allowed, start observing visibility to enable animation loop
+          if (!prefersReducedMotion) {
+            canvasObserver.observe(canvas);
+          }
+        }
+
+        window.addEventListener('resize', () => {
+          resize();
+          initParticles();
+          // We must redraw on resize, especially if motion is reduced (static view)
+          if (prefersReducedMotion || !rafRef) {
+             draw();
+          }
+        });
+
+        // Add mouse listeners only if motion is allowed
+        if (!prefersReducedMotion) {
+          window.addEventListener('pointermove', (e)=>{ const r=canvas.getBoundingClientRect(); mouse.x=e.clientX-r.left; mouse.y=e.clientY-r.top; mouse.active=true; }, { passive:true });
+          window.addEventListener('pointerleave', ()=>{ mouse.active=false; }, { passive:true });
+        }
+        startConstellation();
     }
-    function tick(){ draw(); rafRef=requestAnimationFrame(tick); }
-    function startConstellation(){ resize(); initParticles(); tick(); }
-    window.addEventListener('pointermove', (e)=>{ const r=canvas.getBoundingClientRect(); mouse.x=e.clientX-r.left; mouse.y=e.clientY-r.top; mouse.active=true; }, { passive:true });
-    window.addEventListener('pointerleave', ()=>{ mouse.active=false; }, { passive:true });
-    startConstellation();
 
-    // ===== Reveal-on-scroll =====
-    const io = new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('show'); io.unobserve(e.target); } }); }, { threshold: 0.12 });
-    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-    // ===== Quiz data (each quote asked once; 4 plausible options) =====
-    const quizData = [
-      { t: "The whole is more than the sum of its parts. And sooner or later that insight will prove to be the key to the quantum enigma.", a: "Wolfgang Smith", g: "quantum" },
-      { t: "Concepts create idols; only wonder comprehends anything. People kill one another over idols. Wonder makes us fall to our knees.", a: "Gregory of Nyssa", g: "patristic" },
-      { t: "This world, after all our science and sciences, is still a miracle—wonderful, inscrutable, magical and more, to whosoever will think of it.", a: "Thomas Carlyle", g: "science_culture" },
-      { t: "Modern science is based on the principle: 'Give us one free miracle and we'll explain the rest.'", a: "Terence McKenna", g: "science_critique" },
-      { t: "Silence is the sleep that nourishes wisdom.", a: "Francis Bacon", g: "baconian" },
-      { t: "All our knowledge begins with the senses, proceeds then to the understanding, and ends with reason. There is nothing higher than reason.", a: "Immanuel Kant", g: "philosophy" },
-      { t: "The nous is the eye of the soul.", a: "St. John of Damascus", g: "patristic" },
-      { t: "For those who have purified their hearts see God... He shows Himself to the purified nous as in a mirror, while all the while He Himself remains invisible.", a: "St. Gregory Palamas", g: "patristic" },
-      { t: "The deadlift also serves as a way to train the mind to do things that are hard.", a: "Mark Rippetoe", g: "fitness" },
-      { t: "People who succeed in the stock market also accept periodic losses, setbacks, and unexpected occurrences. Calamitous drops do not scare them out of the game.", a: "Peter Lynch", g: "markets" },
-      { t: "Go for a business that any idiot can run—because sooner or later any idiot probably is going to be running it.", a: "Peter Lynch", g: "markets" },
-      { t: "It's far better to buy a wonderful company at a fair price than a fair company at a wonderful price.", a: "Warren Buffett", g: "markets" },
-      { t: "Experience seems to most of us to lead to conclusions, but empiricism has sworn never to draw them.", a: "George Santayana", g: "philosophy" },
-      { t: "Science is no more than an investigation of a miracle we can never explain, and art is an interpretation of that miracle.", a: "Ray Bradbury", g: "science_culture" },
-      { t: "Metaphysics is a dark ocean without shores or lighthouse, strewn with many a philosophic wreck.", a: "Immanuel Kant", g: "philosophy" },
-      { t: "Love is metaphysical gravity.", a: "R. Buckminster Fuller", g: "science_culture" },
-      { t: "He who has a why to live for can bear almost any how.", a: "Friedrich Nietzsche", g: "philosophy" },
-      { t: "If you only know your side, you don't know your side.", a: "John Stuart Mill", g: "liberal" }
-    ];
+    // ===== Reveal-on-scroll =====
+    // Only run observer if motion is allowed
+    if (!prefersReducedMotion) {
+      const io = new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('show'); io.unobserve(e.target); } }); }, { threshold: 0.12 });
+      document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+    } else {
+      // If motion is reduced, immediately mark all as shown (CSS ensures they don't fade/translate)
+      document.querySelectorAll('.reveal').forEach(el => el.classList.add('show'));
+    }
 
-    // Author pools per "ballpark" (used for plausible distractors)
-    const GROUPS = {
-      quantum: ["Wolfgang Smith","David Bohm","Werner Heisenberg","John Polkinghorne"],
-      patristic: ["Gregory of Nyssa","St. John of Damascus","St. Gregory Palamas","St. Augustine","St. Basil the Great","St. Maximus the Confessor"],
-      philosophy: ["Immanuel Kant","Friedrich Nietzsche","Søren Kierkegaard","George Santayana","Michael Polanyi","Alfred Korzybski"],
-      markets: ["Peter Lynch","Warren Buffett","Benjamin Graham","Charlie Munger","John C. Bogle"],
-      fitness: ["Mark Rippetoe","Pavel Tsatsouline","Dan John","Louie Simmons"],
-      science_culture: ["Thomas Carlyle","Ray Bradbury","G.K. Chesterton","Carl Sagan"],
-      science_critique: ["Terence McKenna","Rupert Sheldrake","Thomas Kuhn","Paul Feyerabend"],
-      liberal: ["John Stuart Mill","Alexis de Tocqueville","Isaiah Berlin","John Rawls"],
-      baconian: ["Francis Bacon","René Descartes","Thomas Hobbes","Blaise Pascal"]
+    // ===== CTA Modal Handling =====
+    const ctaModal = document.getElementById('ctaModal');
+    const openCtaButtons = document.querySelectorAll('[data-cta="open"]');
+    const closeCtaModalBtn = document.getElementById('closeCtaModalBtn');
+    const signupForm = document.getElementById('signupForm');
+    const formSuccess = document.getElementById('formSuccess');
+
+    const openModal = (e) => {
+      e.preventDefault(); // Prevent link navigation if it's an anchor tag
+      toggleMenu(false); // Close mobile menu if open
+      if (ctaModal) ctaModal.showModal();
+      // Reset form state when opening
+      if (signupForm) signupForm.classList.remove('hidden');
+      if (formSuccess) formSuccess.classList.add('hidden');
     };
 
-    const FALLBACKS = {
-      quantum: ["science_critique","science_culture","philosophy"],
-      patristic: ["philosophy","baconian"],
-      philosophy: ["baconian","science_culture"],
-      markets: ["philosophy","liberal"],
-      fitness: ["philosophy","markets"],
-      science_culture: ["philosophy","science_critique"],
-      science_critique: ["science_culture","philosophy"],
-      liberal: ["philosophy"],
-      baconian: ["philosophy"]
-    };
+    openCtaButtons.forEach(btn => btn.addEventListener('click', openModal));
 
-    function shuffle(arr){ for(let i=arr.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]]; } return arr; }
+    if (closeCtaModalBtn) closeCtaModalBtn.addEventListener('click', () => ctaModal.close());
 
-    let order = shuffle([...quizData.keys()]);
-    let idxQ = 0, correct = 0, answered = [];
-    const qText = document.getElementById('qText');
-    const choicesEl = document.getElementById('choices');
-    const feedback = document.getElementById('feedback');
-    const results = document.getElementById('results');
-    const scoreEl = document.getElementById('score');
-    const breakdown = document.getElementById('breakdown');
-    const playAgain = document.getElementById('playAgain');
-
-    function getPlausibleChoices(correctAuthor, group) {
-      const bag = new Set((GROUPS[group] || []).filter(a => a !== correctAuthor));
-      // If we need more, pull from fallbacks in order:
-      for (const g of (FALLBACKS[group] || [])) {
-        if (bag.size >= 3) break;
-        (GROUPS[g] || []).forEach(a => { if (a !== correctAuthor && bag.size < 3) bag.add(a); });
-      }
-      // Final four = 1 correct + 3 plausible distractors
-      const distractors = shuffle([...bag]).slice(0, 3);
-      return shuffle([correctAuthor, ...distractors]);
+    // Close modal when clicking the backdrop
+    if (ctaModal) {
+        ctaModal.addEventListener('click', (e) => {
+          if (e.target === ctaModal) {
+            ctaModal.close();
+          }
+        });
     }
 
-    function nextQuestion() {
-      if (idxQ >= order.length) return showResults();
-      const q = quizData[order[idxQ]];
-      qText.textContent = `“${q.t}”`;
-      feedback.textContent = '';
-
-      const choices = getPlausibleChoices(q.a, q.g);
-      choicesEl.innerHTML = '';
-      choices.forEach(name => {
-        const b = document.createElement('button');
-        b.className = 'choice w-full text-left px-4 py-2 rounded-lg transition';
-        b.textContent = name;
-        b.addEventListener('click', () => handleChoice(b, name === q.a, q));
-        choicesEl.appendChild(b);
-      });
+    // Mock form submission (replace with your actual submission logic)
+    if (signupForm) {
+        signupForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          // Simulate API call
+          console.log("Form submitted! Connect this to your email provider.");
+          setTimeout(() => {
+            signupForm.classList.add('hidden');
+            formSuccess.classList.remove('hidden');
+          }, 500);
+        });
     }
 
-    function handleChoice(btn, isCorrect, q) {
-      const buttons = Array.from(choicesEl.querySelectorAll('button.choice'));
-      buttons.forEach(b => b.disabled = true);
-      if (isCorrect) { btn.classList.add('correct'); feedback.textContent = 'Correct.'; correct++; }
-      else {
-        btn.classList.add('wrong');
-        const right = buttons.find(b => b.textContent === q.a);
-        if (right) right.classList.add('correct');
-        feedback.textContent = `Answer: ${q.a}.`;
-      }
-      answered.push({ quote: q.t, author: q.a, ok: isCorrect });
-      setTimeout(() => { idxQ++; nextQuestion(); }, 900);
-    }
 
-    function showResults() {
-      results.classList.remove('hidden');
-      scoreEl.textContent = `You got ${correct} of ${order.length} right.`;
-      breakdown.innerHTML = '';
-      answered.forEach(item => {
-        const li = document.createElement('li');
-        li.innerHTML = `<span class="${item.ok ? 'text-emerald-600' : 'text-rose-600'} font-semibold">${item.ok ? '✓' : '✕'}</span>
-                        <span class="italic">“${item.quote}”</span> — ${item.author}`;
-        breakdown.appendChild(li);
-      });
-    }
-    playAgain.addEventListener('click', () => {
-      order = shuffle([...quizData.keys()]); idxQ = 0; correct = 0; answered = [];
-      results.classList.add('hidden'); nextQuestion();
-    });
+    // ===== Quiz Logic =====
+    (function() {
+        const quizData = [
+          { t: "The whole is more than the sum of its parts. And sooner or later that insight will prove to be the key to the quantum enigma.", a: "Wolfgang Smith", g: "quantum" },
+          { t: "Concepts create idols; only wonder comprehends anything. People kill one another over idols. Wonder makes us fall to our knees.", a: "Gregory of Nyssa", g: "patristic" },
+          { t: "This world, after all our science and sciences, is still a miracle—wonderful, inscrutable, magical and more, to whosoever will think of it.", a: "Thomas Carlyle", g: "science_culture" },
+          { t: "Modern science is based on the principle: 'Give us one free miracle and we'll explain the rest.'", a: "Terence McKenna", g: "science_critique" },
+          { t: "Silence is the sleep that nourishes wisdom.", a: "Francis Bacon", g: "baconian" },
+          { t: "All our knowledge begins with the senses, proceeds then to the understanding, and ends with reason. There is nothing higher than reason.", a: "Immanuel Kant", g: "philosophy" },
+          { t: "The nous is the eye of the soul.", a: "St. John of Damascus", g: "patristic" },
+          { t: "For those who have purified their hearts see God... He shows Himself to the purified nous as in a mirror, while all the while He Himself remains invisible.", a: "St. Gregory Palamas", g: "patristic" },
+          { t: "The deadlift also serves as a way to train the mind to do things that are hard.", a: "Mark Rippetoe", g: "fitness" },
+          { t: "People who succeed in the stock market also accept periodic losses, setbacks, and unexpected occurrences. Calamitous drops do not scare them out of the game.", a: "Peter Lynch", g: "markets" },
+          { t: "Go for a business that any idiot can run—because sooner or later any idiot probably is going to be running it.", a: "Peter Lynch", g: "markets" },
+          { t: "It's far better to buy a wonderful company at a fair price than a fair company at a wonderful price.", a: "Warren Buffett", g: "markets" },
+          { t: "Experience seems to most of us to lead to conclusions, but empiricism has sworn never to draw them.", a: "George Santayana", g: "philosophy" },
+          { t: "Science is no more than an investigation of a miracle we can never explain, and art is an interpretation of that miracle.", a: "Ray Bradbury", g: "science_culture" },
+          { t: "Metaphysics is a dark ocean without shores or lighthouse, strewn with many a philosophic wreck.", a: "Immanuel Kant", g: "philosophy" },
+          { t: "Love is metaphysical gravity.", a: "R. Buckminster Fuller", g: "science_culture" },
+          { t: "He who has a why to live for can bear almost any how.", a: "Friedrich Nietzsche", g: "philosophy" },
+          { t: "If you only know your side, you don't know your side.", a: "John Stuart Mill", g: "liberal" }
+        ];
 
-    nextQuestion();
+        const GROUPS = {
+          quantum: ["Wolfgang Smith","David Bohm","Werner Heisenberg","John Polkinghorne"],
+          patristic: ["Gregory of Nyssa","St. John of Damascus","St. Gregory Palamas","St. Augustine","St. Basil the Great","St. Maximus the Confessor"],
+          philosophy: ["Immanuel Kant","Friedrich Nietzsche","Søren Kierkegaard","George Santayana","Michael Polanyi","Alfred Korzybski"],
+          markets: ["Peter Lynch","Warren Buffett","Benjamin Graham","Charlie Munger","John C. Bogle"],
+          fitness: ["Mark Rippetoe","Pavel Tsatsouline","Dan John","Louie Simmons"],
+          science_culture: ["Thomas Carlyle","Ray Bradbury","G.K. Chesterton","Carl Sagan", "R. Buckminster Fuller"],
+          science_critique: ["Terence McKenna","Rupert Sheldrake","Thomas Kuhn","Paul Feyerabend"],
+          liberal: ["John Stuart Mill","Alexis de Tocqueville","Isaiah Berlin","John Rawls"],
+          baconian: ["Francis Bacon","René Descartes","Thomas Hobbes","Blaise Pascal"]
+        };
 
-    // Footer year
-    document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
+        const FALLBACKS = {
+          quantum: ["science_critique","science_culture","philosophy"],
+          patristic: ["philosophy","baconian"],
+          philosophy: ["baconian","science_culture"],
+          markets: ["philosophy","liberal"],
+          fitness: ["philosophy","markets"],
+          science_culture: ["philosophy","science_critique"],
+          science_critique: ["science_culture","philosophy"],
+          liberal: ["philosophy"],
+          baconian: ["philosophy"]
+        };
+
+        function shuffle(arr){ for(let i=arr.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]]; } return arr; }
+
+        // Initialize Quiz
+        if (!document.getElementById('quizCard')) return;
+
+        let order, idxQ, correctCount, answered;
+        const quizIndices = Array.from(quizData.keys());
+        const qText = document.getElementById('qText');
+        const quizCard = document.getElementById('quizCard');
+        const choicesEl = document.getElementById('choices');
+        const feedback = document.getElementById('feedback');
+        const results = document.getElementById('results');
+        const scoreEl = document.getElementById('score');
+        const breakdown = document.getElementById('breakdown');
+        const playAgain = document.getElementById('playAgain');
+        const resultsHeading = document.getElementById('resultsHeading');
+
+        function initializeQuiz() {
+          order = shuffle([...quizIndices]);
+          idxQ = 0;
+          correctCount = 0;
+          answered = [];
+        }
+
+        function getPlausibleChoices(correctAuthor, group) {
+          const bag = new Set((GROUPS[group] || []).filter(a => a !== correctAuthor));
+          // If we need more, pull from fallbacks in order:
+          for (const g of (FALLBACKS[group] || [])) {
+            if (bag.size >= 3) break;
+            (GROUPS[g] || []).forEach(a => { if (a !== correctAuthor && bag.size < 3) bag.add(a); });
+          }
+          // Final four = 1 correct + 3 plausible distractors
+          const distractors = shuffle([...bag]).slice(0, 3);
+          return shuffle([correctAuthor, ...distractors]);
+        }
+
+        function nextQuestion() {
+          if (idxQ >= order.length) return showResults();
+          // Reset transition state
+          quizCard.classList.remove('opacity-0', 'translate-y-4');
+
+          const q = quizData[order[idxQ]];
+          qText.textContent = `“${q.t}”`;
+          feedback.textContent = ''; // Clear feedback
+
+          const choices = getPlausibleChoices(q.a, q.g);
+          choicesEl.innerHTML = '';
+          choices.forEach(name => {
+            const b = document.createElement('button');
+            b.className = 'choice w-full text-left px-4 py-2 rounded-lg transition';
+            b.textContent = name;
+            // A11y: Add roles and initial state
+            b.setAttribute('role', 'radio');
+            b.setAttribute('aria-checked', 'false');
+            b.addEventListener('click', () => handleChoice(b, name === q.a, q));
+            choicesEl.appendChild(b);
+          });
+          // A11y: Focus the first button for keyboard navigation
+          choicesEl.firstChild?.focus();
+        }
+
+        function handleChoice(btn, isCorrect, q) {
+          const buttons = Array.from(choicesEl.querySelectorAll('button.choice'));
+          buttons.forEach(b => {
+            b.disabled = true;
+            // A11y: Update checked state
+            if (b === btn) {
+              b.setAttribute('aria-checked', 'true');
+            }
+          });
+
+          let feedbackText = '';
+          if (isCorrect) { 
+            btn.classList.add('correct'); 
+            feedbackText = 'Correct!'; 
+            correctCount++; 
+          }
+          else {
+            btn.classList.add('wrong');
+            const right = buttons.find(b => b.textContent === q.a);
+            if (right) right.classList.add('correct');
+            feedbackText = `Incorrect. Answer: ${q.a}.`;
+          }
+          feedback.textContent = feedbackText; // aria-live announces this
+
+          answered.push({ quote: q.t, author: q.a, ok: isCorrect });
+
+          // Wait, then transition to next question
+          setTimeout(() => { 
+            if (!prefersReducedMotion) {
+              // Add a subtle transition out
+              quizCard.classList.add('opacity-0', 'translate-y-4');
+              setTimeout(() => {
+                idxQ++; 
+                nextQuestion();
+              }, 250);
+            } else {
+              idxQ++; 
+              nextQuestion();
+            }
+           }, 1300); // Increased delay slightly to allow screen readers to announce feedback
+        }
+
+        function showResults() {
+          quizCard.classList.add('hidden'); // Hide the question card
+          results.classList.remove('hidden');
+          scoreEl.textContent = `You got ${correctCount} of ${order.length} right.`;
+          breakdown.innerHTML = '';
+          answered.forEach(item => {
+            const li = document.createElement('li');
+            // A11y: Added aria-label to the visual check/cross
+            li.innerHTML = `<span class="${item.ok ? 'text-emerald-600' : 'text-rose-600'} font-semibold" aria-label="${item.ok ? 'Correct' : 'Incorrect'}">${item.ok ? '✓' : '✕'}</span>
+                            <span class="italic">“${item.quote}”</span> — ${item.author}`;
+            breakdown.appendChild(li);
+          });
+          // A11y: Scroll to results and focus the heading
+          results.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'nearest' });
+          resultsHeading.focus();
+        }
+
+        playAgain.addEventListener('click', () => {
+          initializeQuiz();
+          results.classList.add('hidden'); 
+          quizCard.classList.remove('hidden');
+          nextQuestion();
+          quizCard.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'center' });
+        });
+
+        initializeQuiz();
+        nextQuestion();
+    })(); // End Quiz IIFE
+
+    // Footer year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+}); // End DOMContentLoaded
+  </script>
 </body>
 </html>
