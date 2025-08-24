@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Aletheia Conversations: A Podcast that Goes from First Principles to First Steps</title>
   <meta name="description" content="Aletheia Conversations — the podcast that goes from first principles to first steps. Host: Newman Nahas." />
-
   <!-- Open Graph Tags (for social sharing) -->
   <meta property="og:title" content="Aletheia Conversations: From First Principles to First Steps">
   <meta property="og:description" content="The podcast exploring God, AI, Health, and Practical Wisdom. Hosted by Newman Nahas.">
@@ -13,15 +12,12 @@
   <!-- !! IMPORTANT: Replace with your actual URL and image when deployed !! -->
   <meta property="og:url" content="https://www.yourwebsite.com">
   <meta property="og:image" content="https://www.yourwebsite.com/social-image.jpg">
-
   <!-- Favicon -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><style>text{font-family:serif;font-weight:bold;font-size:70px;fill:%231e3a8a;}</style><text y=%2275%22 x=%2210%22>AC</text></svg>" type="image/svg+xml">
-
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
-
   <!-- Tailwind via CDN -->
   <!-- Ensure this script is NOT deferred when using the CDN approach -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -48,13 +44,11 @@
       }
     }
   </script>
-
   <style>
     html, body { height: 100%; scroll-behavior: smooth; }
     /* Anchor offset so headings aren't hidden under the fixed nav */
     /* Updated ID to match section change */
     #why, #episodes, #about, #cta, #quiz { scroll-margin-top: 96px; }
-
     .brand-sc { font-variant-caps: small-caps; letter-spacing: .06em; }
     .caret::after {
       content: ''; display: inline-block; width: 2px; height: 1em;
@@ -62,11 +56,9 @@
       animation: blink 1s steps(1, end) infinite; opacity: .7;
     }
     @keyframes blink { 50% { opacity: 0; } }
-
     /* Reveal-on-scroll (subtle) */
     .reveal { opacity: 0; transform: translateY(14px); transition: opacity 600ms ease, transform 600ms ease; }
     .reveal.show { opacity: 1; transform: translateY(0); }
-
     /* Fancy bullets */
     .fancy-list { list-style: none; margin: 0; padding: 0; }
     .fancy-list li { position: relative; padding-left: 1.55rem; line-height: 1.6; }
@@ -75,11 +67,10 @@
       background: linear-gradient(135deg, var(--b-from), var(--b-to));
       box-shadow: 0 0 0 2px rgba(255,255,255,.9), 0 0 14px rgba(99,102,241,.3);
     }
-    .fancy-god      { --b-from:#f59e0b; --b-to:#d97706; }  /* amber */
-    .fancy-ai       { --b-from:#4338ca; --b-to:#1e3a8a; }  /* indigo/blue */
-    .fancy-health   { --b-from:#be123c; --b-to:#db2777; }  /* rose/pink */
-    .fancy-practice { --b-from:#059669; --b-to:#0d9488; }  /* emerald/teal */
-
+    .fancy-god { --b-from:#f59e0b; --b-to:#d97706; } /* amber */
+    .fancy-ai { --b-from:#4338ca; --b-to:#1e3a8a; } /* indigo/blue */
+    .fancy-health { --b-from:#be123c; --b-to:#db2777; } /* rose/pink */
+    .fancy-practice { --b-from:#059669; --b-to:#0d9488; } /* emerald/teal */
     /* Decorative orbit chips */
     .orbit { position: absolute; inset: 0; pointer-events: none; }
     .orbit .chip {
@@ -91,21 +82,19 @@
       animation: drift var(--t) linear infinite; transform-origin: 0 0;
     }
     .orbit .chip i { opacity: .7; }
-
     /* Quiz card */
     .quiz-card button.choice { border:1px solid rgba(15,23,42,.15); }
     .quiz-card button.choice:hover:not(:disabled), .quiz-card button.choice:focus { border-color: rgba(15,23,42,.28); background: rgba(2,6,23,.03); }
     .quiz-card button.choice:disabled { opacity: 0.8; cursor: default; }
     .quiz-card .correct { background:#ecfdf5; border-color:#10b981 !important; }
-    .quiz-card .wrong   { background:#fef2f2; border-color:#ef4444 !important; }
-
+    .quiz-card .wrong { background:#fef2f2; border-color:#ef4444 !important; }
     /* Dialog/Modal Styling */
     dialog {
       opacity: 0;
       transition: opacity 0.3s ease, transform 0.3s ease;
       transform: scale(0.95);
       max-width: 90vw; /* Ensure it doesn't overflow on small screens */
-      margin: auto;    /* Center it */
+      margin: auto; /* Center it */
     }
     dialog[open] {
       opacity: 1;
@@ -115,7 +104,6 @@
       background: rgba(2, 6, 23, 0.5);
       backdrop-filter: blur(4px);
     }
-
     /* Accessibility - Enhanced reduced motion handling */
     @media (prefers-reduced-motion: reduce) {
       html, body { scroll-behavior: auto; } /* Disable smooth scroll */
@@ -124,18 +112,17 @@
       /* Stop caret blink */
       .caret::after { animation: none !important; }
     }
+    /* Improved readability */
+    p { line-height: 1.8; }
   </style>
 </head>
 <body class="min-h-screen bg-gradient-to-b from-slate-50 to-white text-slate-800 font-sans">
-
   <!-- Force start at the top unless there's an anchor -->
   <script>window.addEventListener('load',()=>{ if(!location.hash) window.scrollTo(0,0); });</script>
-
   <!-- Skip link -->
   <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 bg-blue-700 text-white px-3 py-2 rounded z-[100]">
     Skip to main content
   </a>
-
   <!-- NAVBAR -->
   <nav id="siteNav" class="fixed top-0 w-full z-50 bg-white/60 backdrop-blur-md py-4 transition-all">
     <div class="max-w-7xl mx-auto px-6 flex items-center justify-between">
@@ -148,7 +135,6 @@
         </div>
         <span class="font-serif text-xl font-bold tracking-tight">Aletheia Conversations</span>
       </a>
-
       <button id="menuBtn" class="md:hidden p-2" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobileMenu">
         <svg id="menuIconOpen" xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
@@ -157,83 +143,65 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
         </svg>
       </button>
-
       <ul id="navLinks" class="hidden md:flex items-center gap-8">
-        <li><a href="#why"      class="text-slate-700 hover:text-blue-800 transition-colors">Why this show</a></li>
-        <!-- EDITED: Changed link text and href -->
+        <li><a href="#why" class="text-slate-700 hover:text-blue-800 transition-colors">Why this show</a></li>
         <li><a href="#episodes" class="text-slate-700 hover:text-blue-800 transition-colors">Episodes</a></li>
-        <li><a href="#quiz"     class="text-slate-700 hover:text-blue-800 transition-colors">Take the Quiz</a></li>
-        <li><a href="#about"    class="text-slate-700 hover:text-blue-800 transition-colors">About</a></li>
+        <li><a href="#quiz" class="text-slate-700 hover:text-blue-800 transition-colors">Take the Quiz</a></li>
+        <li><a href="#about" class="text-slate-700 hover:text-blue-800 transition-colors">About</a></li>
         <li><button data-cta="open" type="button" class="px-5 py-2 bg-gradient-to-r from-blue-900 to-blue-700 text-white rounded-full shadow-glow hover:brightness-110 transition">Get Early Access</button></li>
       </ul>
     </div>
     <div id="mobileMenu" class="md:hidden hidden bg-white shadow-xl absolute top-full left-0 right-0" data-open="false">
       <div class="flex flex-col p-6 gap-4">
-        <a href="#why"      class="mobile-link text-slate-700 hover:text-blue-800 font-medium">Why this show</a>
-        <!-- EDITED: Changed link text and href -->
+        <a href="#why" class="mobile-link text-slate-700 hover:text-blue-800 font-medium">Why this show</a>
         <a href="#episodes" class="mobile-link text-slate-700 hover:text-blue-800 font-medium">Episodes</a>
-        <a href="#quiz"     class="mobile-link text-slate-700 hover:text-blue-800 font-medium">Take the Quiz</a>
-        <a href="#about"    class="mobile-link text-slate-700 hover:text-blue-800 font-medium">About</a>
+        <a href="#quiz" class="mobile-link text-slate-700 hover:text-blue-800 font-medium">Take the Quiz</a>
+        <a href="#about" class="mobile-link text-slate-700 hover:text-blue-800 font-medium">About</a>
         <a href="#cta" data-cta="open" class="mobile-link text-slate-700 hover:text-blue-800 font-medium">Get Early Access</a>
       </div>
     </div>
   </nav>
-
   <!-- HERO -->
   <header id="top" class="relative min-h-[88vh] flex items-center justify-center px-6 pt-28 overflow-hidden">
     <canvas id="constellation" class="absolute inset-0 -z-10" aria-label="Subtle background visualization of a constellation"></canvas>
-
     <div class="max-w-5xl mx-auto text-center bg-white/55 backdrop-blur-lg rounded-3xl px-6 sm:px-10 py-10 shadow-xl ring-1 ring-white/40">
       <h1 class="font-serif text-[2.6rem] md:text-[3.2rem] font-bold leading-[1.15] tracking-tight mb-4 reveal">
         <span class="brand-sc bg-gradient-to-r from-sky-700 to-blue-900 bg-clip-text text-transparent">Aletheia Conversations</span>
         <span class="text-slate-700" aria-hidden="true">—</span>
         <span class="block mt-1">The Podcast That Goes from First Principles to First Steps</span>
       </h1>
-
       <!-- Typewriter -->
-      <!-- Height set to h-12 for the original, shorter questions -->
       <div class="h-12 flex items-center justify-center mb-2 reveal" aria-live="polite">
         <span id="bigQuestion" class="caret text-lg md:text-xl text-slate-900 font-semibold"></span>
       </div>
-
-      <!-- EDITED: Updated Value Proposition -->
       <p class="text-lg text-slate-700 mt-4 max-w-3xl mx-auto reveal">
         Join host Newman Nahas as he engages leading thinkers across disciplines to explore humanity's deepest questions and uncover practical wisdom for everyday life.
       </p>
     </div>
-
     <div class="pointer-events-none absolute inset-0 -z-10"
          style="background: radial-gradient(1100px 520px at 50% 20%, rgba(255,255,255,.6), rgba(255,255,255,0) 60%),
                         radial-gradient(700px 340px at 85% 80%, rgba(59,130,246,.10), rgba(59,130,246,0) 60%),
                         radial-gradient(700px 340px at 15% 80%, rgba(236,72,153,.10), rgba(236,72,153,0) 60%);"></div>
   </header>
-
   <main id="main-content">
-
   <!-- WHY THIS SHOW -->
   <section id="why" class="py-20 px-6 bg-gradient-to-br from-blue-900 to-indigo-900 text-white relative overflow-hidden">
     <div class="relative max-w-6xl mx-auto">
       <h2 class="text-center font-serif text-4xl md:text-5xl font-extrabold tracking-tight mb-6">Think Deeper, Live Better.</h2>
-      
-      <!-- EDITED: Updated Intro Text -->
       <p class="text-center max-w-4xl mx-auto mb-12 text-lg text-blue-50/95 leading-relaxed reveal">
         Aletheia Conversations cuts through the noise by engaging leading thinkers in deep, respectful dialogue that seeks truth, not victory.
       </p>
-
       <div class="grid md:grid-cols-3 gap-8">
-        <!-- EDITED: Pillar 1 (New Title, Reverted Copy) -->
         <div class="p-7 rounded-2xl bg-white/10 backdrop-blur reveal">
           <div class="text-2xl mb-2" aria-hidden="true">🧭</div>
           <h3 class="text-xl md:text-2xl font-bold mb-2">Beyond the Silos</h3>
           <p class="text-blue-100/95">Reality doesn’t respect the boundaries of our disciplines; neither will this podcast.</p>
         </div>
-        <!-- EDITED: Pillar 2 (Modified Copy) -->
         <div class="p-7 rounded-2xl bg-white/10 backdrop-blur reveal">
           <div class="text-2xl mb-2" aria-hidden="true">💠</div>
           <h3 class="text-xl md:text-2xl font-bold mb-2">Wisdom in Action</h3>
           <p class="text-blue-100/95">We don’t stop at abstract ideas. Our goal is practical wisdom that translates complex truths into better ways to live, work, and thrive.</p>
         </div>
-        <!-- EDITED: Pillar 3 (New Title, Shortened Copy) -->
         <div class="p-7 rounded-2xl bg-white/10 backdrop-blur reveal">
           <div class="text-2xl mb-2" aria-hidden="true">🤝</div>
           <h3 class="text-xl md:text-2xl font-bold mb-2">No Strawmen</h3>
@@ -242,19 +210,59 @@
       </div>
     </div>
   </section>
-
+  <!-- QUIZ (Moved up for prominence) -->
+  <section id="quiz" class="relative py-24 px-6 bg-white">
+    <div class="max-w-5xl mx-auto text-center">
+      <h2 class="font-serif text-4xl md:text-5xl font-bold tracking-tight mb-10">Take this Quiz!</h2>
+      <!-- Decorative floating chips -->
+      <div class="orbit hidden md:block" aria-hidden="true">
+        <span class="chip" style="--r:220px; --t:32s;"><i>✨</i> “All models are wrong…”</span>
+        <span class="chip" style="--r:150px; --t:28s;"><i>📜</i> “The map is not the territory.”</span>
+        <span class="chip" style="--r:260px; --t:36s;"><i>🧠</i> “We know more than we can tell.”</span>
+        <span class="chip" style="--r:190px; --t:30s;"><i>🏛️</i> “The unexamined life…”</span>
+      </div>
+      <!-- Quiz card -->
+      <div id="quizCard" class="quiz-card relative mx-auto max-w-3xl text-left bg-white/90 backdrop-blur rounded-2xl p-7 shadow-xl ring-1 ring-slate-200 transition-all duration-300">
+        <blockquote id="qText" class="font-serif text-2xl md:text-[1.7rem] leading-snug text-slate-800 mb-6" aria-live="polite"></blockquote>
+        <div id="choices" class="grid sm:grid-cols-2 gap-3 mb-3" role="radiogroup"></div>
+        <div id="feedback" class="text-sm h-5 text-slate-600 font-medium" aria-live="assertive"></div>
+      </div>
+      <!-- Results -->
+      <div id="results" class="hidden mt-10 mx-auto max-w-3xl text-left bg-white rounded-2xl p-7 shadow ring-1 ring-slate-200" aria-live="polite">
+        <h3 class="font-serif text-2xl font-bold mb-1" id="resultsHeading" tabindex="-1">Your results</h3>
+        <p class="text-slate-600 mb-4"><span id="score"></span></p>
+        <ul id="breakdown" class="space-y-2 text-slate-700"></ul>
+        <div class="mt-6">
+          <button id="playAgain" class="px-5 py-2 rounded-full border border-slate-300 text-slate-700 hover:bg-slate-50">Play again</button>
+          <button id="shareResults" class="ml-4 px-5 py-2 rounded-full border border-slate-300 text-slate-700 hover:bg-slate-50">Share Your Badge</button>
+        </div>
+      </div>
+    </div>
+  </section>
   <!-- EPISODES -->
-  <!-- EDITED: Changed ID and Heading -->
   <section id="episodes" class="py-24 px-6">
     <div class="max-w-7xl mx-auto">
       <div class="text-center mb-14">
         <h2 class="font-serif text-4xl md:text-5xl font-bold mb-1 tracking-tight reveal">Episodes</h2>
         <p class="text-2xl text-blue-800 font-bold tracking-wide reveal">COMING SOON</p>
       </div>
-
       <div class="grid md:grid-cols-2 gap-8">
-        <!-- EDITED: God & Religion (Reverted Bullets and Intro) -->
-        <div class="group p-8 bg-white/80 rounded-2xl shadow hover:shadow-xl transition-transform duration-300 hover:-translate-y-1 reveal">
+        <!-- Placeholder Episode 1 -->
+        <div class="group p-8 bg-white/80 rounded-2xl shadow hover:shadow-xl hover:scale-105 transition-transform duration-300 reveal">
+          <h3 class="font-serif text-2xl font-bold mb-2">Episode 1: The Mystery of Consciousness</h3>
+          <p class="text-slate-600 mb-3">Dive into the boundaries between mind and machine with guest expert on AI ethics.</p>
+          <!-- Mock Teaser Audio -->
+          <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/123456789&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"></iframe>
+        </div>
+        <!-- Placeholder Episode 2 -->
+        <div class="group p-8 bg-white/80 rounded-2xl shadow hover:shadow-xl hover:scale-105 transition-transform duration-300 reveal">
+          <h3 class="font-serif text-2xl font-bold mb-2">Episode 2: Faith in a Scientific Age</h3>
+          <p class="text-slate-600 mb-3">Exploring how religion and science can coexist, featuring a theologian and physicist.</p>
+          <!-- Mock Teaser Audio -->
+          <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/987654321&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"></iframe>
+        </div>
+        <!-- God & Religion -->
+        <div class="group p-8 bg-white/80 rounded-2xl shadow hover:shadow-xl hover:scale-105 transition-transform duration-300 reveal">
           <div class="inline-flex p-3 rounded-xl bg-gradient-to-br from-amber-700 to-yellow-600 mb-4 text-white" aria-hidden="true">✨</div>
           <h3 class="font-serif text-2xl font-bold mb-2">God & Religion</h3>
           <p class="text-slate-600 mb-3">Exploring God, faith, meaning, and religious life.</p>
@@ -265,9 +273,8 @@
             <li><strong>Science & Religion:</strong> Conflict or synergy?</li>
           </ul>
         </div>
-
-        <!-- Mind & AI (Retained previous optimization as no reversion was requested) -->
-        <div class="group p-8 bg-white/80 rounded-2xl shadow hover:shadow-xl transition-transform duration-300 hover:-translate-y-1 reveal">
+        <!-- Mind & AI -->
+        <div class="group p-8 bg-white/80 rounded-2xl shadow hover:shadow-xl hover:scale-105 transition-transform duration-300 reveal">
           <div class="inline-flex p-3 rounded-xl bg-gradient-to-br from-indigo-900 to-blue-700 mb-4 text-white" aria-hidden="true">🧠</div>
           <h3 class="font-serif text-2xl font-bold mb-2">The Mind & AI</h3>
           <p class="text-slate-600 mb-3">The boundaries of being. Where code meets cognition, exploring consciousness, agency, and the future of intelligence.</p>
@@ -278,9 +285,8 @@
             <li><strong>The Human Experience:</strong> What neuroscience reveals about self-awareness and free will.</li>
           </ul>
         </div>
-
-        <!-- Health & Wellbeing (Retained previous optimization) -->
-        <div class="group p-8 bg-white/80 rounded-2xl shadow hover:shadow-xl transition-transform duration-300 hover:-translate-y-1 reveal">
+        <!-- Health & Well-being -->
+        <div class="group p-8 bg-white/80 rounded-2xl shadow hover:shadow-xl hover:scale-105 transition-transform duration-300 reveal">
           <div class="inline-flex p-3 rounded-xl bg-gradient-to-br from-rose-700 to-pink-600 mb-4 text-white" aria-hidden="true">❤️</div>
           <h3 class="font-serif text-2xl font-bold mb-2">Health & Well-being</h3>
           <p class="text-slate-600 mb-3">The science of flourishing. Cutting through the noise to find evidence-based strategies for longevity and vitality.</p>
@@ -291,9 +297,8 @@
             <li><strong>Mental Health & Focus:</strong> Practical tools for managing ADHD and navigating stress.</li>
           </ul>
         </div>
-
         <!-- Practical Wisdom -->
-        <div class="group p-8 bg-white/80 rounded-2xl shadow hover:shadow-xl transition-transform duration-300 hover:-translate-y-1 reveal">
+        <div class="group p-8 bg-white/80 rounded-2xl shadow hover:shadow-xl hover:scale-105 transition-transform duration-300 reveal">
           <div class="inline-flex p-3 rounded-xl bg-gradient-to-br from-emerald-700 to-teal-600 mb-4 text-white" aria-hidden="true">🧭</div>
           <h3 class="font-serif text-2xl font-bold mb-2">Practical Wisdom</h3>
           <p class="text-slate-600 mb-3">Exploring money, productivity, relationships, and parenting.</p>
@@ -305,81 +310,46 @@
           </ul>
         </div>
       </div>
-    </div>
-  </section>
-
-  <!-- QUIZ -->
-  <section id="quiz" class="relative py-24 px-6 bg-white">
-    <div class="max-w-5xl mx-auto text-center">
-      <h2 class="font-serif text-4xl md:text-5xl font-bold tracking-tight mb-10">Take this Quiz!</h2>
-
-      <!-- Decorative floating chips -->
-      <div class="orbit hidden md:block" aria-hidden="true">
-        <span class="chip" style="--r:220px; --t:32s;"><i>✨</i> “All models are wrong…”</span>
-        <span class="chip" style="--r:150px; --t:28s;"><i>📜</i> “The map is not the territory.”</span>
-        <span class="chip" style="--r:260px; --t:36s;"><i>🧠</i> “We know more than we can tell.”</span>
-        <span class="chip" style="--r:190px; --t:30s;"><i>🏛️</i> “The unexamined life…”</span>
-      </div>
-
-      <!-- Quiz card -->
-      <div id="quizCard" class="quiz-card relative mx-auto max-w-3xl text-left bg-white/90 backdrop-blur rounded-2xl p-7 shadow-xl ring-1 ring-slate-200 transition-all duration-300">
-        <blockquote id="qText" class="font-serif text-2xl md:text-[1.7rem] leading-snug text-slate-800 mb-6" aria-live="polite">Who said: 'The unexamined life is not worth living'?</blockquote>
-        <div id="choices" class="grid sm:grid-cols-2 gap-3 mb-3" role="radiogroup"></div>
-        <div id="feedback" class="text-sm h-5 text-slate-600 font-medium" aria-live="assertive"></div>
-      </div>
-
-      <!-- Results -->
-      <div id="results" class="hidden mt-10 mx-auto max-w-3xl text-left bg-white rounded-2xl p-7 shadow ring-1 ring-slate-200" aria-live="polite">
-        <h3 class="font-serif text-2xl font-bold mb-1" id="resultsHeading" tabindex="-1">Your results</h3>
-        <p class="text-slate-600 mb-4"><span id="score"></span></p>
-        <ul id="breakdown" class="space-y-2 text-slate-700"></ul>
-        <div class="mt-6">
-          <button id="playAgain" class="px-5 py-2 rounded-full border border-slate-300 text-slate-700 hover:bg-slate-50">Play again</button>
-        </div>
+      <div class="text-center mt-8">
+        <a href="mailto:your-email@example.com?subject=Suggest%20a%20Topic" class="px-5 py-2 bg-blue-700 text-white rounded-full shadow-glow hover:brightness-110 transition">Suggest a Topic</a>
       </div>
     </div>
   </section>
-
   <!-- ABOUT -->
   <section id="about" class="py-24 px-6 bg-gradient-to-b from-slate-50 to-white">
     <div class="max-w-5xl mx-auto">
       <div class="text-center mb-12">
-        <!-- EDITED: Updated Title -->
         <h2 class="font-serif text-4xl md:text-5xl font-bold mb-4 tracking-tight reveal">About your Host, Newman Nahas</h2>
         <p class="text-lg text-slate-600 reveal">Curious about all the human things.</p>
       </div>
-
       <div class="flex flex-col md:flex-row gap-10 items-center">
-        <!-- Host Image Placeholder -->
         <div class="md:w-1/3 flex-shrink-0 reveal">
-          <!-- !! Replace src with your actual image !! -->
           <img src="https://via.placeholder.com/300x400.png?text=Newman+Nahas" alt="Newman Nahas, Host of Aletheia Conversations" class="rounded-2xl shadow-lg object-cover w-full aspect-[3/4] max-w-xs mx-auto md:max-w-none">
         </div>
-
-        <!-- EDITED: Reverted Body Copy -->
         <div class="md:w-2/3 mx-auto text-slate-700 space-y-6 leading-relaxed text-lg">
             <p class="reveal">
-                Newman Nahas has never met a subject he didn’t want to explore. As an undergraduate, he studied across 13 different fields and earned a Rhodes Scholarship to study at Oxford, where he waded into the treacherous waters at the intersections of philosophy, religion, and science.
+                Newman's academic path looks like someone who couldn't make up his mind. As it turned out, that was a feature, not a bug. Newman took coursework in thirteen different subjects and earned a Rhodes Scholarship to Oxford, where he waded into the waters where philosophy, religion, and science intersect. He then went to Harvard Law School, where he studied law and served as a teaching fellow for Michael Sandel's iconic class, Justice.
               </p>
               <p class="reveal">
-                Throughout, one constant remained: an almost restless curiosity (and, yes, the ADHD didn’t exactly hurt the “restless” part). Rather than fight it, Newman built a podcast around it. Expect conversations with leading thinkers from different worlds about the human things—big and small. These discussions will range from metaphysics to gym mats, ancient texts to modern labs, and boardrooms to churches.
+                The constant throughout: a relentless curiosity that won't quit. Instead of fighting it any longer, Newman has embraced it, building a podcast and community for interdisciplinary discussions around it.
+              </p>
+              <p class="reveal">
+                Here, he sits down with brilliant minds from different worlds to explore what makes us human—the profound and the mundane, the eternal and the everyday. One conversation might dissect ancient texts; the next, cutting-edge neuroscience. From psychology to capital markets, from the philosophy of fitness to sacred spaces and laboratory benches. This is a podcast about all the human things.
               </p>
         </div>
       </div>
     </div>
   </section>
-
-  <!-- CTA -->
+  <!-- CTA with Countdown -->
   <section id="cta" class="py-20 px-6 bg-blue-700 text-white text-center relative overflow-hidden">
     <div class="absolute inset-0 opacity-20 blur-3xl" aria-hidden="true">
       <div class="w-80 h-80 bg-white rounded-full absolute -top-10 left-10"></div>
       <div class="w-96 h-96 bg-white rounded-full absolute -bottom-16 right-16"></div>
     </div>
-
     <div class="relative max-w-3xl mx-auto">
       <h2 class="text-3xl md:text-4xl font-serif font-bold mb-4 tracking-tight reveal">Go Deeper. Get Exclusive Early Access.</h2>
-      <p class="text-lg mb-8 reveal">Tired of shallow content? Season 1 launches soon—subscribe now for exclusive early access to episodes (before everyone else), curated reading lists from guests, and detailed host notes. Dive deep with us.</p>
-
+      <p class="text-lg mb-4 reveal">Season 1 launches in <span id="countdown"></span>!</p>
+      <p class="text-lg mb-8 reveal">Tired of shallow content? Subscribe now for exclusive early access to episodes (before everyone else), curated reading lists from guests, and detailed host notes. Dive deep with us.</p>
       <div class="flex flex-col sm:flex-row justify-center gap-4 reveal">
         <a href="mailto:your-email@example.com?subject=Nominate%20a%20Guest"
            class="bg-white text-blue-700 font-semibold py-3 px-6 rounded-full shadow-lg hover:shadow-xl hover:brightness-95 transition">
@@ -392,9 +362,7 @@
       </div>
     </div>
   </section>
-
-  </main> <!-- End Main Content -->
-
+  </main>
   <!-- FOOTER -->
   <footer class="py-10 px-6 bg-slate-900 text-slate-300">
     <div class="max-w-7xl mx-auto text-center">
@@ -410,7 +378,6 @@
       <p class="text-sm">© <span id="year"></span> Aletheia Conversations. From first principles to first steps.</p>
     </div>
   </footer>
-
   <!-- CTA Modal (Dialog) -->
   <dialog id="ctaModal" class="p-8 rounded-2xl shadow-2xl bg-white text-slate-800 max-w-lg w-full">
     <div class="flex justify-between items-start mb-4">
@@ -422,10 +389,6 @@
       </button>
     </div>
     <p class="text-slate-600 mb-6">Subscribe now for exclusive first access to Season 1 episodes, curated reading lists from our guests, and behind-the-scenes notes.</p>
-    
-    <!-- 
-      NOTE: This form is a placeholder. Connect it to your backend service.
-    -->
     <form action="#" method="POST" id="signupForm">
       <div class="mb-4">
         <label for="email" class="block text-sm font-medium text-slate-700 mb-1">Email Address</label>
@@ -439,37 +402,29 @@
       Thanks for subscribing! Check your inbox soon.
     </div>
   </dialog>
-
-
   <!-- SCRIPTS -->
   <script>
 document.addEventListener('DOMContentLoaded', () => {
-
     // Global check for reduced motion preference
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
     // ===== Sticky nav style tweak on scroll =====
     const nav = document.getElementById('siteNav');
     function handleScroll() {
-      if (!nav) return; 
+      if (!nav) return;
       if (window.scrollY > 24) { nav.classList.add('shadow', 'py-3'); nav.classList.remove('py-4'); }
       else { nav.classList.remove('shadow', 'py-3'); nav.classList.add('py-4'); }
     }
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll(); // Initialize state
-
     // ===== Mobile menu toggle (Improved Accessibility & UX) =====
     const menuBtn = document.getElementById('menuBtn');
     const mobileMenu = document.getElementById('mobileMenu');
     const menuIconOpen = document.getElementById('menuIconOpen');
     const menuIconClose = document.getElementById('menuIconClose');
-
     function toggleMenu(shouldOpen) {
       if (!mobileMenu || !menuBtn || !menuIconOpen || !menuIconClose) return;
-
       const isOpen = mobileMenu.getAttribute('data-open') === 'true';
       const finalState = shouldOpen !== undefined ? shouldOpen : !isOpen;
-
       if (finalState) {
         mobileMenu.classList.remove('hidden');
         menuBtn.setAttribute('aria-expanded', 'true');
@@ -484,11 +439,10 @@ document.addEventListener('DOMContentLoaded', () => {
         mobileMenu.setAttribute('data-open', 'false');
       }
     }
-
     if (menuBtn) {
       menuBtn.addEventListener('click', () => toggleMenu());
     }
-    
+   
     // Close menu when a standard link is clicked
     document.querySelectorAll('.mobile-link').forEach(link => {
       // Ensure this doesn't interfere with the CTA link behavior
@@ -496,79 +450,62 @@ document.addEventListener('DOMContentLoaded', () => {
         link.addEventListener('click', () => toggleMenu(false));
       }
     });
-
-
-    // ===== Typewriter rotation =====
-    // EDITED: Reverted to original questions
+    // ===== Typewriter rotation (Updated questions) =====
     const questions = [
-        "Does God exist?",
-        "What is consciousness?",
-        "How do we know what we know?",
-        "What is justice?",
-        "What is health?"
+        "Does God exist in a scientific world?",
+        "Can AI become conscious?",
+        "What is the meaning of life?",
+        "How can we achieve true health?",
+        "What defines practical wisdom?"
     ];
     const qEl = document.getElementById('bigQuestion');
     let ti = 0, charI = 0, deleting = false, typerRef = null;
-
     function typeStep() {
       if (!qEl) return;
       const full = questions[ti];
       const target = deleting ? full.slice(0, Math.max(0, charI - 1)) : full.slice(0, Math.min(full.length, charI + 1));
       qEl.textContent = target; charI = deleting ? charI - 1 : charI + 1;
-      // Using the original timing
       let delay = deleting ? 60 : 88;
-      if (!deleting && charI >= full.length) { delay = 1400; deleting = true; } 
+      if (!deleting && charI >= full.length) { delay = 1400; deleting = true; }
       else if (deleting && charI <= 0) { deleting = false; ti = (ti + 1) % questions.length; delay = 420; }
       typerRef = setTimeout(typeStep, delay);
     }
-
     if (qEl) {
-      // Start typewriter only if reduced motion is NOT preferred
       if (!prefersReducedMotion) {
-        // Start after a slight delay
         setTimeout(() => {
           qEl.textContent = questions[0]; charI = questions[0].length; deleting = true; typeStep();
         }, 500);
       } else {
-        // Show the first question statically
         qEl.textContent = questions[0];
       }
     }
-
-
-    // ===== Constellation Canvas (Optimized & Accessible) =====
+    // ===== Constellation Canvas =====
     const canvas = document.getElementById('constellation');
     if (canvas) {
       const ctx = canvas.getContext('2d');
       let dpr = window.devicePixelRatio || 1, W = 0, H = 0, particles = [], rafRef = null, mouse = { x: 0, y: 0, active: false };
-      let isCanvasVisible = false; // Performance: Track visibility
-
+      let isCanvasVisible = false;
       function resize() { W = canvas.clientWidth; H = canvas.clientHeight; canvas.width = Math.floor(W * dpr); canvas.height = Math.floor(H * dpr); ctx.setTransform(dpr, 0, 0, dpr, 0, 0); }
-        
       function initParticles() {
         const density = Math.min(100, Math.max(60, Math.floor(W * H / 15000)));
-          // If reduced motion, particles don't move (velocity = 0)
-          const velocity = prefersReducedMotion ? 0 : 0.22;
-        particles = Array.from({ length: density }, () => ({ 
-            x: Math.random()*W, 
-            y: Math.random()*H, 
-            vx: (Math.random()-0.5)*velocity, 
-            vy: (Math.random()-0.5)*velocity, 
-            r: Math.random()*1.5+0.6 
+        const velocity = prefersReducedMotion ? 0 : 0.22;
+        particles = Array.from({ length: density }, () => ({
+            x: Math.random()*W,
+            y: Math.random()*H,
+            vx: (Math.random()-0.5)*velocity,
+            vy: (Math.random()-0.5)*velocity,
+            r: Math.random()*1.5+0.6
           }));
       }
       function draw() {
         ctx.clearRect(0, 0, W, H);
         for (const p of particles) {
-            // Physics calculation (only if animation is running and allowed)
             if (!prefersReducedMotion) {
               if (mouse.active) { const dx=mouse.x-p.x, dy=mouse.y-p.y, dist=Math.hypot(dx,dy); if (dist<150) { const f=(150-dist)/150*0.03; p.vx+=dx*f/dist; p.vy+=dy*f/dist; } }
               p.x+=p.vx; p.y+=p.vy; if (p.x<-20) p.x=W+20; if (p.x>W+20) p.x=-20; if (p.y<-20) p.y=H+20; if (p.y>H+20) p.y=-20;
             }
-            // Drawing the particle
             ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fillStyle='rgba(15,23,42,0.45)'; ctx.fill();
         }
-          // Drawing lines
         const maxDist=110; ctx.lineWidth=1;
         for (let i=0;i<particles.length;i++) for (let j=i+1;j<particles.length;j++) {
           const a=particles[i], b=particles[j], dx=a.x-b.x, dy=a.y-b.y, d=dx*dx+dy*dy; if (d<maxDist*maxDist) {
@@ -576,83 +513,60 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         }
       }
-
-        // Performance: Optimized animation loop
-      function tick(){ 
-          // Only continue the loop if visible AND motion is allowed
+      function tick(){
           if (isCanvasVisible && !prefersReducedMotion) {
-            draw(); 
-            rafRef=requestAnimationFrame(tick); 
+            draw();
+            rafRef=requestAnimationFrame(tick);
           } else {
             rafRef = null;
           }
         }
-
-        // Performance: Use IntersectionObserver to pause/play animation based on visibility
-        const canvasObserver = new IntersectionObserver((entries) => {
+      const canvasObserver = new IntersectionObserver((entries) => {
           entries.forEach(entry => {
             isCanvasVisible = entry.isIntersecting;
             if (isCanvasVisible && !prefersReducedMotion && !rafRef) {
-              // Resume animation
               tick();
             }
           });
         }, { threshold: 0.01 });
-
-      function startConstellation(){ 
-          resize(); 
-          initParticles(); 
-          
-          // Always draw the static state initially
-          draw(); 
-
-          // If motion is allowed, start observing visibility to enable animation loop
+      function startConstellation(){
+          resize();
+          initParticles();
+          draw();
           if (!prefersReducedMotion) {
             canvasObserver.observe(canvas);
           }
         }
-
         window.addEventListener('resize', () => {
           resize();
           initParticles();
-          // We must redraw on resize, especially if motion is reduced (static view)
           if (prefersReducedMotion || !rafRef) {
              draw();
           }
         });
-
-        // Add mouse listeners only if motion is allowed
         if (!prefersReducedMotion) {
-          // Attach listener to the canvas itself rather than the window
           canvas.addEventListener('pointermove', (e)=>{ const r=canvas.getBoundingClientRect(); mouse.x=e.clientX-r.left; mouse.y=e.clientY-r.top; mouse.active=true; }, { passive:true });
           canvas.addEventListener('pointerleave', ()=>{ mouse.active=false; }, { passive:true });
         }
       startConstellation();
     }
-
-
     // ===== Reveal-on-scroll =====
-    // Only run observer if motion is allowed
     if (!prefersReducedMotion) {
       const io = new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('show'); io.unobserve(e.target); } }); }, { threshold: 0.12 });
       document.querySelectorAll('.reveal').forEach(el => io.observe(el));
     } else {
-      // If motion is reduced, immediately mark all as shown (CSS ensures they don't fade/translate)
       document.querySelectorAll('.reveal').forEach(el => el.classList.add('show'));
     }
-
     // ===== CTA Modal Handling =====
     const ctaModal = document.getElementById('ctaModal');
     const openCtaButtons = document.querySelectorAll('[data-cta="open"]');
     const closeCtaModalBtn = document.getElementById('closeCtaModalBtn');
     const signupForm = document.getElementById('signupForm');
     const formSuccess = document.getElementById('formSuccess');
-
     const openModal = (e) => {
-      e.preventDefault(); // Prevent link navigation if it's an anchor tag
-      toggleMenu(false); // Close mobile menu if open
+      e.preventDefault();
+      toggleMenu(false);
       if (ctaModal) {
-        // Check if the browser supports the dialog element
         if (typeof ctaModal.showModal === "function") {
           ctaModal.showModal();
         } else {
@@ -660,21 +574,15 @@ document.addEventListener('DOMContentLoaded', () => {
           return;
         }
       }
-      // Reset form state when opening
       if (signupForm) signupForm.classList.remove('hidden');
       if (formSuccess) formSuccess.classList.add('hidden');
     };
-
     openCtaButtons.forEach(btn => btn.addEventListener('click', openModal));
-
     if (closeCtaModalBtn) closeCtaModalBtn.addEventListener('click', () => {
       if (ctaModal && typeof ctaModal.close === "function") ctaModal.close();
     });
-
-    // Close modal when clicking the backdrop
     if (ctaModal) {
         ctaModal.addEventListener('click', (e) => {
-          // Check if the click was on the dialog itself (the backdrop)
           if (e.target === ctaModal) {
             if (typeof ctaModal.close === "function") {
               ctaModal.close();
@@ -682,12 +590,9 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         });
     }
-
-    // Mock form submission (replace with your actual submission logic)
     if (signupForm) {
         signupForm.addEventListener('submit', (e) => {
           e.preventDefault();
-          // Simulate API call
           console.log("Form submitted! Connect this to your email provider.");
           setTimeout(() => {
             signupForm.classList.add('hidden');
@@ -695,13 +600,11 @@ document.addEventListener('DOMContentLoaded', () => {
           }, 500);
         });
     }
-
-
-    // ===== Quiz Logic =====
+    // ===== Quiz Logic (Enhanced) =====
     (function() {
       const quizData = [
         { t: "The whole is more than the sum of its parts. And sooner or later that insight will prove to be the key to the quantum enigma.", a: "Wolfgang Smith", g: "quantum" },
-        { t: "Concepts create idols; only wonder comprehends anything. People kill one another over idols. Wonder makes us fall to our knees.", a: "Gregory of Nyssa", g: "patristic" },
+        { t: "Concepts create idols; only wonder comprehends anything. People kill one another over idols. Wonder makes us fall to our knees.", a: "St. Gregory of Nyssa", g: "patristic" },
         { t: "This world, after all our science and sciences, is still a miracle—wonderful, inscrutable, magical and more, to whosoever will think of it.", a: "Thomas Carlyle", g: "science_culture" },
         { t: "Modern science is based on the principle: 'Give us one free miracle and we'll explain the rest.'", a: "Terence McKenna", g: "science_critique" },
         { t: "Silence is the sleep that nourishes wisdom.", a: "Francis Bacon", g: "baconian" },
@@ -718,15 +621,11 @@ document.addEventListener('DOMContentLoaded', () => {
         { t: "Love is metaphysical gravity.", a: "R. Buckminster Fuller", g: "science_culture" },
         { t: "He who has a why to live for can bear almost any how.", a: "Friedrich Nietzsche", g: "philosophy" },
         { t: "If you only know your side, you don't know your side.", a: "John Stuart Mill", g: "liberal" },
-        // Added quotes
-        { t: "The development of full artificial intelligence could spell the end of the human race….It would take off on its own, and re-design itself at an ever increasing rate. Humans, who are limited by slow biological evolution, couldn’t compete, and would be superseded.", a: "Stephen Hawking", g: "ai" },
-        { t: "I visualise a time when we will be to robots what dogs are to humans, and I’m rooting for the machines.", a: "Claude Shannon", g: "ai" },
-        { t: "Some people worry that artificial intelligence will make us feel inferior, but then, anybody in his right mind should have an inferiority complex every time he looks at a flower.", a: "Alan Kay", g: "ai" },
+        { t: "The development of full artificial intelligence could spell the end of the human race.", a: "Stephen Hawking", g: "ai" },
         { t: "Nobody phrases it this way, but I think that artificial intelligence is almost a humanities discipline. It’s really an attempt to understand human intelligence and human cognition.", a: "Sebastian Thrun", g: "ai" },
         { t: "The question of whether a computer can think is no more interesting than the question of whether a submarine can swim.", a: "Edsger W. Dijkstra", g: "ai" },
         { t: "AI doesn’t have to be evil to destroy humanity – if AI has a goal and humanity just happens to come in the way, it will destroy humanity as a matter of course without even thinking about it, no hard feelings.", a: "Elon Musk", g: "ai" },
-        { t: "Feelings don't try to kill you, even the painful ones. Anxiety is a feeling grown too large. A feeling grown aggressive and dangerous. You're responsible for its consequences, you're responsible for treating it. But...you're not responsible for causing it. You're not morally at fault for it. No more than you would be for a tumor.", a: "John Green", g: "mental_health" },
-        { t: "Don't let yourself feel worthless: often through life you will be really at your worst when you seem to think best of yourself; and don't worry about losing your 'personality,' as you persist in calling it: at fifteen you had the radiance of early morning, at twenty you will begin to have the melancholy brilliance of the moon, and when you are my age you will give out, as I do, the genial golden warmth of 4 p.m.", a: "F. Scott Fitzgerald", g: "mental_health" },
+        { t: "at fifteen you had the radiance of early morning, at twenty you will begin to have the melancholy brilliance of the moon, and when you are my age you will give out, as I do, the genial golden warmth of 4 p.m.", a: "F. Scott Fitzgerald", g: "mental_health" },
         { t: "Make not your thoughts your prisons.", a: "William Shakespeare", g: "philosophy" },
         { t: "Every man has his secret sorrows which the world knows not; and often times we call a man cold when he is only sad.", a: "Henry Wadsworth Longfellow", g: "mental_health" },
         { t: "There is simply no other exercise, and certainly no machine, that produces the level of central nervous system activity, improved balance and coordination, skeletal loading and bone density enhancement, muscular stimulation and growth, connective tissue stress and strength, psychological demand and toughness, and overall systemic conditioning than the correctly performed full squat.", a: "Mark Rippetoe", g: "fitness" },
@@ -748,40 +647,34 @@ document.addEventListener('DOMContentLoaded', () => {
         { t: "Pray as though everything depended on God. Work as though everything depended on you.", a: "St. Ignatius of Loyola", g: "patristic" },
         { t: "Let nothing disturb you, let nothing frighten you, all things pass away: God never changes.", a: "St. Teresa of Ávila", g: "patristic" },
         { t: "Successful long-term relationships are created through small words, small gestures, and small acts.", a: "John M. Gottman", g: "practice" },
-        { t: "Once you understand this, you will be ready to accept one of the most surprising truths about marriage: Most marital arguments cannot be resolved. Couples spend year after year trying to change each other’s mind—but it can’t be done.", a: "John M. Gottman", g: "practice" },
         { t: "Acquire a peaceful spirit, and thousands around you will be saved.", a: "St. Seraphim of Sarov", g: "patristic" },
         { t: "Let no one mourn that he has fallen again and again; for forgiveness has risen from the grave.", a: "St. John Chrysostom", g: "patristic" },
         { t: "My child, know that in the last days perilous times shall come, as Saint Paul prophesied. And due to the poverty and corruption of men, those who go to churches will not be true Christians.", a: "St. Paisios of Mount Athos", g: "patristic" },
-        { t: "When you are at peace, God speaks to you. When you are disturbed, the devil speaks to you.", a: "St. Porphyrios of Kavsokalyvia", g: "patristic" },
         { t: "The soul speaks and converses during prayer, but at the descent of the Holy Spirit we must remain in complete silence in order to hear clearly and intelligibly all the words of eternal life which he will then deign to communicate.", a: "St. Seraphim of Sarov", g: "patristic" },
-        { t: "The emotion that can break your heart is sometimes the very one that heals it.", a: "Nicholas Sparks", g: "practice" },
-        { t: "Only time can heal your broken heart. Just as only time can heal his broken arms and legs.", a: "Miss Piggy", g: "practice" },
-        { t: "Sadness flies away on the wings of time.", a: "Jean de La Fontaine", g: "philosophy" },
         { t: "Your neuro-divergent brain may not follow the usual path, but it can lead you to remarkable places.", a: "Anonymous", g: "mental_health" },
         { t: "I prefer to distinguish ADD as attention abundance disorder. Everything is just so interesting, remarkably at the same time.", a: "Frank Coppola", g: "mental_health" },
         { t: "You walk in the rain and you feel the rain, but, importantly, YOU ARE NOT THE RAIN.", a: "Matt Haig", g: "mental_health" },
         { t: "There is a crack in everything, that’s how the light gets in.", a: "Leonard Cohen", g: "philosophy" },
         { t: "In the middle of winter I at last discovered that there was in me an invincible summer.", a: "Albert Camus", g: "philosophy" },
-        { t: "Until you make the unconscious conscious, it will direct your life and you will call it fate.", a: "Carl Jung", g: "philosophy" }
+        { t: "Until you make the unconscious conscious, it will direct your life and you will call it fate.", a: "Carl Jung", g: "philosophy" },
+        { t: "The mind ascends to God not through the accumulation of knowledge, but through the letting go of all that it knows.", a: "St Gregory Nyssa", g: "patristic" },
+        { t: "The reasoning mind... will reject the commandment ‘Judge not’ as nonsensical... [but] the argument of spiritual experience is peculiar to itself and does not follow the ordinary process of reasoning.", a: "St. Sophrony", g: "patristic" }
       ];
-
       const GROUPS = {
         quantum: ["Wolfgang Smith","David Bohm","Werner Heisenberg","John Polkinghorne"],
-        patristic: ["Gregory of Nyssa","St. John of Damascus","St. Gregory Palamas","St. Augustine","St. Basil the Great","St. Maximus the Confessor","St. Macarius the Great","St. Anthony the Great","St. Silouan the Athonite","St. Ignatius of Loyola","St. Teresa of Ávila","St. Seraphim of Sarov","St. John Chrysostom","St. Paisios of Mount Athos","St. Porphyrios of Kavsokalyvia"],
-        philosophy: ["Immanuel Kant","Friedrich Nietzsche","Søren Kierkegaard","George Santayana","Michael Polanyi","Alfred Korzybski","William Shakespeare","Native American Proverb","Kahlil Gibran","Jean de La Fontaine","Leonard Cohen","Albert Camus","Carl Jung"],
+        patristic: ["St. Gregory of Nyssa","St. John of Damascus","St. Gregory Palamas","St. Augustine","St. Basil the Great","St. Maximus the Confessor","St. Macarius the Great","St. Anthony the Great","St. Silouan the Athonite","St. Ignatius of Loyola","St. Teresa of Ávila","St. Seraphim of Sarov","St. John Chrysostom","St. Paisios of Mount Athos","St. Sophrony","St Gregory Nyssa"],
+        philosophy: ["Immanuel Kant","Friedrich Nietzsche","Søren Kierkegaard","George Santayana","Michael Polanyi","Alfred Korzybski","William Shakespeare","Native American Proverb","Kahlil Gibran","Leonard Cohen","Albert Camus","Carl Jung"],
         markets: ["Peter Lynch","Warren Buffett","Benjamin Graham","Charlie Munger","John C. Bogle"],
         fitness: ["Mark Rippetoe","Pavel Tsatsouline","Dan John","Louie Simmons","Dr. Kenneth Cooper"],
         science_culture: ["Thomas Carlyle","Ray Bradbury","G.K. Chesterton","Carl Sagan", "R. Buckminster Fuller"],
         science_critique: ["Terence McKenna","Rupert Sheldrake","Thomas Kuhn","Paul Feyerabend"],
         liberal: ["John Stuart Mill","Alexis de Tocqueville","Isaiah Berlin","John Rawls"],
         baconian: ["Francis Bacon","René Descartes","Thomas Hobbes","Blaise Pascal"],
-        // Added groups
-        ai: ["Stephen Hawking", "Claude Shannon", "Alan Kay", "Sebastian Thrun", "Edsger W. Dijkstra", "Elon Musk"],
-        mental_health: ["John Green", "F. Scott Fitzgerald", "Henry Wadsworth Longfellow", "Anonymous", "Frank Coppola", "Matt Haig"],
+        ai: ["Stephen Hawking", "Sebastian Thrun", "Edsger W. Dijkstra", "Elon Musk"],
+        mental_health: ["F. Scott Fitzgerald", "Henry Wadsworth Longfellow", "Anonymous", "Frank Coppola", "Matt Haig"],
         health: ["Harry J. Johnson", "Hippocrates"],
-        practice: ["Jess Lair", "Daniel J. Siegel", "Peggy O'Mara", "W.E.B. Du Bois", "Peter Krause", "Patti Roberts", "John M. Gottman", "Nicholas Sparks", "Miss Piggy"]
+        practice: ["Daniel J. Siegel", "W.E.B. Du Bois", "Patti Roberts", "John M. Gottman"]
       };
-
       const FALLBACKS = {
         quantum: ["science_critique","science_culture","philosophy"],
         patristic: ["philosophy","baconian"],
@@ -792,91 +685,74 @@ document.addEventListener('DOMContentLoaded', () => {
         science_critique: ["science_culture","philosophy"],
         liberal: ["philosophy"],
         baconian: ["philosophy"],
-        // Added fallbacks
         ai: ["philosophy", "science_critique", "science_culture"],
         mental_health: ["health", "philosophy", "fitness"],
         health: ["fitness", "philosophy"],
         practice: ["philosophy", "markets"]
       };
-
       function shuffle(arr){ for(let i=arr.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]]; } return arr; }
-
-        // Initialize Quiz
-        if (!document.getElementById('quizCard')) return;
-
-        let order, idxQ, correctCount, answered;
-        const quizIndices = Array.from(quizData.keys());
+      if (!document.getElementById('quizCard')) return;
+      let order, idxQ, correctCount, answered;
+      const quizIndices = Array.from(quizData.keys());
       const qText = document.getElementById('qText');
-        const quizCard = document.getElementById('quizCard');
+      const quizCard = document.getElementById('quizCard');
       const choicesEl = document.getElementById('choices');
       const feedback = document.getElementById('feedback');
       const results = document.getElementById('results');
       const scoreEl = document.getElementById('score');
       const breakdown = document.getElementById('breakdown');
       const playAgain = document.getElementById('playAgain');
-        const resultsHeading = document.getElementById('resultsHeading');
-
-        function initializeQuiz() {
-          order = shuffle([...quizIndices]);
-          idxQ = 0;
-          correctCount = 0;
-          answered = [];
-        }
-
+      const shareResults = document.getElementById('shareResults');
+      const resultsHeading = document.getElementById('resultsHeading');
+      function initializeQuiz() {
+        order = shuffle([...quizIndices]);
+        idxQ = 0;
+        correctCount = 0;
+        answered = [];
+      }
       function getPlausibleChoices(correctAuthor, group) {
         const bag = new Set((GROUPS[group] || []).filter(a => a !== correctAuthor));
-        // If we need more, pull from fallbacks in order:
         for (const g of (FALLBACKS[group] || [])) {
           if (bag.size >= 3) break;
           (GROUPS[g] || []).forEach(a => { if (a !== correctAuthor && bag.size < 3) bag.add(a); });
         }
-        // Final four = 1 correct + 3 plausible distractors
         const distractors = shuffle([...bag]).slice(0, 3);
         return shuffle([correctAuthor, ...distractors]);
       }
-
       function nextQuestion() {
         if (idxQ >= order.length) return showResults();
-          // Reset transition state
-          quizCard.classList.remove('opacity-0', 'translate-y-4');
-
+        quizCard.classList.remove('opacity-0', 'translate-y-4');
         const q = quizData[order[idxQ]];
         qText.textContent = `“${q.t}”`;
-        feedback.textContent = ''; // Clear feedback
-
+        feedback.textContent = '';
         const choices = getPlausibleChoices(q.a, q.g);
         choicesEl.innerHTML = '';
         choices.forEach(name => {
           const b = document.createElement('button');
           b.className = 'choice w-full text-left px-4 py-2 rounded-lg transition';
           b.textContent = name;
-            // A11y: Add roles and initial state
-            b.setAttribute('role', 'radio');
-            b.setAttribute('aria-checked', 'false');
+          b.setAttribute('role', 'radio');
+          b.setAttribute('aria-checked', 'false');
           b.addEventListener('click', () => handleChoice(b, name === q.a, q));
           choicesEl.appendChild(b);
         });
-          // A11y: Focus the first button for keyboard navigation
-          if (choicesEl.firstChild) {
-            choicesEl.firstChild.focus();
-          }
+        if (choicesEl.firstChild) {
+          choicesEl.firstChild.focus();
+        }
       }
-
       function handleChoice(btn, isCorrect, q) {
         const buttons = Array.from(choicesEl.querySelectorAll('button.choice'));
         buttons.forEach(b => {
             b.disabled = true;
-            // A11y: Update checked state
             if (b === btn) {
               b.setAttribute('aria-checked', 'true');
             }
           });
-
-          let feedbackText = '';
-        if (isCorrect) { 
-            btn.classList.add('correct'); 
-            feedbackText = 'Correct!'; 
-            correctCount++; 
+        let feedbackText = '';
+        if (isCorrect) {
+            btn.classList.add('correct');
+            feedbackText = 'Correct!';
+            correctCount++;
           }
         else {
           btn.classList.add('wrong');
@@ -884,65 +760,78 @@ document.addEventListener('DOMContentLoaded', () => {
           if (right) right.classList.add('correct');
           feedbackText = `Incorrect. Answer: ${q.a}.`;
         }
-          feedback.textContent = feedbackText; // aria-live announces this
-
+        feedback.textContent = feedbackText;
         answered.push({ quote: q.t, author: q.a, ok: isCorrect });
-
-          // Wait, then transition to next question
-        setTimeout(() => { 
+        setTimeout(() => {
             if (!prefersReducedMotion) {
-              // Add a subtle transition out
               quizCard.classList.add('opacity-0', 'translate-y-4');
               setTimeout(() => {
-                idxQ++; 
+                idxQ++;
                 nextQuestion();
               }, 250);
             } else {
-              idxQ++; 
+              idxQ++;
               nextQuestion();
             }
-           }, 1300); // Increased delay slightly to allow screen readers to announce feedback
+           }, 1300);
       }
-
       function showResults() {
-          quizCard.classList.add('hidden'); // Hide the question card
+        quizCard.classList.add('hidden');
         results.classList.remove('hidden');
         scoreEl.textContent = `You got ${correctCount} of ${order.length} right.`;
         breakdown.innerHTML = '';
         answered.forEach(item => {
           const li = document.createElement('li');
-            // A11y: Added aria-label to the visual check/cross
           li.innerHTML = `<span class="${item.ok ? 'text-emerald-600' : 'text-rose-600'} font-semibold" aria-label="${item.ok ? 'Correct' : 'Incorrect'}">${item.ok ? '✓' : '✕'}</span>
                                 <span class="italic">“${item.quote}”</span> — ${item.author}`;
           breakdown.appendChild(li);
         });
-          // A11y: Scroll to results and focus the heading
-          results.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'nearest' });
-          if (resultsHeading) {
-            resultsHeading.focus();
-          }
+        results.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'nearest' });
+        if (resultsHeading) {
+          resultsHeading.focus();
+        }
       }
-
       if (playAgain) {
         playAgain.addEventListener('click', () => {
           initializeQuiz();
-          results.classList.add('hidden'); 
+          results.classList.add('hidden');
           quizCard.classList.remove('hidden');
           nextQuestion();
           quizCard.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'center' });
         });
       }
-
-        initializeQuiz();
+      if (shareResults) {
+        shareResults.addEventListener('click', () => {
+          const badge = `Aletheia Quiz Badge: I scored ${correctCount}/${order.length}! Test your knowledge at [yourwebsite.com].`;
+          navigator.clipboard.writeText(badge).then(() => alert('Badge copied to clipboard! Share it on social media.'));
+        });
+      }
+      initializeQuiz();
       nextQuestion();
-    })(); // End Quiz IIFE
-
+    })();
+    // ===== Countdown timer for CTA =====
+    const launchDate = new Date('2025-10-01T00:00:00Z').getTime();
+    const countdownEl = document.getElementById('countdown');
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const distance = launchDate - now;
+      if (distance > 0) {
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        countdownEl.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+      } else {
+        countdownEl.textContent = 'Launched!';
+      }
+    }
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
     // Footer year
     const yearEl = document.getElementById('year');
     if (yearEl) {
       yearEl.textContent = new Date().getFullYear();
     }
-
 }); // End DOMContentLoaded
   </script>
 </body>
