@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -405,9 +405,8 @@
   <!-- SCRIPTS -->
   <script>
 document.addEventListener('DOMContentLoaded', () => {
-    // Global check for reduced motion preference
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    // ===== Sticky nav style tweak on scroll =====
+    // ===== Sticky nav =====
     const nav = document.getElementById('siteNav');
     function handleScroll() {
       if (!nav) return;
@@ -415,8 +414,8 @@ document.addEventListener('DOMContentLoaded', () => {
       else { nav.classList.remove('shadow', 'py-3'); nav.classList.add('py-4'); }
     }
     window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll(); // Initialize state
-    // ===== Mobile menu toggle (Improved Accessibility & UX) =====
+    handleScroll();
+    // ===== Mobile menu toggle =====
     const menuBtn = document.getElementById('menuBtn');
     const mobileMenu = document.getElementById('mobileMenu');
     const menuIconOpen = document.getElementById('menuIconOpen');
@@ -442,15 +441,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (menuBtn) {
       menuBtn.addEventListener('click', () => toggleMenu());
     }
-   
-    // Close menu when a standard link is clicked
     document.querySelectorAll('.mobile-link').forEach(link => {
-      // Ensure this doesn't interfere with the CTA link behavior
       if (!link.hasAttribute('data-cta')) {
         link.addEventListener('click', () => toggleMenu(false));
       }
     });
-    // ===== Typewriter rotation (Updated questions) =====
+    // ===== Typewriter rotation =====
     const questions = [
         "Does God exist in a scientific world?",
         "Can AI become conscious?",
@@ -600,7 +596,7 @@ document.addEventListener('DOMContentLoaded', () => {
           }, 500);
         });
     }
-    // ===== Quiz Logic (Enhanced) =====
+    // ===== Quiz Logic =====
     (function() {
       const quizData = [
         { t: "The whole is more than the sum of its parts. And sooner or later that insight will prove to be the key to the quantum enigma.", a: "Wolfgang Smith", g: "quantum" },
@@ -750,14 +746,10 @@ document.addEventListener('DOMContentLoaded', () => {
           });
         let feedbackText = '';
         if (isCorrect) {
-            btn.classList.add('correct');
             feedbackText = 'Correct!';
             correctCount++;
           }
         else {
-          btn.classList.add('wrong');
-          const right = buttons.find(b => b.textContent === q.a);
-          if (right) right.classList.add('correct');
           feedbackText = `Incorrect. Answer: ${q.a}.`;
         }
         feedback.textContent = feedbackText;
