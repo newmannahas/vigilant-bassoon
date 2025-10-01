@@ -19,7 +19,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
   <!-- Tailwind via CDN -->
-  <!-- Ensure this script is NOT deferred when using the CDN approach -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -47,15 +46,8 @@
   <style>
     html, body { height: 100%; scroll-behavior: smooth; }
     /* Anchor offset so headings aren't hidden under the fixed nav */
-    /* Updated ID to match section change */
     #why, #episodes, #about, #cta, #quiz { scroll-margin-top: 96px; }
     .brand-sc { font-variant-caps: small-caps; letter-spacing: .06em; }
-    .caret::after {
-      content: ''; display: inline-block; width: 2px; height: 1em;
-      background: currentColor; margin-left: 4px; transform: translateY(.18em);
-      animation: blink 1s steps(1, end) infinite; opacity: .7;
-    }
-    @keyframes blink { 50% { opacity: 0; } }
     /* Reveal-on-scroll (subtle) */
     .reveal { opacity: 0; transform: translateY(14px); transition: opacity 600ms ease, transform 600ms ease; }
     .reveal.show { opacity: 1; transform: translateY(0); }
@@ -88,29 +80,11 @@
     .quiz-card button.choice:disabled { opacity: 0.8; cursor: default; }
     .quiz-card .correct { background:#ecfdf5; border-color:#10b981 !important; }
     .quiz-card .wrong { background:#fef2f2; border-color:#ef4444 !important; }
-    /* Dialog/Modal Styling */
-    dialog {
-      opacity: 0;
-      transition: opacity 0.3s ease, transform 0.3s ease;
-      transform: scale(0.95);
-      max-width: 90vw; /* Ensure it doesn't overflow on small screens */
-      margin: auto; /* Center it */
-    }
-    dialog[open] {
-      opacity: 1;
-      transform: scale(1);
-    }
-    dialog::backdrop {
-      background: rgba(2, 6, 23, 0.5);
-      backdrop-filter: blur(4px);
-    }
     /* Accessibility - Enhanced reduced motion handling */
     @media (prefers-reduced-motion: reduce) {
       html, body { scroll-behavior: auto; } /* Disable smooth scroll */
       .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
       .orbit .chip { animation: none !important; }
-      /* Stop caret blink */
-      .caret::after { animation: none !important; }
     }
     /* Improved readability */
     p { line-height: 1.8; }
@@ -148,7 +122,6 @@
         <li><a href="#episodes" class="text-slate-700 hover:text-blue-800 transition-colors">Episodes</a></li>
         <li><a href="#quiz" class="text-slate-700 hover:text-blue-800 transition-colors">Take the Quiz</a></li>
         <li><a href="#about" class="text-slate-700 hover:text-blue-800 transition-colors">About</a></li>
-        <li><button data-cta="open" type="button" class="px-5 py-2 bg-gradient-to-r from-blue-900 to-blue-700 text-white rounded-full shadow-glow hover:brightness-110 transition">Get Early Access</button></li>
       </ul>
     </div>
     <div id="mobileMenu" class="md:hidden hidden bg-white shadow-xl absolute top-full left-0 right-0" data-open="false">
@@ -157,7 +130,6 @@
         <a href="#episodes" class="mobile-link text-slate-700 hover:text-blue-800 font-medium">Episodes</a>
         <a href="#quiz" class="mobile-link text-slate-700 hover:text-blue-800 font-medium">Take the Quiz</a>
         <a href="#about" class="mobile-link text-slate-700 hover:text-blue-800 font-medium">About</a>
-        <a href="#cta" data-cta="open" class="mobile-link text-slate-700 hover:text-blue-800 font-medium">Get Early Access</a>
       </div>
     </div>
   </nav>
@@ -170,9 +142,10 @@
         <span class="text-slate-700" aria-hidden="true">—</span>
         <span class="block mt-1">The Podcast That Goes from First Principles to First Steps</span>
       </h1>
-      <!-- Typewriter -->
+      <!-- Rotating Questions -->
       <div class="h-16 flex items-center justify-center mb-2 reveal" aria-live="polite">
-        <p id="rotatingQuestion" class="text-lg md:text-xl text-slate-900 font-semibold text-center transition-opacity duration-700 px-4"></p>p>      </div>
+        <p id="rotatingQuestion" class="text-lg md:text-xl text-slate-900 font-semibold text-center transition-opacity duration-700 px-4"></p>
+      </div>
       <p class="text-lg text-slate-700 mt-4 max-w-3xl mx-auto reveal">
         Join host Newman Nahas as he engages leading thinkers across disciplines to explore humanity's deepest questions and uncover practical wisdom for everyday life.
       </p>
@@ -194,12 +167,12 @@
         <div class="p-7 rounded-2xl bg-white/10 backdrop-blur reveal">
           <div class="text-2xl mb-2" aria-hidden="true">🧭</div>
           <h3 class="text-xl md:text-2xl font-bold mb-2">Beyond the Silos</h3>
-          <p class="text-blue-100/95">Reality doesn’t respect the boundaries of our disciplines; neither will this podcast.</p>
+          <p class="text-blue-100/95">Reality doesn't respect the boundaries of our disciplines; neither will this podcast.</p>
         </div>
         <div class="p-7 rounded-2xl bg-white/10 backdrop-blur reveal">
           <div class="text-2xl mb-2" aria-hidden="true">💠</div>
           <h3 class="text-xl md:text-2xl font-bold mb-2">Wisdom in Action</h3>
-          <p class="text-blue-100/95">We don’t stop at abstract ideas. Our goal is practical wisdom that translates complex truths into better ways to live, work, and thrive.</p>
+          <p class="text-blue-100/95">We don't stop at abstract ideas. Our goal is practical wisdom that translates complex truths into better ways to live, work, and thrive.</p>
         </div>
         <div class="p-7 rounded-2xl bg-white/10 backdrop-blur reveal">
           <div class="text-2xl mb-2" aria-hidden="true">🤝</div>
@@ -215,10 +188,10 @@
       <h2 class="font-serif text-4xl md:text-5xl font-bold tracking-tight mb-10">Take this Quiz!</h2>
       <!-- Decorative floating chips -->
       <div class="orbit hidden md:block" aria-hidden="true">
-        <span class="chip" style="--r:220px; --t:32s;"><i>✨</i> “All models are wrong…”</span>
-        <span class="chip" style="--r:150px; --t:28s;"><i>📜</i> “The map is not the territory.”</span>
-        <span class="chip" style="--r:260px; --t:36s;"><i>🧠</i> “We know more than we can tell.”</span>
-        <span class="chip" style="--r:190px; --t:30s;"><i>🏛️</i> “The unexamined life…”</span>
+        <span class="chip" style="--r:220px; --t:32s;"><i>✨</i> "All models are wrong…"</span>
+        <span class="chip" style="--r:150px; --t:28s;"><i>📜</i> "The map is not the territory."</span>
+        <span class="chip" style="--r:260px; --t:36s;"><i>🧠</i> "We know more than we can tell."</span>
+        <span class="chip" style="--r:190px; --t:30s;"><i>🏛️</i> "The unexamined life…"</span>
       </div>
       <!-- Quiz card -->
       <div id="quizCard" class="quiz-card relative mx-auto max-w-3xl text-left bg-white/90 backdrop-blur rounded-2xl p-7 shadow-xl ring-1 ring-slate-200 transition-all duration-300">
@@ -242,24 +215,13 @@
   <section id="episodes" class="py-24 px-6">
     <div class="max-w-7xl mx-auto">
       <div class="text-center mb-14">
-        <h2 class="font-serif text-4xl md:text-5xl font-bold mb-1 tracking-tight reveal">Episodes</h2>
+        <h2 class="font-serif text-4xl md:text-5xl font-bold mb-1 tracking-tight reveal">Episodes & Content</h2>
         <p class="text-2xl text-blue-800 font-bold tracking-wide reveal">COMING SOON</p>
+        <p class="text-lg text-slate-600 mt-4 max-w-3xl mx-auto reveal">
+          Expect deep conversations with leading thinkers, solo explorations where Newman unpacks complex ideas, and live debates on X Spaces tackling the questions that matter most.
+        </p>
       </div>
       <div class="grid md:grid-cols-2 gap-8">
-        <!-- Placeholder Episode 1 -->
-        <div class="group p-8 bg-white/80 rounded-2xl shadow hover:shadow-xl hover:scale-105 transition-transform duration-300 reveal">
-          <h3 class="font-serif text-2xl font-bold mb-2">Episode 1: The Mystery of Consciousness</h3>
-          <p class="text-slate-600 mb-3">Dive into the boundaries between mind and machine with guest expert on AI ethics.</p>
-          <!-- Mock Teaser Audio -->
-          <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/123456789&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"></iframe>
-        </div>
-        <!-- Placeholder Episode 2 -->
-        <div class="group p-8 bg-white/80 rounded-2xl shadow hover:shadow-xl hover:scale-105 transition-transform duration-300 reveal">
-          <h3 class="font-serif text-2xl font-bold mb-2">Episode 2: Faith in a Scientific Age</h3>
-          <p class="text-slate-600 mb-3">Exploring how religion and science can coexist, featuring a theologian and physicist.</p>
-          <!-- Mock Teaser Audio -->
-          <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/987654321&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"></iframe>
-        </div>
         <!-- God & Religion -->
         <div class="group p-8 bg-white/80 rounded-2xl shadow hover:shadow-xl hover:scale-105 transition-transform duration-300 reveal">
           <div class="inline-flex p-3 rounded-xl bg-gradient-to-br from-amber-700 to-yellow-600 mb-4 text-white" aria-hidden="true">✨</div>
@@ -339,25 +301,24 @@
       </div>
     </div>
   </section>
-  <!-- CTA with Countdown -->
+  <!-- CTA -->
   <section id="cta" class="py-20 px-6 bg-blue-700 text-white text-center relative overflow-hidden">
     <div class="absolute inset-0 opacity-20 blur-3xl" aria-hidden="true">
       <div class="w-80 h-80 bg-white rounded-full absolute -top-10 left-10"></div>
       <div class="w-96 h-96 bg-white rounded-full absolute -bottom-16 right-16"></div>
     </div>
     <div class="relative max-w-3xl mx-auto">
-      <h2 class="text-3xl md:text-4xl font-serif font-bold mb-4 tracking-tight reveal">Go Deeper. Get Exclusive Early Access.</h2>
-      <p class="text-lg mb-4 reveal">Season 1 launches in <span id="countdown"></span>!</p>
-      <p class="text-lg mb-8 reveal">Tired of shallow content? Subscribe now for exclusive early access to episodes (before everyone else), curated reading lists from guests, and detailed host notes. Dive deep with us.</p>
+      <h2 class="text-3xl md:text-4xl font-serif font-bold mb-4 tracking-tight reveal">Join the Conversation</h2>
+      <p class="text-lg mb-8 reveal">Want to engage with these ideas in real-time? Follow along on X for live debates, solo deep-dives, and behind-the-scenes thoughts.</p>
       <div class="flex flex-col sm:flex-row justify-center gap-4 reveal">
         <a href="mailto:your-email@example.com?subject=Nominate%20a%20Guest"
            class="bg-white text-blue-700 font-semibold py-3 px-6 rounded-full shadow-lg hover:shadow-xl hover:brightness-95 transition">
           Nominate a Guest
         </a>
-        <button data-cta="open" type="button"
+        <a href="https://twitter.com/your_handle" target="_blank" rel="noopener noreferrer"
            class="bg-gradient-to-r from-indigo-400 to-indigo-600 text-white font-semibold py-3 px-6 rounded-full shadow-lg hover:shadow-xl hover:brightness-110 transition">
-          Get Early Access
-        </button>
+          Follow on X
+        </a>
       </div>
     </div>
   </section>
@@ -377,30 +338,6 @@
       <p class="text-sm">© <span id="year"></span> Aletheia Conversations. From first principles to first steps.</p>
     </div>
   </footer>
-  <!-- CTA Modal (Dialog) -->
-  <dialog id="ctaModal" class="p-8 rounded-2xl shadow-2xl bg-white text-slate-800 max-w-lg w-full">
-    <div class="flex justify-between items-start mb-4">
-      <h3 class="font-serif text-3xl font-bold text-slate-900">Get Early Access</h3>
-      <button id="closeCtaModalBtn" type="button" class="text-slate-500 hover:text-slate-700 transition p-1 -m-1" aria-label="Close">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-        </svg>
-      </button>
-    </div>
-    <p class="text-slate-600 mb-6">Subscribe now for exclusive first access to Season 1 episodes, curated reading lists from our guests, and behind-the-scenes notes.</p>
-    <form action="#" method="POST" id="signupForm">
-      <div class="mb-4">
-        <label for="email" class="block text-sm font-medium text-slate-700 mb-1">Email Address</label>
-        <input type="email" id="email" name="email" required placeholder="you@example.com" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition">
-      </div>
-      <button type="submit" class="w-full bg-gradient-to-r from-blue-900 to-blue-700 text-white font-semibold py-3 px-6 rounded-lg shadow-glow hover:brightness-110 transition">
-        Subscribe Now
-      </button>
-    </form>
-    <div id="formSuccess" class="hidden mt-4 p-4 bg-emerald-100 text-emerald-800 rounded-lg" aria-live="polite">
-      Thanks for subscribing! Check your inbox soon.
-    </div>
-  </dialog>
   <!-- SCRIPTS -->
   <script>
 document.addEventListener('DOMContentLoaded', () => {
@@ -441,38 +378,64 @@ document.addEventListener('DOMContentLoaded', () => {
       menuBtn.addEventListener('click', () => toggleMenu());
     }
     document.querySelectorAll('.mobile-link').forEach(link => {
-      if (!link.hasAttribute('data-cta')) {
-        link.addEventListener('click', () => toggleMenu(false));
-      }
+      link.addEventListener('click', () => toggleMenu(false));
     });
-    // ===== Typewriter rotation =====
+    // ===== Rotating questions =====
     const questions = [
-        "Does God exist in a scientific world?",
-        "Can AI become conscious?",
-        "What is the meaning of life?",
-        "How can we achieve true health?",
-        "What defines practical wisdom?"
+      "Does God exist?",
+      "Can AI become conscious?",
+      "What is the meaning of life?",
+      "What makes human intelligence different from artificial intelligence? Or is what makes us different perhaps not our intelligence but something else?",
+      "Is God known through reason or experience?",
+      "Why does God allow suffering?",
+      "Does divine hiddenness disprove God?",
+      "What is faith?",
+      "Can prayer change outcomes or only perspectives?",
+      "Is consciousness physical?",
+      "Does AI understand language, or just manipulate symbols?",
+      "If AI becomes conscious, would we owe it moral consideration?",
+      "Can intelligence exist without consciousness?",
+      "Should we fear AI?",
+      "Are moral facts discovered or invented?",
+      "How can we know what's right and wrong?",
+      "How do we live together when we disagree on fundamental moral questions?",
+      "Is a calorie really a calorie?",
+      "Is cardio or strength training more important for longevity?",
+      "Why do most diets fail long-term?",
+      "What actually changes behavior in children?",
+      "Should discipline teach skills or enforce compliance?",
+      "Is ADHD a disorder or just a different way of thinking?",
+      "Does talk therapy actually change the brain?",
+      "Does trauma live in the body?",
+      "Does willpower deplete like a finite resource, or get stronger like a habit?",
+      "Is deep work a skill or a luxury?",
+      "How do you stay gainfully employed with the emergence of AI?",
+      "Does the stock market reward skill or luck?",
+      "Is wealth creation zero-sum or positive-sum?",
+      "Are markets efficient, or just hard to beat?",
+      "Is Bitcoin a currency, an asset, or a speculative bubble?",
+      "Will AI create more jobs than it destroys?"
     ];
-    const qEl = document.getElementById('bigQuestion');
-    let ti = 0, charI = 0, deleting = false, typerRef = null;
-    function typeStep() {
-      if (!qEl) return;
-      const full = questions[ti];
-      const target = deleting ? full.slice(0, Math.max(0, charI - 1)) : full.slice(0, Math.min(full.length, charI + 1));
-      qEl.textContent = target; charI = deleting ? charI - 1 : charI + 1;
-      let delay = deleting ? 60 : 88;
-      if (!deleting && charI >= full.length) { delay = 1400; deleting = true; }
-      else if (deleting && charI <= 0) { deleting = false; ti = (ti + 1) % questions.length; delay = 420; }
-      typerRef = setTimeout(typeStep, delay);
-    }
-    if (qEl) {
-      if (!prefersReducedMotion) {
+    const qEl = document.getElementById('rotatingQuestion');
+    if (qEl && !prefersReducedMotion) {
+      let currentIdx = 0;
+      
+      function showQuestion(idx) {
+        qEl.style.opacity = '0';
         setTimeout(() => {
-          qEl.textContent = questions[0]; charI = questions[0].length; deleting = true; typeStep();
-        }, 500);
-      } else {
-        qEl.textContent = questions[0];
+          qEl.textContent = questions[idx];
+          qEl.style.opacity = '1';
+        }, 700);
       }
+      
+      showQuestion(0);
+      setInterval(() => {
+        currentIdx = (currentIdx + 1) % questions.length;
+        showQuestion(currentIdx);
+      }, 6500);
+    } else if (qEl) {
+      qEl.textContent = questions[0];
+      qEl.style.opacity = '1';
     }
     // ===== Constellation Canvas =====
     const canvas = document.getElementById('constellation');
@@ -552,49 +515,6 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       document.querySelectorAll('.reveal').forEach(el => el.classList.add('show'));
     }
-    // ===== CTA Modal Handling =====
-    const ctaModal = document.getElementById('ctaModal');
-    const openCtaButtons = document.querySelectorAll('[data-cta="open"]');
-    const closeCtaModalBtn = document.getElementById('closeCtaModalBtn');
-    const signupForm = document.getElementById('signupForm');
-    const formSuccess = document.getElementById('formSuccess');
-    const openModal = (e) => {
-      e.preventDefault();
-      toggleMenu(false);
-      if (ctaModal) {
-        if (typeof ctaModal.showModal === "function") {
-          ctaModal.showModal();
-        } else {
-          alert("Modal not supported by this browser.");
-          return;
-        }
-      }
-      if (signupForm) signupForm.classList.remove('hidden');
-      if (formSuccess) formSuccess.classList.add('hidden');
-    };
-    openCtaButtons.forEach(btn => btn.addEventListener('click', openModal));
-    if (closeCtaModalBtn) closeCtaModalBtn.addEventListener('click', () => {
-      if (ctaModal && typeof ctaModal.close === "function") ctaModal.close();
-    });
-    if (ctaModal) {
-        ctaModal.addEventListener('click', (e) => {
-          if (e.target === ctaModal) {
-            if (typeof ctaModal.close === "function") {
-              ctaModal.close();
-            }
-          }
-        });
-    }
-    if (signupForm) {
-        signupForm.addEventListener('submit', (e) => {
-          e.preventDefault();
-          console.log("Form submitted! Connect this to your email provider.");
-          setTimeout(() => {
-            signupForm.classList.add('hidden');
-            if (formSuccess) formSuccess.classList.remove('hidden');
-          }, 500);
-        });
-    }
     // ===== Quiz Logic =====
     (function() {
       const quizData = [
@@ -617,9 +537,9 @@ document.addEventListener('DOMContentLoaded', () => {
         { t: "He who has a why to live for can bear almost any how.", a: "Friedrich Nietzsche", g: "philosophy" },
         { t: "If you only know your side, you don't know your side.", a: "John Stuart Mill", g: "liberal" },
         { t: "The development of full artificial intelligence could spell the end of the human race.", a: "Stephen Hawking", g: "ai" },
-        { t: "Nobody phrases it this way, but I think that artificial intelligence is almost a humanities discipline. It’s really an attempt to understand human intelligence and human cognition.", a: "Sebastian Thrun", g: "ai" },
+        { t: "Nobody phrases it this way, but I think that artificial intelligence is almost a humanities discipline. It's really an attempt to understand human intelligence and human cognition.", a: "Sebastian Thrun", g: "ai" },
         { t: "The question of whether a computer can think is no more interesting than the question of whether a submarine can swim.", a: "Edsger W. Dijkstra", g: "ai" },
-        { t: "AI doesn’t have to be evil to destroy humanity – if AI has a goal and humanity just happens to come in the way, it will destroy humanity as a matter of course without even thinking about it, no hard feelings.", a: "Elon Musk", g: "ai" },
+        { t: "AI doesn't have to be evil to destroy humanity – if AI has a goal and humanity just happens to come in the way, it will destroy humanity as a matter of course without even thinking about it, no hard feelings.", a: "Elon Musk", g: "ai" },
         { t: "at fifteen you had the radiance of early morning, at twenty you will begin to have the melancholy brilliance of the moon, and when you are my age you will give out, as I do, the genial golden warmth of 4 p.m.", a: "F. Scott Fitzgerald", g: "mental_health" },
         { t: "Make not your thoughts your prisons.", a: "William Shakespeare", g: "philosophy" },
         { t: "Every man has his secret sorrows which the world knows not; and often times we call a man cold when he is only sad.", a: "Henry Wadsworth Longfellow", g: "mental_health" },
@@ -649,20 +569,20 @@ document.addEventListener('DOMContentLoaded', () => {
         { t: "Your neuro-divergent brain may not follow the usual path, but it can lead you to remarkable places.", a: "Anonymous", g: "mental_health" },
         { t: "I prefer to distinguish ADD as attention abundance disorder. Everything is just so interesting, remarkably at the same time.", a: "Frank Coppola", g: "mental_health" },
         { t: "You walk in the rain and you feel the rain, but, importantly, YOU ARE NOT THE RAIN.", a: "Matt Haig", g: "mental_health" },
-        { t: "There is a crack in everything, that’s how the light gets in.", a: "Leonard Cohen", g: "philosophy" },
+        { t: "There is a crack in everything, that's how the light gets in.", a: "Leonard Cohen", g: "philosophy" },
         { t: "In the middle of winter I at last discovered that there was in me an invincible summer.", a: "Albert Camus", g: "philosophy" },
         { t: "Until you make the unconscious conscious, it will direct your life and you will call it fate.", a: "Carl Jung", g: "philosophy" },
         { t: "The mind ascends to God not through the accumulation of knowledge, but through the letting go of all that it knows.", a: "St Gregory Nyssa", g: "patristic" },
-        { t: "The reasoning mind... will reject the commandment ‘Judge not’ as nonsensical... [but] the argument of spiritual experience is peculiar to itself and does not follow the ordinary process of reasoning.", a: "St. Sophrony", g: "patristic" },
+        { t: "The reasoning mind... will reject the commandment 'Judge not' as nonsensical... [but] the argument of spiritual experience is peculiar to itself and does not follow the ordinary process of reasoning.", a: "St. Sophrony", g: "patristic" },
         { t: "Beauty is the only stuff in which Truth can be clothed.", a: "George MacDonald", g: "philosophy" },
-        { t: "It is the mark of a good fairy-story… that however wild its events, however fantastic or terrible the adventures, it can give to child or man that hears it, when the ‘turn’ comes, a catch of the breath, a beat and lifting of the heart, near to (or indeed accompanied by) tears.", a: "J.R.R. Tolkien", g: "philosophy" },
-        { t: "The Resurrection was the greatest ‘eucatastrophe’ possible in the greatest Fairy Story – and produces that essential emotion: Christian joy which produces tears because it is qualitatively so like sorrow, because it comes from those places where Joy and Sorrow are at one, reconciled, as selfishness and altruism are lost in Love.", a: "J.R.R. Tolkien", g: "philosophy" },
+        { t: "It is the mark of a good fairy-story… that however wild its events, however fantastic or terrible the adventures, it can give to child or man that hears it, when the 'turn' comes, a catch of the breath, a beat and lifting of the heart, near to (or indeed accompanied by) tears.", a: "J.R.R. Tolkien", g: "philosophy" },
+        { t: "The Resurrection was the greatest 'eucatastrophe' possible in the greatest Fairy Story – and produces that essential emotion: Christian joy which produces tears because it is qualitatively so like sorrow, because it comes from those places where Joy and Sorrow are at one, reconciled, as selfishness and altruism are lost in Love.", a: "J.R.R. Tolkien", g: "philosophy" },
         { t: "Now as myth transcends thought, Incarnation transcends myth. The heart of Christianity is a myth which is also a fact. The old myth of the Dying God, without ceasing to be myth, comes down from the heaven of legend and imagination to the earth of history. It happens — at a particular date, in a particular place, followed by definable historical consequences… By becoming fact it does not cease to be myth: that is the miracle.", a: "C.S. Lewis", g: "philosophy" },
         { t: "For my part, I do not write for children, but for the childlike, whether of five, or fifty, or seventy-five.", a: "George MacDonald", g: "philosophy" },
         { t: "When I was ten, I read fairy tales in secret and would have been ashamed if I had been found doing so. Now that I am fifty I read them openly. When I became a man I put away childish things, including the fear of childishness and the desire to be very grown up.", a: "C.S. Lewis", g: "philosophy" },
         { t: "People who deny the existence of dragons are often eaten by dragons. From within.", a: "Ursula K. Le Guin", g: "philosophy" },
         { t: "Fiction is the lie that tells the truth. … We all have an obligation to daydream. We have an obligation to imagine. … The truth is, individuals make the future, and they do it by imagining that things can be different.", a: "Neil Gaiman", g: "philosophy" },
-        { t: "You have to write the book that wants to be written. And if the book will be too difficult for grown-ups, then you write it for children.", a: "Madeleine L’Engle", g: "philosophy" }
+        { t: "You have to write the book that wants to be written. And if the book will be too difficult for grown-ups, then you write it for children.", a: "Madeleine L'Engle", g: "philosophy" }
       ];
       const GROUPS = {
         quantum: ["Wolfgang Smith","David Bohm","Werner Heisenberg","John Polkinghorne"],
@@ -727,7 +647,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (idxQ >= order.length) return showResults();
         quizCard.classList.remove('opacity-0', 'translate-y-4');
         const q = quizData[order[idxQ]];
-        qText.textContent = `“${q.t}”`;
+        qText.textContent = `"${q.t}"`;
         feedback.textContent = '';
         const choices = getPlausibleChoices(q.a, q.g);
         choicesEl.innerHTML = '';
@@ -783,7 +703,7 @@ document.addEventListener('DOMContentLoaded', () => {
         answered.forEach(item => {
           const li = document.createElement('li');
           li.innerHTML = `<span class="${item.ok ? 'text-emerald-600' : 'text-rose-600'} font-semibold" aria-label="${item.ok ? 'Correct' : 'Incorrect'}">${item.ok ? '✓' : '✕'}</span>
-                                <span class="italic">“${item.quote}”</span> — ${item.author}`;
+                                <span class="italic">"${item.quote}"</span> — ${item.author}`;
           breakdown.appendChild(li);
         });
         results.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'nearest' });
@@ -809,24 +729,6 @@ document.addEventListener('DOMContentLoaded', () => {
       initializeQuiz();
       nextQuestion();
     })();
-    // ===== Countdown timer for CTA =====
-    const launchDate = new Date('2025-10-01T00:00:00Z').getTime();
-    const countdownEl = document.getElementById('countdown');
-    function updateCountdown() {
-      const now = new Date().getTime();
-      const distance = launchDate - now;
-      if (distance > 0) {
-        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-        countdownEl.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-      } else {
-        countdownEl.textContent = 'Launched!';
-      }
-    }
-    setInterval(updateCountdown, 1000);
-    updateCountdown();
     // Footer year
     const yearEl = document.getElementById('year');
     if (yearEl) {
